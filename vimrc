@@ -26,12 +26,13 @@ Plugin 'bling/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
-Plugin 'raimondi/delimitmate'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'shougo/neocomplete.vim'
-Plugin 'shougo/neosnippet.vim'
+Plugin 'shougo/neosnippet'
+Plugin 'shougo/neosnippet-snippets'
 Plugin 'svanharmelen/molokai'
 Plugin 'tpope/vim-fugitive'
 
@@ -65,13 +66,12 @@ set clipboard^=unnamed
 set clipboard^=unnamedplus
 
 " Backup settings
-set directory=~/.vim/swap
 set backupdir=~/.vim/backup
 set undodir=~/.vim/undo
 set backup
+set noswapfile
 set undofile
 set writebackup
-set noswapfile
 
 " Search settings
 set hlsearch   " Highlight results
@@ -94,11 +94,15 @@ set wildignore+=go/bin                           " Ignore Go bin files
 
 " Configure the look and feel
 syntax on
+let g:molokai_original = 1
 colorscheme molokai
 
-" Tweak airline related settings
+" Tweak Airline related settings
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
+
+" Tweak Auto Close
+let g:AutoPairsShortcutFastWrap = '<C-e>'
 
 " Tweak Git related settings
 let g:gitgutter_sign_column_always = 1
@@ -111,55 +115,22 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_play_open_browser = 0
 
+" Tweak Neocomplete settings
+let g:neocomplete#enable_at_startup = 1
+setlocal omnifunc=gocode#Complete
+
 " Tweak Syntastic related settings
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 
 " Set custom key bindings
 let mapleader=","
-map <leader>n :NERDTreeToggle<CR>
-map <leader>wh :wincmd h<CR>
-map <leader>wj :wincmd j<CR>
-map <leader>wk :wincmd k<CR>
-map <leader>wl :wincmd l<CR>
-map <leader>ws :wincmd s<CR>
-map <leader>wv :wincmd v<CR>
-
-" ==================== UltiSnips ====================
-
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips#JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
-
-function! g:UltiSnips_Reverse()
-  call UltiSnips#JumpBackwards()
-  if g:ulti_jump_backwards_res == 0
-    return "\<C-P>"
-  endif
-
-  return ""
-endfunction
-
-
-if !exists("g:UltiSnipsJumpForwardTrigger")
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
-endif
-
-if !exists("g:UltiSnipsJumpBackwardTrigger")
-  let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-endif
-
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
+nmap <leader>h :noh<CR>
+nmap <leader>n :NERDTreeToggle<CR>
+nmap <leader>wh :wincmd h<CR>
+nmap <leader>wj :wincmd j<CR>
+nmap <leader>wk :wincmd k<CR>
+nmap <leader>wl :wincmd l<CR>
+nmap <leader>ws :wincmd s<CR>
+nmap <leader>wv :wincmd v<CR>
 
