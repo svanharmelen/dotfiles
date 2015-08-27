@@ -2,17 +2,17 @@
 "   1. Place file in home directory as .vimrc
 "   2. Install the accompanying powerline patched font to use as non-ASCII font
 "   3. Run the following command in terminal
-"      mkdir .vim .vim/bundle .vim/backup .vim/swap .vim/cache .vim/undo; git clone https://github.com/vundlevim/vundle.vim.git .vim/bundle/vundle.vim
-"   4. Launch Vim and Run
+"      mkdir .nvim .nvim/bundle .nvim/backup .nvim/cache .nvim/undo; git clone https://github.com/vundlevim/vundle.vim.git .nvim/bundle/vundle.vim
+"   4. Launch NeoVim and Run
 "      :BundleInstall
-"   5. Restart Vim
+"   5. Restart NeoVim
 
 set nocompatible
 filetype off
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/vundle.vim
-call vundle#begin()
+set rtp+=~/.nvim/bundle/vundle.vim
+call vundle#begin('~/.nvim/bundle')
 
 " let Vundle manage Vundle, required
 Plugin 'vundlevim/vundle.vim'
@@ -63,8 +63,8 @@ set clipboard^=unnamed
 set clipboard^=unnamedplus
 
 " Backup settings
-set backupdir=~/.vim/backup
-set undodir=~/.vim/undo
+set backupdir=~/.nvim/backup
+set undodir=~/.nvim/undo
 set backup
 set noswapfile
 set undofile
