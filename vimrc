@@ -1,12 +1,11 @@
 "Installation Installation Instructions
 "   1. Place file in home directory as .vimrc
-"   2. Run the following command in terminal
+"   2. Install the accompanying powerline patched font to use as non-ASCII font
+"   3. Run the following command in terminal
 "      mkdir .vim .vim/bundle .vim/backup .vim/swap .vim/cache .vim/undo; git clone https://github.com/vundlevim/vundle.vim.git .vim/bundle/vundle.vim
-"   3. Launch Vim and Run
+"   4. Launch Vim and Run
 "      :BundleInstall
-"   4. Restart Vim
-"   5. Download powerline patched fonts to use as non-ASCII fonts
-"      https://gist.githubusercontent.com/kevinis/c788f85a654b2d7581d8/raw/5be6ef0e44a3427fdb8343b4dacc29716449c59e/Monaco%2520for%2520Powerline.ttf
+"   5. Restart Vim
 
 set nocompatible
 filetype off
