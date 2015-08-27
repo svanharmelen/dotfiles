@@ -30,11 +30,9 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
-Plugin 'shougo/neocomplete.vim'
-Plugin 'shougo/neosnippet'
-Plugin 'shougo/neosnippet-snippets'
 Plugin 'svanharmelen/molokai'
 Plugin 'tpope/vim-fugitive'
+Plugin 'valloric/youcompleteme'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -44,18 +42,18 @@ filetype plugin indent on    " required
 set autoread                   " Reload files that have been modified
 set backspace=indent,eol,start " Makes backspace not behave all retarded-like
 set colorcolumn=80,100         " Highlight 80 and 100 character limits
-set cursorline                 " Highlight the line the cursor is on
 set encoding=utf-8             " Set default encoding to UTF8"
 set hidden                     " Allow buffers to be backgrounded without being saved
 set laststatus=2               " Always show the status bar
 set list                       " Show invisible characters
-set listchars=tab:»\ ,eol:¬    " Set the characters for the invisibles
+set listchars=tab:▸\ ,eol:¬    " Set the characters for the invisibles
 set noshowmode                 " We show the current mode with airline
 set number                     " Show the absolute line number the cursor is on
 set relativenumber             " Show relative line numbers
 set ruler                      " Show the line number and column in the status bar
 set scrolloff=999              " Keep the cursor centered in the screen
 set showmatch                  " Highlight matching braces
+set matchtime=0.2              " Set the matchtime to 0.2 second
 set splitbelow                 " Splits show up below by default
 set splitright                 " Splits go to the right by default
 set t_Co=256                   " Use 256 colors
@@ -81,9 +79,9 @@ set smartcase  " Be smart about case sensitivity when searching
 
 " Tab settings
 set expandtab     " Expand tabs to the proper type and size
-set tabstop=3     " Tabs width in spaces
-set softtabstop=3 " Soft tab width in spaces
-set shiftwidth=3  " Amount of spaces when shifting
+set tabstop=2     " Tabs width in spaces
+set softtabstop=2 " Soft tab width in spaces
+set shiftwidth=2  " Amount of spaces when shifting
 
 " Tab completion settings
 set wildmode=longest:list                        " Wildcard matches the longest and shows a list
