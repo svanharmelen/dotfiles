@@ -7,7 +7,6 @@
 "      :BundleInstall
 "   5. Restart NeoVim
 
-set nocompatible
 filetype off
 
 " set the runtime path to include Vundle and initialize
@@ -55,7 +54,6 @@ set showmatch                  " Highlight matching braces
 set matchtime=2                " Set the matchtime to 0.2 second
 set splitbelow                 " Splits show up below by default
 set splitright                 " Splits go to the right by default
-set t_Co=256                   " Use 256 colors
 set updatetime=1000            " Update every 1000ms
 
 "http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
