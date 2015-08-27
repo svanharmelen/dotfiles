@@ -52,7 +52,7 @@ set relativenumber             " Show relative line numbers
 set ruler                      " Show the line number and column in the status bar
 set scrolloff=999              " Keep the cursor centered in the screen
 set showmatch                  " Highlight matching braces
-set matchtime=0.2              " Set the matchtime to 0.2 second
+set matchtime=2                " Set the matchtime to 0.2 second
 set splitbelow                 " Splits show up below by default
 set splitright                 " Splits go to the right by default
 set t_Co=256                   " Use 256 colors
