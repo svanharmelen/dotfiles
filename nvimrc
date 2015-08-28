@@ -132,16 +132,12 @@ let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
 let g:syntastic_go_checkers = ['golint', 'govet']
 
 " Set custom key bindings
-let mapleader=' '
+let mapleader=';'
 tnoremap <Esc> <C-\><C-n><CR>      " Make --terminal-- mode escape using <Esc>
-nmap <leader>h :noh<CR>            " Remove search highlights
 nmap <leader>n :NERDTreeToggle<CR> " Toggle NERDTree
-nmap <leader>wh :wincmd h<CR>      " Switch to left window
-nmap <leader>wj :wincmd j<CR>      " Switch to bottom window
-nmap <leader>wk :wincmd k<CR>      " Switch to upper window
-nmap <leader>wl :wincmd l<CR>      " Switch to left window
-nmap <leader>wq :wincmd q<CR>      " Close current window
-nmap <leader>ws :wincmd s<CR>      " Split horizontal
-nmap <leader>wv :wincmd v<CR>      " Split vertical
-
+nmap wh :wincmd h<CR>              " Switch to left window
+nmap wj :wincmd j<CR>              " Switch to bottom window
+nmap wk :wincmd k<CR>              " Switch to upper window
+nmap wl :wincmd l<CR>              " Switch to left window
+nmap wq :wincmd q<CR>              " Close current window
 
