@@ -9,14 +9,14 @@
 
 filetype off
 
-" set the runtime path to include Vundle and initialize
+" Set the runtime path to include Vundle and initialize
 set rtp+=~/.nvim/bundle/vundle.vim
 call vundle#begin('~/.nvim/bundle')
 
-" let Vundle manage Vundle, required
+" Let Vundle manage Vundle, required
 Plugin 'vundlevim/vundle.vim'
 
-" add plugins
+" Add custom plugins
 Plugin 'airblade/vim-gitgutter'
 Plugin 'benmills/vimux'
 Plugin 'benmills/vimux-golang'
@@ -28,9 +28,9 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
+Plugin 'shougo/deoplete.nvim'
 Plugin 'svanharmelen/molokai'
 Plugin 'tpope/vim-fugitive'
-Plugin 'valloric/youcompleteme'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -39,6 +39,7 @@ filetype plugin indent on    " required
 " General setting
 set autoread                   " Reload files that have been modified
 set backspace=indent,eol,start " Makes backspace not behave all retarded-like
+set clipboard+=unnamed         " Copy selected text to the system clipboard"
 set colorcolumn=80,100         " Highlight 80 and 100 character limits
 set encoding=utf-8             " Set default encoding to UTF8"
 set hidden                     " Allow buffers to be backgrounded without being saved
@@ -55,10 +56,6 @@ set matchtime=2                " Set the matchtime to 0.2 second
 set splitbelow                 " Splits show up below by default
 set splitright                 " Splits go to the right by default
 set updatetime=1000            " Update every 1000ms
-
-"http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
-set clipboard^=unnamed
-set clipboard^=unnamedplus
 
 " Backup settings
 set backupdir=~/.nvim/backup
@@ -92,40 +89,59 @@ syntax on
 let g:molokai_original = 1
 colorscheme molokai
 
-" Tweak Airline related settings
+" Airline settings
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
 
-" Tweak Auto Close
+" Auto Close
 let g:AutoPairsShortcutFastWrap = '<C-e>'
 
-" Tweak Git related settings
+" Deoplete settings
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <Esc>   pumvisible() ? g:deoplete#mappings#cancel_popup() : "\<Esc>"
+
+" Git settings
 let g:gitgutter_sign_column_always = 1
 
-" Tweak Go related settings
-let g:go_fmt_command = "goimports"
+" Go settings
+let g:go_fmt_command = 'goimports'
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_play_open_browser = 0
 
-" Tweak Neocomplete settings
-let g:neocomplete#enable_at_startup = 1
-setlocal omnifunc=gocode#Complete
+" NeoVim setting
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
-" Tweak Syntastic related settings
+" Syntastic settings
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
+let g:syntastic_style_error_symbol='✗'
+let g:syntastic_style_warning_symbol='⚠'
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
+let g:syntastic_go_checkers = ['golint', 'govet']
 
 " Set custom key bindings
-let mapleader=","
-nmap <leader>h :noh<CR>
-nmap <leader>n :NERDTreeToggle<CR>
-nmap <leader>wh :wincmd h<CR>
-nmap <leader>wj :wincmd j<CR>
-nmap <leader>wk :wincmd k<CR>
-nmap <leader>wl :wincmd l<CR>
-nmap <leader>ws :wincmd s<CR>
-nmap <leader>wv :wincmd v<CR>
+let mapleader=' '
+tnoremap <Esc> <C-\><C-n><CR>      " Make --terminal-- mode escape using <Esc>
+nmap <leader>h :noh<CR>            " Remove search highlights
+nmap <leader>n :NERDTreeToggle<CR> " Toggle NERDTree
+nmap <leader>wh :wincmd h<CR>      " Switch to left window
+nmap <leader>wj :wincmd j<CR>      " Switch to bottom window
+nmap <leader>wk :wincmd k<CR>      " Switch to upper window
+nmap <leader>wl :wincmd l<CR>      " Switch to left window
+nmap <leader>wq :wincmd q<CR>      " Close current window
+nmap <leader>ws :wincmd s<CR>      " Split horizontal
+nmap <leader>wv :wincmd v<CR>      " Split vertical
+
 
