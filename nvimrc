@@ -29,6 +29,7 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'shougo/deoplete.nvim'
+Plugin 'shougo/neosnippet.vim'
 Plugin 'svanharmelen/molokai'
 Plugin 'tpope/vim-fugitive'
 
@@ -100,10 +101,13 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_smart_case = 1
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <Esc>   pumvisible() ? g:deoplete#mappings#cancel_popup() : "\<Esc>"
+inoremap <expr> <silent> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <silent> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <silent> <CR> pumvisible() ? deoplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
+inoremap <expr> <silent> <Esc>   pumvisible() ? g:deoplete#mappings#cancel_popup() : "\<Esc>"
+imap <expr><silent>L pumvisible() ? deoplete#mappings#close_popup() .
+      \ "\<Plug>(neosnippet_expand_or_jump)" : ''
 
 " Git settings
 let g:gitgutter_sign_column_always = 1
