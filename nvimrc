@@ -18,22 +18,19 @@ Plugin 'vundlevim/vundle.vim'
 
 " Add custom plugins
 Plugin 'airblade/vim-gitgutter'
-Plugin 'benmills/vimux'
-Plugin 'benmills/vimux-golang'
 Plugin 'bling/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
-"Plugin 'gcmt/taboo.vim'
-Plugin 'scrooloose/nerdcommenter'
 "Plugin 'jiangmiao/auto-pairs'
-Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'shougo/deoplete.nvim'
 Plugin 'shougo/neosnippet.vim'
 Plugin 'svanharmelen/molokai'
 Plugin 'tpope/vim-fugitive'
-"Plugin 'xolox/vim-session'
+Plugin 'xolox/vim-session'
+Plugin 'xolox/vim-misc'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -44,7 +41,7 @@ set autoread                   " Reload files that have been modified
 set backspace=indent,eol,start " Makes backspace not behave all retarded-like
 set clipboard+=unnamed         " Copy selected text to the system clipboard"
 set colorcolumn=80,100         " Highlight 80 and 100 character limits
-set conceallevel=3             " Concealed text is completely hidden
+set conceallevel=2             " Concealed text is completely hidden
 set concealcursor=niv          " Conceal in normal, insert and visual modes
 set encoding=utf-8             " Set default encoding to UTF8"
 set hidden                     " Allow buffers to be backgrounded without being saved
@@ -64,10 +61,10 @@ set updatetime=1000            " Update every 1000ms
 
 " Backup settings
 set backupdir=~/.nvim/backup
-set undodir=~/.nvim/undo
 set backup
 set noswapfile
 set undofile
+set undodir=~/.nvim/undo
 set writebackup
 
 " Search settings
@@ -97,7 +94,6 @@ colorscheme molokai
 " Airline settings
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
-let g:airline#extensions#tabline#enabled = 1
 
 " Auto Close
 let g:AutoPairsShortcutFastWrap = '<C-e>'
@@ -131,13 +127,18 @@ let g:go_highlight_build_constraints = 1
 let g:go_play_open_browser = 0
 
 " NeoVim setting
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+
+" Session settings
+let g:session_directory = '.nvim/sessions'
+let g:session_autoload = 'no'
+let g:session_autosave = 'no'
 
 " Syntastic settings
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol='✗'
-let g:syntastic_style_warning_symbol='⚠'
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_style_warning_symbol = '⚠'
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -146,9 +147,8 @@ let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
 let g:syntastic_go_checkers = ['golint', 'govet']
 
 " Set custom key bindings
-let mapleader=';'
+let mapleader = ';'
 tnoremap <Esc> <C-\><C-n><CR>      " Make --terminal-- mode escape using <Esc>
-nmap <leader>n :NERDTreeToggle<CR> " Toggle NERDTree
 nmap wh :wincmd h<CR>              " Switch to left window
 nmap wj :wincmd j<CR>              " Switch to bottom window
 nmap wk :wincmd k<CR>              " Switch to upper window
