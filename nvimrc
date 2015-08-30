@@ -2,7 +2,7 @@
 "   1. Place file in home directory as .vimrc
 "   2. Install the accompanying powerline patched font to use as non-ASCII font
 "   3. Run the following command in terminal
-"      mkdir .nvim .nvim/bundle .nvim/backup .nvim/cache .nvim/sessions .nvim/undo; git clone https://github.com/vundlevim/vundle.vim.git .nvim/bundle/vundle.vim
+"      mkdir .nvim .nvim/bundle .nvim/backup .nvim/cache .nvim/undo; git clone https://github.com/vundlevim/vundle.vim.git .nvim/bundle/vundle.vim
 "   4. Launch NeoVim and Run
 "      :BundleInstall
 "   5. Restart NeoVim
