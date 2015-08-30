@@ -133,6 +133,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 let g:session_directory = '.nvim/sessions'
 let g:session_autoload = 'no'
 let g:session_autosave = 'no'
+let g:session_command_aliases = 1
 
 " Syntastic settings
 let g:syntastic_error_symbol = '✗'
