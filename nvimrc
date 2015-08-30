@@ -25,7 +25,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'jiangmiao/auto-pairs'
+"Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'shougo/deoplete.nvim'
@@ -42,6 +42,8 @@ set autoread                   " Reload files that have been modified
 set backspace=indent,eol,start " Makes backspace not behave all retarded-like
 set clipboard+=unnamed         " Copy selected text to the system clipboard"
 set colorcolumn=80,100         " Highlight 80 and 100 character limits
+set conceallevel=3             " Concealed text is completely hidden
+set concealcursor=niv          " Conceal in normal, insert and visual modes
 set encoding=utf-8             " Set default encoding to UTF8"
 set hidden                     " Allow buffers to be backgrounded without being saved
 set laststatus=2               " Always show the status bar
@@ -101,13 +103,18 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_smart_case = 1
-inoremap <expr> <silent> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <silent> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <silent> <CR> pumvisible() ? deoplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
-inoremap <expr> <silent> <Esc>   pumvisible() ? g:deoplete#mappings#cancel_popup() : "\<Esc>"
-imap <expr><silent>L pumvisible() ? deoplete#mappings#close_popup() .
-      \ "\<Plug>(neosnippet_expand_or_jump)" : ''
+imap <expr> <Esc> pumvisible() ?
+ \ deoplete#mappings#cancel_popup() :
+ \ "\<Esc>"
+imap <expr> <S-TAB> pumvisible() ?
+ \ deoplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)"
+ \ : "\<S-TAB>"
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+ \ "\<Plug>(neosnippet_expand_or_jump)"
+ \: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+ \ "\<Plug>(neosnippet_expand_or_jump)"
+ \: "\<TAB>"
 
 " Git settings
 let g:gitgutter_sign_column_always = 1
@@ -145,3 +152,8 @@ nmap wk :wincmd k<CR>              " Switch to upper window
 nmap wl :wincmd l<CR>              " Switch to left window
 nmap wq :wincmd q<CR>              " Close current window
 
+" So... Let's try this out :)
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
