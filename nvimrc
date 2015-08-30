@@ -24,6 +24,7 @@ Plugin 'bling/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
+"Plugin 'gcmt/taboo.vim'
 Plugin 'scrooloose/nerdcommenter'
 "Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdtree'
@@ -32,6 +33,7 @@ Plugin 'shougo/deoplete.nvim'
 Plugin 'shougo/neosnippet.vim'
 Plugin 'svanharmelen/molokai'
 Plugin 'tpope/vim-fugitive'
+"Plugin 'xolox/vim-session'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -95,6 +97,7 @@ colorscheme molokai
 " Airline settings
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
+let g:airline#extensions#tabline#enabled = 1
 
 " Auto Close
 let g:AutoPairsShortcutFastWrap = '<C-e>'
