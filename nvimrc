@@ -7,9 +7,24 @@
 "      :BundleInstall
 "   5. Restart NeoVim
 
-filetype off
+" Set custom key bindings
+let mapleader = ' '
+tnoremap <Esc> <C-\><C-n><CR>  " Make --terminal-- mode escape using <Esc>
+nmap wh :wincmd h<CR>          " Switch to left window
+nmap wj :wincmd j<CR>          " Switch to bottom window
+nmap wk :wincmd k<CR>          " Switch to upper window
+nmap wl :wincmd l<CR>          " Switch to left window
+nmap wr :wincmd r<CR>          " Switch windows (U<>D or L<>R)
+nmap wq :wincmd q<CR>          " Close current window
+
+" So... Let's try this out :)
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 
 " Set the runtime path to include Vundle and initialize
+filetype off
 set rtp+=~/.nvim/bundle/vundle.vim
 call vundle#begin('~/.nvim/bundle')
 
@@ -25,6 +40,7 @@ Plugin 'garyburd/go-explorer'
 Plugin 'gcmt/taboo.vim'
 "Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'shougo/deoplete.nvim'
 Plugin 'shougo/neosnippet.vim'
@@ -42,7 +58,7 @@ set autoread                         " Reload files that have been modified
 set backspace=indent,eol,start       " Makes backspace not behave all retarded-like
 set clipboard+=unnamed               " Copy selected text to the system clipboard"
 set colorcolumn=80,100               " Highlight 80 and 100 character limits
-set conceallevel=2                   " Concealed text is completely hidden
+set conceallevel=3                   " Concealed text is completely hidden
 set concealcursor=niv                " Conceal in normal, insert and visual modes
 set encoding=utf-8                   " Set default encoding to UTF8"
 set hidden                           " Allow buffers to be backgrounded without being saved
@@ -53,7 +69,7 @@ set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
 set relativenumber                   " Show relative line numbers
 set ruler                            " Show the line number and column in the status bar
-set scrolloff=999                    " Keep the cursor centered in the screen
+set scrolloff=999                    " Keep the cursor centered
 set sessionoptions+=tabpages,globals " Include tab info in sessionoptions
 set showmatch                        " Highlight matching braces
 set matchtime=2                      " Set the matchtime to 0.2 second
@@ -96,9 +112,20 @@ colorscheme molokai
 " Airline settings
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#tab_nr_type = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
 
 " Auto Close
 let g:AutoPairsShortcutFastWrap = '<C-e>'
@@ -107,9 +134,6 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_smart_case = 1
-imap <expr> <Esc> pumvisible() ?
- \ deoplete#mappings#cancel_popup() :
- \ "\<Esc>"
 imap <expr> <S-TAB> pumvisible() ?
  \ deoplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)"
  \ : "\<S-TAB>"
@@ -130,17 +154,22 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_play_open_browser = 0
+nnoremap gde :GoDef<CR>
+nnoremap gdo :GoDoc<CR>
 
 " NeoVim setting
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
+" NERDTree settings and key bindings
+nmap <leader>n :NERDTreeToggle<CR>
+
 " Session settings and key bindings
-let g:session_directory = '.nvim/sessions'
+let g:session_directory = '~/.nvim/sessions'
 let g:session_autoload = 'yes'
 let g:session_autosave = 'yes'
 let g:session_default_to_last = 1
-nnoremap so :OpenSession 
-nnoremap ss :SaveSession 
+nnoremap so :OpenSession
+nnoremap ss :SaveSession
 nnoremap sd :DeleteSession<CR>
 nnoremap sc :CloseSession<CR>
 
@@ -154,23 +183,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
-let g:syntastic_go_checkers = ['golint', 'govet']
+let g:syntastic_go_checkers = ['go', 'golint', 'govet']
 
 " Taboo settings
 let g:taboo_tabline = 0
 
-" Set custom key bindings
-let mapleader = ';'
-tnoremap <Esc> <C-\><C-n><CR>      " Make --terminal-- mode escape using <Esc>
-nmap wh :wincmd h<CR>              " Switch to left window
-nmap wj :wincmd j<CR>              " Switch to bottom window
-nmap wk :wincmd k<CR>              " Switch to upper window
-nmap wl :wincmd l<CR>              " Switch to left window
-nmap wr :wincmd r<CR>              " Switch windows (U<>D or L<>R)
-nmap wq :wincmd q<CR>              " Close current window
-
-" So... Let's try this out :)
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
