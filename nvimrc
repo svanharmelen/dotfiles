@@ -1,4 +1,4 @@
-"Installation Installation Instructions
+
 "   1. Place file in home directory as .vimrc
 "   2. Install the accompanying powerline patched font to use as non-ASCII font
 "   3. Run the following command in terminal
@@ -10,12 +10,12 @@
 " Set custom key bindings
 let mapleader = ' '
 tnoremap <Esc> <C-\><C-n><CR>  " Make --terminal-- mode escape using <Esc>
-nmap wh :wincmd h<CR>          " Switch to left window
-nmap wj :wincmd j<CR>          " Switch to bottom window
-nmap wk :wincmd k<CR>          " Switch to upper window
-nmap wl :wincmd l<CR>          " Switch to left window
-nmap wr :wincmd r<CR>          " Switch windows (U<>D or L<>R)
-nmap wq :wincmd q<CR>          " Close current window
+"nmap wh :wincmd h<CR>          " Switch to left window
+"nmap wj :wincmd j<CR>          " Switch to bottom window
+"nmap wk :wincmd k<CR>          " Switch to upper window
+"nmap wl :wincmd l<CR>          " Switch to left window
+"nmap wr :wincmd r<CR>          " Switch windows (U<>D or L<>R)
+"nmap wq :wincmd q<CR>          " Close current window
 
 " So... Let's try this out :)
 noremap <Up> <NOP>
@@ -37,7 +37,7 @@ Plugin 'bling/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
-Plugin 'gcmt/taboo.vim'
+"Plugin 'gcmt/taboo.vim'
 "Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
@@ -58,7 +58,7 @@ set autoread                         " Reload files that have been modified
 set backspace=indent,eol,start       " Makes backspace not behave all retarded-like
 set clipboard+=unnamed               " Copy selected text to the system clipboard"
 set colorcolumn=80,100               " Highlight 80 and 100 character limits
-set conceallevel=3                   " Concealed text is completely hidden
+set conceallevel=2                   " Concealed text is completely hidden
 set concealcursor=niv                " Conceal in normal, insert and visual modes
 set encoding=utf-8                   " Set default encoding to UTF8"
 set hidden                           " Allow buffers to be backgrounded without being saved
@@ -70,9 +70,9 @@ set number                           " Show the absolute line number the cursor 
 set relativenumber                   " Show relative line numbers
 set ruler                            " Show the line number and column in the status bar
 set scrolloff=999                    " Keep the cursor centered
-set sessionoptions+=tabpages,globals " Include tab info in sessionoptions
-set showmatch                        " Highlight matching braces
-set matchtime=2                      " Set the matchtime to 0.2 second
+"set sessionoptions+=tabpages,globals " Include tab info in sessionoptions
+"set showmatch                        " Highlight matching braces
+"set matchtime=2                      " Set the matchtime to 0.2 second
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
 set updatetime=1000                  " Update every 1000ms
@@ -157,7 +157,10 @@ let g:go_play_open_browser = 0
 nnoremap gde :GoDef<CR>
 nnoremap gdo :GoDoc<CR>
 
-" NeoVim setting
+" Neosnippet
+let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
+
+" NeoVim settings
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 " NERDTree settings and key bindings
@@ -183,8 +186,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
-let g:syntastic_go_checkers = ['go', 'golint', 'govet']
+let g:syntastic_go_checkers = ['golint', 'govet']
 
 " Taboo settings
-let g:taboo_tabline = 0
+"let g:taboo_tabline = 0
 
