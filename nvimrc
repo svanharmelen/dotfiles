@@ -39,6 +39,7 @@ Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
 "Plugin 'gcmt/taboo.vim'
 "Plugin 'jiangmiao/auto-pairs'
+Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
@@ -134,28 +135,45 @@ let g:AutoPairsShortcutFastWrap = '<C-e>'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_smart_case = 1
-imap <expr> <S-TAB> pumvisible() ?
- \ deoplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)"
- \ : "\<S-TAB>"
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)"
- \: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)"
- \: "\<TAB>"
+"imap <expr> <S-TAB> pumvisible() ?
+" \ deoplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)"
+" \ : "\<S-TAB>"
+"imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)"
+" \: pumvisible() ? "\<C-n>" : "\<TAB>"
+"smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)"
+" \: "\<TAB>"
 
 " Git settings
 let g:gitgutter_sign_column_always = 1
 
-" Go settings
-let g:go_fmt_command = 'goimports'
+" Go settings and key bindings
+let g:go_autodetect_gopath = 1
+let g:go_auto_type_info = 1
+let g:go_fmt_fail_silently = 0
+let g:go_fmt_command = "goimports"
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
 let g:go_highlight_functions = 1
+let g:go_highlight_extra_types = 0
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_play_open_browser = 0
-nnoremap gde :GoDef<CR>
-nnoremap gdo :GoDoc<CR>
+let g:go_snippet_engine = "neosnippet"
+au FileType go nmap <leader>r  <Plug>(go-run)
+au FileType go nmap <leader>b  <Plug>(go-build)
+au FileType go nmap <leader>i  <Plug>(go-install)
+au FileType go nmap <leader>t  <Plug>(go-test)
+au FileType go nmap <leader>c  <Plug>(go-coverage)
+au FileType go nmap <Leader>d  <Plug>(go-def)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>gi <Plug>(go-implements)
+au FileType go nmap <Leader>gr <Plug>(go-rename)
+au FileType go nmap <Leader>im :GoImports<CR>
 
 " Neosnippet
 let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
@@ -171,10 +189,10 @@ let g:session_directory = '~/.nvim/sessions'
 let g:session_autoload = 'yes'
 let g:session_autosave = 'yes'
 let g:session_default_to_last = 1
-nnoremap so :OpenSession
-nnoremap ss :SaveSession
-nnoremap sd :DeleteSession<CR>
-nnoremap sc :CloseSession<CR>
+nmap so :OpenSession
+nmap ss :SaveSession
+nmap sd :DeleteSession<CR>
+nmap sc :CloseSession<CR>
 
 " Syntastic settings
 let g:syntastic_error_symbol = '✗'
@@ -191,3 +209,5 @@ let g:syntastic_go_checkers = ['golint', 'govet']
 " Taboo settings
 "let g:taboo_tabline = 0
 
+" Tagbar key bindings
+nmap <leader>tb :TagbarToggle<CR>
