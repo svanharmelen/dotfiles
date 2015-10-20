@@ -32,20 +32,21 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
 Plugin 'majutsushi/tagbar'
+Plugin 'qpkorr/vim-bufkill'
 Plugin 'raimondi/delimitmate'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
-Plugin 'sirver/ultisnips'
+Plugin 'shougo/neocomplete.vim'
+Plugin 'shougo/neosnippet.vim'
 Plugin 'svanharmelen/molokai'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
 Plugin 'xolox/vim-session'
 Plugin 'xolox/vim-misc'
-Plugin 'valloric/youcompleteme'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -68,9 +69,11 @@ set number                           " Show the absolute line number the cursor 
 set relativenumber                   " Show relative line numbers
 set scrolloff=999                    " Keep the cursor centered
 set sessionoptions-=buffers          " Do not save hidden and unloaded buffers
+set sessionoptions-=help             " Do not save help windows
 set sessionoptions-=options          " Don't persist options as it can corrupt sessions
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
+set timeoutlen=50                    " Set the timeout length to 50ms to avoid lag
 
 " Backup settings
 set backupdir=~/.vim/backup
@@ -93,8 +96,6 @@ set smartcase  " Be smart about case sensitivity when searching
 " Speedup syntax highlighting
 set nocursorcolumn
 set nocursorline
-set synmaxcol=300
-set re=1
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 syntax sync minlines=256
 
@@ -132,10 +133,6 @@ colorscheme molokai
 " ----------------------------------------- "
 
 " ==================== CtrlP ====================
-let g:ctrlp_cmd = 'CtrlPMRU'
-let g:ctrlp_match_func  = {'match' : 'matcher#cmatch'}
-"  let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-" let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_max_height = 10		" maxiumum height of match window
 let g:ctrlp_switch_buffer = 'et'	" jump to a file if it's open already
@@ -145,37 +142,25 @@ let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
 
-let g:ctrlp_buftag_types = {
-      \ 'go'     	   : '--language-force=go --golang-types=ftv',
-      \ 'coffee'     : '--language-force=coffee --coffee-types=cmfvf',
-      \ 'markdown'   : '--language-force=markdown --markdown-types=hik',
-      \ 'objc'       : '--language-force=objc --objc-types=mpci',
-      \ 'rc'         : '--language-force=rust --rust-types=fTm'
-      \ }
-
-func! MyCtrlPTag()
-  let g:ctrlp_prompt_mappings = {
-        \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
-        \ 'AcceptSelection("t")': ['<c-t>'],
-        \ }
-  CtrlPBufTag
-endfunc
-command! MyCtrlPTag call MyCtrlPTag()
-
-nmap <C-f> :CtrlPCurWD<cr>
-imap <C-f> <esc>:CtrlPCurWD<cr>
-
-nmap <C-b> :CtrlPBuffer<cr>
-imap <C-b> <esc>:CtrlPBuffer<cr>
-
 " ==================== delimitmate ====================
-let g:delimitMate_expand_cr = 1		
-let g:delimitMate_expand_space = 1		
-let g:delimitMate_smart_quotes = 1		
-let g:delimitMate_expand_inside_quotes = 0		
-let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'		
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
+let g:delimitMate_smart_quotes = 1
+let g:delimitMate_expand_inside_quotes = 0
+let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
+imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
-imap <expr> <CR> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
+" ===================== neocomplete ====================
+let g:neocomplete#enable_at_startup = 1
+imap <expr><S-TAB> pumvisible() ?
+\ neocomplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)" :
+\ "\<S-TAB>"
+
+" ===================== neosnippet =====================
+let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
+imap <expr><TAB> pumvisible() ? "\<C-n>" :
+\ neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " ====================== nerdtree ======================
 nmap <leader>n :NERDTreeToggle<CR>
@@ -191,43 +176,6 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
 let g:syntastic_go_checkers = ['go', 'golint', 'govet']
 let g:syntastic_go_golint_quiet_messages = { "regex": 'exported.*should have comment' }
-
-" ====================== ultisnips =====================
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips#JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
-
-function! g:UltiSnips_Reverse()
-  call UltiSnips#JumpBackwards()
-  if g:ulti_jump_backwards_res == 0
-    return "\<C-P>"
-  endif
-
-  return ""
-endfunction
-
-
-if !exists("g:UltiSnipsJumpForwardTrigger")
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
-endif
-
-if !exists("g:UltiSnipsJumpBackwardTrigger")
-  let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-endif
-
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 
 " ===================== vim-airline ====================
 let g:airline_theme = 'murmur'
@@ -264,21 +212,16 @@ au FileType go nmap <Leader>im :GoImports<CR>
 
 " ===================== vim-session ====================
 let g:session_directory = '~/.vim/sessions'
-let g:session_autoload = 'yes'
+let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
-let g:session_default_to_last = 1
 let g:session_lock_enabled = 0
-nmap so :OpenSession
-nmap ss :SaveSession
+nmap so :OpenTabSession
+nmap ss :SaveTabSession
+nmap sc :CloseTabSession<CR>
 nmap sd :DeleteSession<CR>
-nmap sc :CloseSession<CR>
-
-" ==================== youcompleteme ===================
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_min_num_of_chars_for_completion = 1
 
 " ----------------------------------------- "
-" Some helpful functions                    "
+" Some helpful functions and key bindings   "
 " ----------------------------------------- "
 
 let i = 1
@@ -291,3 +234,7 @@ function! WindowNumber()
     return str
 endfunction
 set statusline=win:%{WindowNumber()}
+
+map <D-A-Right> :tabnext<CR>     " Make tab switching consistent
+map <D-A-Left> :tabprevious<CR>  " Make tab switching consistent
+nmap <D-a> :%y+                  " Allow CTRL-a to select all text
