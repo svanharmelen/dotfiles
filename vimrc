@@ -105,7 +105,6 @@ set shiftwidth=2  " Amount of spaces when shifting
 
 " Time out on key codes but not mappings.
 " Basically this makes terminal Vim work sanely.
-set notimeout
 set ttimeout
 set ttimeoutlen=10
 
