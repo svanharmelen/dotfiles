@@ -1,5 +1,5 @@
 "   1. Place file in home directory as .vimrc
-"   2. Install the accompanying powerline patched font to use as non-ASCII font
+"   2. Install the accompanying powerline patched font (or create your own)
 "   3. Run the following command in terminal
 "      mkdir ~/.vim ~/.vim/bundle ~/.vim/backup ~/.vim/cache ~/.vim/undo; git clone https://github.com/vundlevim/vundle.vim.git ~/.vim/bundle/vundle.vim
 "   4. Launch vim and Run
