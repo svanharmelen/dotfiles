@@ -68,12 +68,10 @@ set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
 set relativenumber                   " Show relative line numbers
 set scrolloff=999                    " Keep the cursor centered
-set sessionoptions-=buffers          " Do not save hidden and unloaded buffers
 set sessionoptions-=help             " Do not save help windows
 set sessionoptions-=options          " Don't persist options as it can corrupt sessions
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
-set timeoutlen=50                    " Set the timeout length to 50ms to avoid lag
 
 " Backup settings
 set backupdir=~/.vim/backup
@@ -105,6 +103,12 @@ set tabstop=2     " Tabs width in spaces
 set softtabstop=2 " Soft tab width in spaces
 set shiftwidth=2  " Amount of spaces when shifting
 
+" Time out on key codes but not mappings.
+" Basically this makes terminal Vim work sanely.
+set notimeout
+set ttimeout
+set ttimeoutlen=10
+
 " Wildmenu completion settings
 set wildmenu
 set wildmode=list:full                           " Wildcard matches the longest and shows a list
@@ -127,6 +131,9 @@ set wildignore+=*.orig                           " Merge resolution files
 syntax on
 let g:molokai_original = 1
 colorscheme molokai
+
+" Configure any GUI settings
+set guifont=Monaco\ for\ Powerline:h11
 
 " ----------------------------------------- "
 " Plugin configs                            "
@@ -178,6 +185,7 @@ let g:syntastic_go_checkers = ['go', 'golint', 'govet']
 let g:syntastic_go_golint_quiet_messages = { "regex": 'exported.*should have comment' }
 
 " ===================== vim-airline ====================
+let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
 
 " ==================== vim-gitgutter ===================
