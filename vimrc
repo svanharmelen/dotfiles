@@ -66,12 +66,14 @@ set list                             " Show invisible characters
 set listchars=tab:▸\ ,eol:¬          " Set the characters for the invisibles
 set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
+set mouse=a                          " Enable passing mouse commands"
 set relativenumber                   " Show relative line numbers
 set scrolloff=999                    " Keep the cursor centered
 set sessionoptions-=help             " Do not save help windows
 set sessionoptions-=options          " Don't persist options as it can corrupt sessions
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
+set ttymouse=xterm2                  " Make mouse work in a terminal as well"
 
 " Backup settings
 set backupdir=~/.vim/backup
@@ -140,13 +142,14 @@ set guifont=Monaco\ for\ Powerline:h11
 
 " ==================== CtrlP ====================
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_max_height = 10		" maxiumum height of match window
+let g:ctrlp_max_height = 25		" maxiumum height of match window
 let g:ctrlp_switch_buffer = 'et'	" jump to a file if it's open already
 let g:ctrlp_mruf_max=450 		" number of recently opened files
 let g:ctrlp_max_files=0  		" do not limit the number of searchable files
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
 
 " ==================== delimitmate ====================
 let g:delimitMate_expand_cr = 1
@@ -158,6 +161,7 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
 " ===================== neocomplete ====================
 let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_auto_close_preview = 1
 imap <expr><S-TAB> pumvisible() ?
 \ neocomplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)" :
 \ "\<S-TAB>"
@@ -181,7 +185,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
 let g:syntastic_go_checkers = ['go', 'golint', 'govet']
-let g:syntastic_go_golint_quiet_messages = { "regex": 'exported.*should have comment' }
+"let g:syntastic_go_golint_quiet_messages = { "regex": 'exported.*should have comment' }
 
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
