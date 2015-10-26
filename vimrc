@@ -57,6 +57,7 @@ set autoread                         " Reload files that have been modified
 set backspace=indent,eol,start       " Makes backspace not behave all retarded-like
 set clipboard+=unnamed               " Copy selected text to the system clipboard
 set colorcolumn=100                  " Highlight 100 character limits
+set completeopt-=preview             " Do not show completion options in the preview window"
 set conceallevel=2                   " Concealed text is completely hidden
 set concealcursor=niv                " Conceal in normal, insert and visual modes
 set encoding=utf-8                   " Set default encoding to UTF8"
@@ -161,7 +162,6 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
 " ===================== neocomplete ====================
 let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_auto_close_preview = 1
 imap <expr><S-TAB> pumvisible() ?
 \ neocomplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)" :
 \ "\<S-TAB>"
