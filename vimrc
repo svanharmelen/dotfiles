@@ -27,6 +27,7 @@ Plugin 'vundlevim/vundle.vim'
 
 " Add custom plugins
 Plugin 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-rooter'
 Plugin 'bling/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
@@ -221,6 +222,11 @@ au FileType go nmap <Leader>gi <Plug>(go-implements)
 au FileType go nmap <Leader>gr <Plug>(go-rename)
 au FileType go nmap <Leader>im :GoImports<CR>
 
+" ===================== vim-rooter =====================
+let g:rooter_autocmd_patterns = '*.go'
+let g:rooter_patterns = ['.git']
+"let g:rooter_silent_chdir = 1
+"
 " ===================== vim-session ====================
 let g:session_directory = '~/.vim/sessions'
 let g:session_autoload = 'no'
