@@ -1,10 +1,10 @@
-"   1. Place file in home directory as .vimrc
+"   1. Place file in home directory as ~/.config/nvim/init.vim
 "   2. Install the accompanying powerline patched font (or create your own)
 "   3. Run the following command in terminal
-"      mkdir ~/.vim ~/.vim/bundle ~/.vim/backup ~/.vim/cache ~/.vim/undo; git clone https://github.com/vundlevim/vundle.vim.git ~/.vim/bundle/vundle.vim
-"   4. Launch vim and Run
+"      mkdir ~/.config/nvim ~/.config/nvim/bundle ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo; git clone https://github.com/vundlevim/vundle.config/nvim.git ~/.config/nvim/bundle/vundle.config/nvim
+"   4. Launch nvim and Run
 "      :PluginInstall
-"   5. Restart vim
+"   5. Restart nvim
 
 " Set custom key bindings
 let mapleader = ' '
@@ -18,23 +18,23 @@ noremap <Right> <NOP>
 filetype off                  " required
 
 " Set the runtime path to include Vundle and initialize
-set rtp+=~/.config/nvim/bundle/vundle.vim
+set rtp+=~/.config/nvim/bundle/vundle.config/nvim
 call vundle#begin('~/.config/nvim/bundle')
 
 " Let Vundle manage Vundle, required
-Plugin 'vundlevim/vundle.vim'
+Plugin 'vundlevim/vundle.config/nvim'
 
 " Add custom plugins
 Plugin 'airblade/vim-gitgutter'
 Plugin 'airblade/vim-rooter'
 Plugin 'bling/vim-airline'
-Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.config/nvim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
 Plugin 'majutsushi/tagbar'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'raimondi/delimitmate'
-Plugin 'rking/ag.vim'
+Plugin 'rking/ag.config/nvim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'shougo/deoplete.nvim'
@@ -70,11 +70,11 @@ set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
 
 " Backup settings
-set backupdir=~/.vim/backup
+set backupdir=~/.config/nvim/backup
 set backup
 set noswapfile
 set undofile
-set undodir=~/.vim/undo
+set undodir=~/.config/nvim/undo
 set writebackup
 
 " Open help vertically
@@ -140,7 +140,7 @@ let g:ctrlp_mruf_max=450 		" number of recently opened files
 let g:ctrlp_max_files=0  		" do not limit the number of searchable files
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
 let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
 
 " ==================== delimitmate ====================
@@ -164,7 +164,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
 let g:syntastic_go_checkers = ['go', 'golint', 'govet']
-"let g:syntastic_go_golint_quiet_messages = { "regex": 'exported.*should have comment' }
 
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
@@ -204,7 +203,7 @@ au FileType go nmap <Leader>im :GoImports<CR>
 let g:rooter_silent_chdir = 1
 
 " ===================== vim-session ====================
-let g:session_directory = '~/.vim/sessions'
+let g:session_directory = '~/.config/nvim/sessions'
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
 let g:session_lock_enabled = 0
