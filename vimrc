@@ -223,10 +223,8 @@ au FileType go nmap <Leader>gr <Plug>(go-rename)
 au FileType go nmap <Leader>im :GoImports<CR>
 
 " ===================== vim-rooter =====================
-let g:rooter_autocmd_patterns = '*.go'
-let g:rooter_patterns = ['.git']
-"let g:rooter_silent_chdir = 1
-"
+let g:rooter_silent_chdir = 1
+
 " ===================== vim-session ====================
 let g:session_directory = '~/.vim/sessions'
 let g:session_autoload = 'no'
@@ -255,3 +253,9 @@ set statusline=win:%{WindowNumber()}
 map <D-A-Right> :tabnext<CR>     " Make tab switching consistent
 map <D-A-Left> :tabprevious<CR>  " Make tab switching consistent
 nmap <D-a> :%y+                  " Allow CTRL-a to select all text
+
+" Fix annoying typos...
+:command WQ wq
+:command Wq wq
+:command W w
+:command Q q
