@@ -1,7 +1,7 @@
 "   1. Place file in home directory as ~/.config/nvim/init.vim
 "   2. Install the accompanying powerline patched font (or create your own)
 "   3. Run the following command in terminal
-"      mkdir ~/.config/nvim ~/.config/nvim/bundle ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo; git clone https://github.com/vundlevim/vundle.config/nvim.git ~/.config/nvim/bundle/vundle.config/nvim
+"      mkdir ~/.config/nvim ~/.config/nvim/bundle ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo; git clone https://github.com/vundlevim/vundle.vim.git ~/.config/nvim/bundle/vundle.vim
 "   4. Launch nvim and Run
 "      :PluginInstall
 "   5. Restart nvim
@@ -18,23 +18,23 @@ noremap <Right> <NOP>
 filetype off                  " required
 
 " Set the runtime path to include Vundle and initialize
-set rtp+=~/.config/nvim/bundle/vundle.config/nvim
+set rtp+=~/.config/nvim/bundle/vundle.vim
 call vundle#begin('~/.config/nvim/bundle')
 
 " Let Vundle manage Vundle, required
-Plugin 'vundlevim/vundle.config/nvim'
+Plugin 'vundlevim/vundle.vim'
 
 " Add custom plugins
 Plugin 'airblade/vim-gitgutter'
 Plugin 'airblade/vim-rooter'
 Plugin 'bling/vim-airline'
-Plugin 'ctrlpvim/ctrlp.config/nvim'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
 Plugin 'majutsushi/tagbar'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'raimondi/delimitmate'
-Plugin 'rking/ag.config/nvim'
+Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'shougo/deoplete.nvim'
@@ -54,6 +54,7 @@ filetype plugin indent on    " required
 " General setting
 set clipboard+=unnamed               " Copy selected text to the system clipboard
 set colorcolumn=100                  " Highlight 100 character limits
+set completeopt-=preview             " Do not show completion options in the preview window"
 set conceallevel=2                   " Concealed text is completely hidden
 set concealcursor=niv                " Conceal in normal, insert and visual modes
 set hidden                           " Allow buffers to be backgrounded without being saved
@@ -76,10 +77,6 @@ set noswapfile
 set undofile
 set undodir=~/.config/nvim/undo
 set writebackup
-
-" Open help vertically
-command! -nargs=* -complete=help Help vertical belowright help <args>
-autocmd FileType help wincmd L
 
 " Search settings
 set ignorecase " Ignore casing of searches
@@ -120,6 +117,9 @@ set wildignore+=go/bin-vagrant                   " Go bin-vagrant files
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
 
+" Change the cursor shape on insert mode
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+
 " Configure the look and feel
 syntax on
 let g:molokai_original = 1
@@ -150,6 +150,11 @@ let g:delimitMate_smart_quotes = 1
 let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
 imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
+
+" ====================== deoplete ======================
+let g:deoplete#enable_at_startup = 1
+imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " ====================== nerdtree ======================
 nmap <leader>n :NERDTreeToggle<CR>
@@ -216,6 +221,7 @@ nmap sd :DeleteSession<CR>
 " Some helpful functions and key bindings   "
 " ----------------------------------------- "
 
+" Switch between windows by typing <leader>+window-number
 let i = 1
 while i <= 9
     execute 'nnoremap <Leader>' . i . ' :' . i . 'wincmd w<CR>'
@@ -227,12 +233,18 @@ function! WindowNumber()
 endfunction
 set statusline=win:%{WindowNumber()}
 
-map <D-A-Right> :tabnext<CR>     " Make tab switching consistent
-map <D-A-Left> :tabprevious<CR>  " Make tab switching consistent
-nmap <D-a> :%y+                  " Allow CTRL-a to select all text
-
-" Fix annoying typos...
+" Fix annoying typos when trying to write and/or quit
+:command QA qa
+:command Qa qa
+:command WQA wq
+:command WQa wq
+:command Wqa wq
 :command WQ wq
 :command Wq wq
 :command W w
 :command Q q
+
+map <C-A-Right> :tabnext<CR>     " Make tab switching consistent
+map <C-A-Left> :tabprevious<CR>  " Make tab switching consistent
+nmap <A-a> :%y+<CR>              " Allow CTRL-a to select all text
+
