@@ -53,6 +53,7 @@ filetype plugin indent on    " required
 
 " General setting
 set clipboard+=unnamed               " Copy selected text to the system clipboard
+set clipboard+=unnamedplus           " Copy selected text to the system clipboard
 set colorcolumn=100                  " Highlight 100 character limits
 set completeopt-=preview             " Do not show completion options in the preview window"
 set hidden                           " Allow buffers to be backgrounded without being saved
