@@ -76,8 +76,8 @@ set undodir=~/.config/nvim/undo
 set writebackup
 
 " Open help vertically
-command! -nargs=* -complete=help Help vertical belowright help <args>
-autocmd FileType help wincmd L
+" command! -nargs=* -complete=help Help vertical belowright help <args>
+" autocmd FileType help wincmd L
 
 " Search settings
 set ignorecase " Ignore casing of searches
