@@ -55,10 +55,7 @@ filetype plugin indent on    " required
 set clipboard+=unnamed               " Copy selected text to the system clipboard
 set colorcolumn=100                  " Highlight 100 character limits
 set completeopt-=preview             " Do not show completion options in the preview window"
-set conceallevel=2                   " Concealed text is completely hidden
-set concealcursor=niv                " Conceal in normal, insert and visual modes
 set hidden                           " Allow buffers to be backgrounded without being saved
-set laststatus=2                     " Always show the status bar
 set list                             " Show invisible characters
 set listchars=tab:▸\ ,eol:¬          " Set the characters for the invisibles
 set noshowmode                       " We show the current mode with airline
@@ -66,7 +63,6 @@ set number                           " Show the absolute line number the cursor 
 set relativenumber                   " Show relative line numbers
 set scrolloff=999                    " Keep the cursor centered
 set sessionoptions-=help             " Do not save help windows
-set sessionoptions-=options          " Don't persist options as it can corrupt sessions
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
 
@@ -77,6 +73,10 @@ set noswapfile
 set undofile
 set undodir=~/.config/nvim/undo
 set writebackup
+
+" Open help vertically
+command! -nargs=* -complete=help Help vertical belowright help <args>
+autocmd FileType help wincmd L
 
 " Search settings
 set ignorecase " Ignore casing of searches
@@ -124,9 +124,6 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 syntax on
 let g:molokai_original = 1
 colorscheme molokai
-
-" Configure any GUI settings
-set guifont=Monaco\ for\ Powerline:h11
 
 " ----------------------------------------- "
 " Plugin configs                            "
@@ -243,8 +240,3 @@ set statusline=win:%{WindowNumber()}
 :command Wq wq
 :command W w
 :command Q q
-
-map <C-A-Right> :tabnext<CR>     " Make tab switching consistent
-map <C-A-Left> :tabprevious<CR>  " Make tab switching consistent
-nmap <A-a> :%y+<CR>              " Allow CTRL-a to select all text
-
