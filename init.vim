@@ -171,6 +171,13 @@ let g:syntastic_go_checkers = ['go', 'golint', 'govet']
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#show_buffers = 0
+" let g:airline#extensions#tabline#tab_nr_type = 1
+" let g:airline#extensions#tabline#buffer_idx_mode = 0
+" let g:airline#extensions#tabline#tab_min_count = 1
+" let g:airline#extensions#tabline#show_close_button = 0
+" let g:airline#extensions#tmuxline#enabled = 1
 
 " ==================== vim-gitgutter ===================
 let g:gitgutter_sign_column_always = 1
@@ -232,12 +239,12 @@ endfunction
 set statusline=win:%{WindowNumber()}
 
 " Fix annoying typos when trying to write and/or quit
-:command QA qa
-:command Qa qa
 :command WQA wq
 :command WQa wq
 :command Wqa wq
+:command QA qa
+:command Qa qa
 :command WQ wq
 :command Wq wq
-:command W w
 :command Q q
+:command W w

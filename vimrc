@@ -39,7 +39,6 @@ Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'shougo/neocomplete.vim'
-Plugin 'shougo/neosnippet.vim'
 Plugin 'svanharmelen/molokai'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'tpope/vim-dispatch'
@@ -163,15 +162,8 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
 " ===================== neocomplete ====================
 let g:neocomplete#enable_at_startup = 1
-imap <expr><S-TAB> pumvisible() ?
-\ neocomplete#mappings#close_popup() . "\<Plug>(neosnippet_expand_or_jump)" :
-\ "\<S-TAB>"
-
-" ===================== neosnippet =====================
-let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
-imap <expr><TAB> pumvisible() ? "\<C-n>" :
-\ neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " ====================== nerdtree ======================
 nmap <leader>n :NERDTreeToggle<CR>
@@ -250,12 +242,18 @@ function! WindowNumber()
 endfunction
 set statusline=win:%{WindowNumber()}
 
-map <D-A-Right> :tabnext<CR>     " Make tab switching consistent
-map <D-A-Left> :tabprevious<CR>  " Make tab switching consistent
-nmap <D-a> :%y+                  " Allow CTRL-a to select all text
-
-" Fix annoying typos...
+" Fix annoying typos when trying to write and/or quit
+:command WQA wq
+:command WQa wq
+:command Wqa wq
+:command QA qa
+:command Qa qa
 :command WQ wq
 :command Wq wq
-:command W w
 :command Q q
+:command W w
+
+nmap <D-A-Right> :tabnext<CR>     " Make tab switching consistent
+nmap <D-A-Left> :tabprevious<CR>  " Make tab switching consistent
+nmap <D-a> :%y+                   " Allow CTRL-a to select all text
+
