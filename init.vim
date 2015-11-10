@@ -44,6 +44,7 @@ Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
+Plugin 'wesq3/vim-windowswap'
 Plugin 'xolox/vim-session'
 Plugin 'xolox/vim-misc'
 
@@ -132,7 +133,7 @@ colorscheme molokai
 
 " ==================== CtrlP ====================
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_max_height = 25		" maxiumum height of match window
+let g:ctrlp_max_height = 10		" maxiumum height of match window
 let g:ctrlp_switch_buffer = 'et'	" jump to a file if it's open already
 let g:ctrlp_mruf_max=450 		" number of recently opened files
 let g:ctrlp_max_files=0  		" do not limit the number of searchable files
