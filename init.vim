@@ -239,6 +239,12 @@ function! WindowNumber()
 endfunction
 set statusline=win:%{WindowNumber()}
 
+" Better split switching
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
 " Fix annoying typos when trying to write and/or quit
 :command WQA wq
 :command WQa wq
