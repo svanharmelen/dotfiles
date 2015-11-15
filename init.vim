@@ -28,6 +28,7 @@ Plugin 'vundlevim/vundle.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'airblade/vim-rooter'
 Plugin 'bling/vim-airline'
+Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
@@ -238,12 +239,6 @@ function! WindowNumber()
     return str
 endfunction
 set statusline=win:%{WindowNumber()}
-
-" Better split switching
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
 
 " Fix annoying typos when trying to write and/or quit
 :command WQA wq
