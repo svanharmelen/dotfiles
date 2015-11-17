@@ -28,7 +28,6 @@ Plugin 'vundlevim/vundle.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'airblade/vim-rooter'
 Plugin 'bling/vim-airline'
-Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
@@ -170,17 +169,16 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
 let g:syntastic_go_checkers = ['go', 'golint', 'govet']
+nmap <leader>sr :SyntasticReset<CR>
+nmap <leader>st :SyntasticToggleMode<CR>
 
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#show_buffers = 0
-" let g:airline#extensions#tabline#tab_nr_type = 1
-" let g:airline#extensions#tabline#buffer_idx_mode = 0
-" let g:airline#extensions#tabline#tab_min_count = 1
-" let g:airline#extensions#tabline#show_close_button = 0
-" let g:airline#extensions#tmuxline#enabled = 1
+function! AirlineInit()
+  let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
+endfunction
+autocmd VimEnter * call AirlineInit() 
 
 " ==================== vim-gitgutter ===================
 let g:gitgutter_sign_column_always = 1
@@ -241,13 +239,30 @@ function! WindowNumber()
 endfunction
 set statusline=win:%{WindowNumber()}
 
+" ======================= terminal =====================
+let g:terminal_scrollback_buffer_size = 100000
+autocmd WinEnter term://* startinsert
+tnoremap <Esc> <C-\><C-n>
+nmap st :new<CR><ESC>:term<CR>
+nmap vt :vnew<CR><ESC>:term<CR>
+
+" Make switching windows a little easier
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 " Fix annoying typos when trying to write and/or quit
-:command WQA wq
-:command WQa wq
-:command Wqa wq
-:command QA qa
-:command Qa qa
-:command WQ wq
-:command Wq wq
-:command Q q
-:command W w
+command WQA wq
+command WQa wq
+command Wqa wq
+command QA qa
+command Qa qa
+command WQ wq
+command Wq wq
+command Q q
+command W w
