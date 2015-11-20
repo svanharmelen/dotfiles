@@ -29,8 +29,10 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'airblade/vim-rooter'
 Plugin 'bling/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'elzr/vim-json'
 Plugin 'fatih/vim-go'
 Plugin 'garyburd/go-explorer'
+Plugin 'kchmck/vim-coffee-script' 
 Plugin 'majutsushi/tagbar'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'raimondi/delimitmate'
@@ -180,6 +182,9 @@ function! AirlineInit()
 endfunction
 autocmd VimEnter * call AirlineInit() 
 
+" ================== vim-coffee-script =================
+au BufRead,BufNewFile *.cson set ft=coffee
+
 " ==================== vim-gitgutter ===================
 let g:gitgutter_sign_column_always = 1
 
@@ -210,6 +215,12 @@ au FileType go nmap <Leader>gi <Plug>(go-implements)
 au FileType go nmap <Leader>gr <Plug>(go-rename)
 au FileType go nmap <Leader>im :GoImports<CR>
 
+" ====================== vim-json ======================
+let g:vim_json_syntax_conceal = 0
+" Prettify JSON
+" comes with yajl, install: brew install yajl
+command! JSONFormat %!json_reformat
+
 " ===================== vim-rooter =====================
 let g:rooter_silent_chdir = 1
 
@@ -218,9 +229,9 @@ let g:session_directory = '~/.config/nvim/sessions'
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
 let g:session_lock_enabled = 0
-nmap so :OpenTabSession
-nmap ss :SaveTabSession
-nmap sc :CloseTabSession<CR>
+nmap so :OpenSession
+nmap ss :SaveSession
+nmap sc :CloseSession<CR>
 nmap sd :DeleteSession<CR>
 
 " ----------------------------------------- "
@@ -243,8 +254,8 @@ set statusline=win:%{WindowNumber()}
 let g:terminal_scrollback_buffer_size = 100000
 autocmd WinEnter term://* startinsert
 tnoremap <Esc> <C-\><C-n>
-nmap st :new<CR><ESC>:term<CR>
-nmap vt :vnew<CR><ESC>:term<CR>
+nmap ts :new<CR><ESC>:term<CR>
+nmap tv :vnew<CR><ESC>:term<CR>
 
 " Make switching windows a little easier
 tnoremap <C-h> <C-\><C-n><C-w>h
