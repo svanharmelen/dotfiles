@@ -8,6 +8,7 @@
 
 " Set custom key bindings
 let mapleader = ' '
+let g:mapleader = ' '
 
 " So... Let's try this out :)
 noremap <Up> <NOP>
@@ -31,18 +32,15 @@ Plugin 'bling/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'elzr/vim-json'
 Plugin 'fatih/vim-go'
-Plugin 'garyburd/go-explorer'
 Plugin 'kchmck/vim-coffee-script' 
 Plugin 'majutsushi/tagbar'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'raimondi/delimitmate'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
 Plugin 'shougo/deoplete.nvim'
 Plugin 'svanharmelen/molokai'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
@@ -55,8 +53,8 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 " General setting
-set clipboard+=unnamed               " Copy selected text to the system clipboard
-set clipboard+=unnamedplus           " Copy selected text to the system clipboard
+set clipboard^=unnamed               " Copy selected text to the system clipboard
+set clipboard^=unnamedplus           " Copy selected text to the system clipboard
 set cmdheight=1                      " Force the command height to 1
 set colorcolumn=100                  " Highlight 100 character limits
 set completeopt-=preview             " Do not show completion options in the preview window"
@@ -80,8 +78,8 @@ set undodir=~/.config/nvim/undo
 set writebackup
 
 " Open help vertically
-" command! -nargs=* -complete=help Help vertical belowright help <args>
-" autocmd FileType help wincmd L
+command! -nargs=* -complete=help Help vertical belowright help <args>
+autocmd FileType help wincmd L
 
 " Search settings
 set ignorecase " Ignore casing of searches
@@ -161,19 +159,6 @@ imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " ====================== nerdtree ======================
 nmap <leader>n :NERDTreeToggle<CR>
 
-" ====================== syntastic =====================
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_stl_format = '[%W{Warn: %fw #%w}%B{, }%E{Err: %fe #%e}]'
-let g:syntastic_go_checkers = ['go', 'golint', 'govet']
-nmap <leader>sr :SyntasticReset<CR>
-nmap <leader>st :SyntasticToggleMode<CR>
-
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
@@ -189,9 +174,7 @@ au BufRead,BufNewFile *.cson set ft=coffee
 let g:gitgutter_sign_column_always = 1
 
 " ======================= vim-go =======================
-let g:go_autodetect_gopath = 1
 let g:go_auto_type_info = 1
-let g:go_fmt_fail_silently = 0
 let g:go_fmt_command = "goimports"
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_array_whitespace_error = 0
@@ -200,29 +183,33 @@ let g:go_highlight_functions = 1
 let g:go_highlight_extra_types = 0
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
-let g:go_snippet_engine = "neosnippet"
+let g:go_highlight_build_constraints = 1
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
+let g:go_metalinter_enabled = ['varcheck', 'structcheck', 'aligncheck', 'errcheck', 'deadcode', 'ineffassign']
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>i  <Plug>(go-install)
 au FileType go nmap <leader>t  <Plug>(go-test)
 au FileType go nmap <leader>c  <Plug>(go-coverage)
-au FileType go nmap <Leader>d  <Plug>(go-def)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gi <Plug>(go-implements)
-au FileType go nmap <Leader>gr <Plug>(go-rename)
-au FileType go nmap <Leader>im :GoImports<CR>
+au FileType go nmap <leader>l  :GoMetaLinter<CR>
+au FileType go nmap <leader>d  <Plug>(go-def)
+au FileType go nmap <leader>ds <Plug>(go-def-split)
+au FileType go nmap <leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <leader>gd <Plug>(go-doc)
+au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <leader>gi <Plug>(go-implements)
+au FileType go nmap <leader>gr <Plug>(go-rename)
+au FileType go nmap <leader>im :GoImports<CR>
 
 " ====================== vim-json ======================
 let g:vim_json_syntax_conceal = 0
-" Prettify JSON
-" comes with yajl, install: brew install yajl
+" Prettify JSON, install: brew install yajl
 command! JSONFormat %!json_reformat
 
 " ===================== vim-rooter =====================
 let g:rooter_silent_chdir = 1
+let g:rooter_use_lcd = 1
 
 " ===================== vim-session ====================
 let g:session_directory = '~/.config/nvim/sessions'
@@ -238,36 +225,13 @@ nmap sd :DeleteSession<CR>
 " Some helpful functions and key bindings   "
 " ----------------------------------------- "
 
-" Switch between windows by typing <leader>+window-number
-let i = 1
-while i <= 9
-    execute 'nnoremap <Leader>' . i . ' :' . i . 'wincmd w<CR>'
-    let i = i + 1
-endwhile
-function! WindowNumber()
-    let str=tabpagewinnr(tabpagenr())
-    return str
-endfunction
-set statusline=win:%{WindowNumber()}
+" ============== always put quickfix on bottom ===========
+autocmd FileType qf wincmd J
 
-" ======================= terminal =====================
-let g:terminal_scrollback_buffer_size = 100000
-autocmd WinEnter term://* startinsert
-tnoremap <Esc> <C-\><C-n>
-nmap ts :new<CR><ESC>:term<CR>
-nmap tv :vnew<CR><ESC>:term<CR>
+" ================== auto resize windows =================
+au VimResized * :wincmd =
 
-" Make switching windows a little easier
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" Fix annoying typos when trying to write and/or quit
+" =================== fix generic typos ==================
 command WQA wq
 command WQa wq
 command Wqa wq
@@ -277,3 +241,37 @@ command WQ wq
 command Wq wq
 command Q q
 command W w
+
+" ================ locationlist shortcuts ================
+map <C-n> :lnext<CR>
+map <C-m> :lprevious<CR>
+nnoremap <leader>a :lclose<CR>
+
+" ======================= terminal =======================
+let g:terminal_scrollback_buffer_size = 100000
+autocmd WinEnter term://* startinsert
+tnoremap <Esc> <C-\><C-n>
+nmap ts :new<CR><ESC>:term<CR>
+nmap tv :vnew<CR><ESC>:term<CR>
+
+" ==================== window switching ==================
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" =============== window switching by number =============
+let i = 1
+while i <= 9
+    execute 'nnoremap <leader>' . i . ' :' . i . 'wincmd w<CR>'
+    let i = i + 1
+endwhile
+function! WindowNumber()
+    let str=tabpagewinnr(tabpagenr())
+    return str
+endfunction
+set statusline=win:%{WindowNumber()}
