@@ -29,7 +29,9 @@ Plugin 'vundlevim/vundle.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'airblade/vim-rooter'
 Plugin 'bling/vim-airline'
+Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'edkolev/tmuxline.vim'
 Plugin 'elzr/vim-json'
 Plugin 'fatih/vim-go'
 Plugin 'kchmck/vim-coffee-script' 
@@ -163,6 +165,7 @@ nmap <leader>n :NERDTreeToggle<CR>
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
 function! AirlineInit()
+  let g:airline_section_z = '%{go#jobcontrol#Statusline()}'.g:airline_section_z
   let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
 endfunction
 autocmd VimEnter * call AirlineInit() 
@@ -259,10 +262,6 @@ tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
 
 " =============== window switching by number =============
 let i = 1
