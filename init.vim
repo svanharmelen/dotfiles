@@ -36,6 +36,7 @@ Plugin 'elzr/vim-json'
 Plugin 'fatih/vim-go'
 Plugin 'kchmck/vim-coffee-script' 
 Plugin 'majutsushi/tagbar'
+Plugin 'nvie/vim-flake8'
 Plugin 'qpkorr/vim-bufkill'
 Plugin 'raimondi/delimitmate'
 Plugin 'rking/ag.vim'
@@ -189,7 +190,10 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
-let g:go_metalinter_enabled = ['varcheck', 'structcheck', 'aligncheck', 'errcheck', 'deadcode', 'ineffassign']
+let g:go_metalinter_enabled = [
+      \ 'gotype', 'varcheck', 'structcheck', 'aligncheck', 
+      \ 'errcheck', 'deadcode', 'ineffassign'
+      \ ]
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>i  <Plug>(go-install)
@@ -246,8 +250,26 @@ command Q q
 command W w
 
 " ================ locationlist shortcuts ================
-map <C-n> :lnext<CR>
-map <C-m> :lprevious<CR>
+function! <SID>LocationPrevious()
+  try
+    lprev
+  catch /^Vim\%((\a\+)\)\=:E553/
+    llast
+  endtry
+endfunction
+
+function! <SID>LocationNext()
+  try
+    lnext
+  catch /^Vim\%((\a\+)\)\=:E553/
+    lfirst
+  endtry
+endfunction
+
+nnoremap <silent> <Plug>LocationPrevious :<C-u>exe 'call <SID>LocationPrevious()'<CR>
+nnoremap <silent> <Plug>LocationNext     :<C-u>exe 'call <SID>LocationNext()'<CR>
+map <silent> <C-n> <Plug>LocationPrevious
+map <silent> <C-m> <Plug>LocationNext
 nnoremap <leader>a :lclose<CR>
 
 " ======================= terminal =======================
@@ -256,6 +278,17 @@ autocmd WinEnter term://* startinsert
 tnoremap <Esc> <C-\><C-n>
 nmap ts :new<CR><ESC>:term<CR>
 nmap tv :vnew<CR><ESC>:term<CR>
+
+" ================== trailing whitespace =================
+function! <SID>StripTrailingWhitespaces()
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
+autocmd BufWritePre *.py :call <SID>StripTrailingWhitespaces()
 
 " ==================== window switching ==================
 tnoremap <C-h> <C-\><C-n><C-w>h
