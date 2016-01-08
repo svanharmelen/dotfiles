@@ -50,6 +50,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'wesq3/vim-windowswap'
 Plugin 'xolox/vim-session'
 Plugin 'xolox/vim-misc'
+Plugin 'xuyuanp/nerdtree-git-plugin'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -162,6 +163,19 @@ imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " ====================== nerdtree ======================
 nmap <leader>n :NERDTreeToggle<CR>
 
+" ================ nerdtree-git-plugin =================
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "~",
+    \ "Staged"    : "+",
+    \ "Untracked" : "≠",
+    \ "Renamed"   : "→",
+    \ "Unmerged"  : "=",
+    \ "Deleted"   : "×",
+    \ "Dirty"     : "~",
+    \ "Clean"     : "√",
+    \ "Unknown"   : "?"
+    \ }
+
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
@@ -188,11 +202,11 @@ let g:go_highlight_extra_types = 0
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
+" let g:go_metalinter_autosave = 1
+" let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
 let g:go_metalinter_enabled = [
-      \ 'gotype', 'varcheck', 'structcheck', 'aligncheck', 
-      \ 'errcheck', 'deadcode', 'ineffassign'
+      \ 'vet', 'golint', 'gotype', 'varcheck', 'structcheck',
+      \ 'aligncheck', 'errcheck', 'deadcode', 'ineffassign'
       \ ]
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
