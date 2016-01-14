@@ -51,6 +51,7 @@ Plugin 'wesq3/vim-windowswap'
 Plugin 'xolox/vim-session'
 Plugin 'xolox/vim-misc'
 Plugin 'xuyuanp/nerdtree-git-plugin'
+Plugin 'zchee/deoplete-go'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -157,6 +158,7 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#go = 'vim-go'
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -202,11 +204,11 @@ let g:go_highlight_extra_types = 0
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-" let g:go_metalinter_autosave = 1
-" let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
 let g:go_metalinter_enabled = [
-      \ 'vet', 'golint', 'gotype', 'varcheck', 'structcheck',
-      \ 'aligncheck', 'errcheck', 'deadcode', 'ineffassign'
+      \ 'gotype', 'varcheck', 'structcheck', 'aligncheck',
+      \ 'errcheck', 'deadcode', 'ineffassign'
       \ ]
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
