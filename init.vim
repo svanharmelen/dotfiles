@@ -158,7 +158,11 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#ignore_sources = {}
+let g:deoplete#ignore_sources._ = ['member']  
 let g:deoplete#sources#go = 'vim-go'
+call deoplete#custom#set('go', 'rank', 1000)
+call deoplete#custom#set('go', 'min_pattern_length', 1000)
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -249,7 +253,7 @@ nmap sd :DeleteSession<CR>
 " ----------------------------------------- "
 
 " ============== always put quickfix on bottom ===========
-autocmd FileType qf wincmd J
+" autocmd FileType qf wincmd J
 
 " ================== auto resize windows =================
 au VimResized * :wincmd =
