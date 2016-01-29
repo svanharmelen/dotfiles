@@ -35,7 +35,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'elzr/vim-json'
 Plugin 'fatih/vim-go'
-Plugin 'kchmck/vim-coffee-script' 
+Plugin 'kchmck/vim-coffee-script'
 Plugin 'majutsushi/tagbar'
 Plugin 'nvie/vim-flake8'
 Plugin 'qpkorr/vim-bufkill'
@@ -160,7 +160,7 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#ignore_sources = {}
-let g:deoplete#ignore_sources._ = ['member']  
+let g:deoplete#ignore_sources._ = ['member']
 let g:deoplete#sources#go = 'vim-go'
 call deoplete#custom#set('go', 'rank', 1000)
 call deoplete#custom#set('go', 'min_pattern_length', 1000)
@@ -190,7 +190,7 @@ function! AirlineInit()
   let g:airline_section_z = '%{go#jobcontrol#Statusline()}'.g:airline_section_z
   let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
 endfunction
-autocmd VimEnter * call AirlineInit() 
+autocmd VimEnter * call AirlineInit()
 
 " ================== vim-coffee-script =================
 au BufRead,BufNewFile *.cson set ft=coffee
