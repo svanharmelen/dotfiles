@@ -72,6 +72,7 @@ set number                           " Show the absolute line number the cursor 
 set relativenumber                   " Show relative line numbers
 set scrolloff=999                    " Keep the cursor centered
 set sessionoptions-=help             " Do not save help windows
+set shortmess+=c                     " Silent short messages from deoplete.nvim
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
 
