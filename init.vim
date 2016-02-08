@@ -2,7 +2,7 @@
 "   2. Install the accompanying powerline patched font (or create your own)
 "   3. Run the following commands in terminal:
 "      mkdir ~/.config/nvim ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
-"      git clone https://github.com/junegunn/vim-plug.git ~/.config/nvim/autoload/plug.vim
+"      curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "   4. Launch nvim and Run:
 "      :PlugInstall
 "   5. Restart nvim
