@@ -1,62 +1,48 @@
-"   1. Place file in home directory as ~/.config/nvim/init.vim
+"   1. Place this file in your nvim config directory as ~/.config/nvim/init.vim
 "   2. Install the accompanying powerline patched font (or create your own)
-"   3. Run the following command in terminal
-"      mkdir ~/.config/nvim ~/.config/nvim/bundle ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo; git clone https://github.com/vundlevim/vundle.vim.git ~/.config/nvim/bundle/vundle.vim
-"   4. Launch nvim and Run
-"      :PluginInstall
+"   3. Run the following commands in terminal:
+"      mkdir ~/.config/nvim ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
+"      git clone https://github.com/junegunn/vim-plug.git ~/.config/nvim/autoload/plug.vim
+"   4. Launch nvim and Run:
+"      :PlugInstall
 "   5. Restart nvim
+
+call plug#begin('~/.config/nvim/plugged')
+
+" Add plugins
+Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-rooter'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'edkolev/tmuxline.vim'
+Plug 'elzr/vim-json'
+Plug 'fatih/vim-go'
+Plug 'kchmck/vim-coffee-script'
+Plug 'majutsushi/tagbar'
+Plug 'nvie/vim-flake8'
+Plug 'qpkorr/vim-bufkill'
+Plug 'raimondi/delimitmate'
+Plug 'rking/ag.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'shougo/deoplete.nvim'
+Plug 'svanharmelen/molokai'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'wesq3/vim-windowswap'
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
+Plug 'xuyuanp/nerdtree-git-plugin'
+Plug 'zchee/deoplete-go', { 'do': 'make' }
+
+call plug#end()
 
 " Set custom key bindings
 let mapleader = ' '
 let g:mapleader = ' '
-
-" So... Let's try this out :)
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-
-filetype off                  " required
-
-" Set the runtime path to include Vundle and initialize
-set rtp+=~/.config/nvim/bundle/vundle.vim
-call vundle#begin('~/.config/nvim/bundle')
-
-" Let Vundle manage Vundle, required
-Plugin 'vundlevim/vundle.vim'
-
-" Add custom plugins
-Plugin 'airblade/vim-gitgutter'
-Plugin 'airblade/vim-rooter'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'edkolev/tmuxline.vim'
-Plugin 'elzr/vim-json'
-Plugin 'fatih/vim-go'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'majutsushi/tagbar'
-Plugin 'nvie/vim-flake8'
-Plugin 'qpkorr/vim-bufkill'
-Plugin 'raimondi/delimitmate'
-Plugin 'rking/ag.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'shougo/deoplete.nvim'
-Plugin 'svanharmelen/molokai'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'wesq3/vim-windowswap'
-Plugin 'xolox/vim-session'
-Plugin 'xolox/vim-misc'
-Plugin 'xuyuanp/nerdtree-git-plugin'
-Plugin 'zchee/deoplete-go'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
 
 " General setting
 set clipboard^=unnamed               " Copy selected text to the system clipboard
@@ -131,7 +117,6 @@ set wildignore+=*.orig                           " Merge resolution files
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 " Configure the look and feel
-syntax on
 let g:molokai_original = 1
 colorscheme molokai
 
@@ -161,8 +146,9 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#ignore_sources = {}
-let g:deoplete#ignore_sources._ = ['member']
-let g:deoplete#sources#go = 'vim-go'
+let g:deoplete#ignore_sources._ = ['member', 'tag']
+let g:deoplete#sources#go#align_class = 1
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 call deoplete#custom#set('go', 'rank', 1000)
 call deoplete#custom#set('go', 'min_pattern_length', 1000)
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -220,6 +206,7 @@ au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>i  <Plug>(go-install)
 au FileType go nmap <leader>t  <Plug>(go-test)
+au FileType go nmap <leader>tf <Plug>(go-test-func)
 au FileType go nmap <leader>c  <Plug>(go-coverage)
 au FileType go nmap <leader>l  :GoMetaLinter<CR>
 au FileType go nmap <leader>d  <Plug>(go-def)
@@ -259,6 +246,12 @@ nmap sd :DeleteSession<CR>
 
 " ================== auto resize windows =================
 au VimResized * :wincmd =
+
+" ================== disable cursor keys =================
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 
 " =================== fix generic typos ==================
 command WQA wq
