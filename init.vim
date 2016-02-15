@@ -58,6 +58,7 @@ set number                           " Show the absolute line number the cursor 
 set relativenumber                   " Show relative line numbers
 set scrolloff=999                    " Keep the cursor centered
 set sessionoptions-=help             " Do not save help windows
+set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
 set shortmess+=c                     " Silent short messages from deoplete.nvim
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
@@ -148,7 +149,6 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#ignore_sources = {}
 let g:deoplete#ignore_sources.go = ['buffer', 'file', 'member', 'tag']
 let g:deoplete#sources#go#align_class = 1
-let g:deoplete#sources#go#sort_class = ['func', 'type', 'var', 'const']
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -172,8 +172,8 @@ let g:NERDTreeIndicatorMapCustom = {
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
 function! AirlineInit()
-  let g:airline_section_z = '%{go#jobcontrol#Statusline()}'.g:airline_section_z
   let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
+  let g:airline_section_z = '%{go#jobcontrol#Statusline()}'.g:airline_section_z
 endfunction
 autocmd VimEnter * call AirlineInit()
 
@@ -185,6 +185,7 @@ let g:gitgutter_sign_column_always = 1
 
 " ======================= vim-go =======================
 let g:go_auto_type_info = 1
+let g:go_list_type = "quickfix"
 let g:go_fmt_command = "goimports"
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_array_whitespace_error = 0
@@ -197,8 +198,7 @@ let g:go_highlight_build_constraints = 1
 let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
 let g:go_metalinter_enabled = [
-      \ 'gotype', 'varcheck', 'structcheck', 'aligncheck',
-      \ 'errcheck', 'deadcode', 'ineffassign'
+      \ 'gotype', 'varcheck', 'structcheck', 'errcheck', 'deadcode', 'ineffassign'
       \ ]
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
@@ -240,7 +240,7 @@ nmap sd :DeleteSession<CR>
 " ----------------------------------------- "
 
 " ============== always put quickfix on bottom ===========
-" autocmd FileType qf wincmd J
+autocmd FileType qf wincmd J
 
 " ================== auto resize windows =================
 au VimResized * :wincmd =
@@ -262,20 +262,20 @@ command Wq wq
 command Q q
 command W w
 
-" ================ locationlist shortcuts ================
+" ================== quickfix shortcuts ==================
 function! <SID>LocationPrevious()
   try
-    lprev
+    cprev
   catch /^Vim\%((\a\+)\)\=:E553/
-    llast
+    clast
   endtry
 endfunction
 
 function! <SID>LocationNext()
   try
-    lnext
+    cnext
   catch /^Vim\%((\a\+)\)\=:E553/
-    lfirst
+    cfirst
   endtry
 endfunction
 
@@ -283,7 +283,7 @@ nnoremap <silent> <Plug>LocationPrevious :<C-u>exe 'call <SID>LocationPrevious()
 nnoremap <silent> <Plug>LocationNext     :<C-u>exe 'call <SID>LocationNext()'<CR>
 map <silent> <C-n> <Plug>LocationPrevious
 map <silent> <C-m> <Plug>LocationNext
-nnoremap <leader>a :lclose<CR>
+nnoremap <leader>a :cclose<CR>
 
 " ======================= terminal =======================
 let g:terminal_scrollback_buffer_size = 100000
