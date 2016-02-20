@@ -147,8 +147,11 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#ignore_sources = {}
-let g:deoplete#ignore_sources.go = ['buffer', 'file', 'member', 'tag']
+let g:deoplete#ignore_sources._ = ['member', 'tag']
 let g:deoplete#sources#go#align_class = 1
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+call deoplete#custom#set('go', 'disabled_syntaxes', ['Comment', 'String'])
+call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -171,6 +174,10 @@ let g:NERDTreeIndicatorMapCustom = {
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
+let g:airline#extensions#default#layout = [
+      \ [ 'a', 'b', 'c' ],
+      \ [ 'y', 'z', 'warning' ]
+      \ ]
 function! AirlineInit()
   let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
   let g:airline_section_z = '%{go#jobcontrol#Statusline()}'.g:airline_section_z
