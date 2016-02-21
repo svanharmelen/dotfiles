@@ -127,10 +127,10 @@ colorscheme molokai
 
 " ==================== CtrlP ====================
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_max_height = 10		" maxiumum height of match window
-let g:ctrlp_switch_buffer = 'et'	" jump to a file if it's open already
-let g:ctrlp_mruf_max=450 		" number of recently opened files
-let g:ctrlp_max_files=0  		" do not limit the number of searchable files
+let g:ctrlp_max_height = 10       " maxiumum height of match window
+let g:ctrlp_switch_buffer = 'et'  " jump to a file if it's open already
+let g:ctrlp_mruf_max=450          " number of recently opened files
+let g:ctrlp_max_files=0           " do not limit the number of searchable files
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
@@ -147,7 +147,7 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#ignore_sources = {}
-let g:deoplete#ignore_sources._ = ['member', 'tag']
+let g:deoplete#ignore_sources.go = ['buffer', 'file', 'member', 'tag']
 let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 call deoplete#custom#set('go', 'disabled_syntaxes', ['Comment', 'String'])
