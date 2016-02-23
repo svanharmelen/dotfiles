@@ -147,7 +147,7 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#ignore_sources = {}
-let g:deoplete#ignore_sources.go = ['buffer', 'file', 'member', 'tag']
+let g:deoplete#ignore_sources._ = ['member', 'tag']
 let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 call deoplete#custom#set('go', 'disabled_syntaxes', ['Comment', 'String'])
