@@ -128,7 +128,7 @@ colorscheme molokai
 " ==================== CtrlP ====================
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_max_height = 10       " maxiumum height of match window
-let g:ctrlp_switch_buffer = 'et'  " jump to a file if it's open already
+let g:ctrlp_switch_buffer = 'vt'  " open file in the current buffer
 let g:ctrlp_mruf_max=450          " number of recently opened files
 let g:ctrlp_max_files=0           " do not limit the number of searchable files
 let g:ctrlp_use_caching = 1
