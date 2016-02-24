@@ -227,6 +227,7 @@ au FileType go nmap <leader>im :GoImports<CR>
 let g:vim_json_syntax_conceal = 0
 " Prettify JSON, install: brew install yajl
 command! JSONFormat %!json_reformat
+command! JSONMinimize %!json_reformat -m
 
 " ===================== vim-rooter =====================
 let g:rooter_silent_chdir = 1
