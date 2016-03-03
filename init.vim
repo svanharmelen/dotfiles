@@ -1,11 +1,12 @@
-"   1. Place this file in your nvim config directory as ~/.config/nvim/init.vim
-"   2. Install the accompanying powerline patched font (or create your own)
-"   3. Run the following commands in terminal:
-"      mkdir ~/.config/nvim ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
+"   1. Install the accompanying powerline patched font (or create your own)
+"   2. Run the following commands in terminal:
+"      mkdir -p ~/.config/nvim/after/plugin ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
 "      curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"   4. Launch nvim and Run:
+"   3. Link this file in your nvim config directory as ~/.config/nvim/init.vim
+"   4. Link disable_mappings.vim to ~/.config/nvim/after/plugin/disable_mappings.vim
+"   5. Launch nvim and Run:
 "      :PlugInstall
-"   5. Restart nvim
+"   6. Restart nvim
 
 call plug#begin('~/.config/nvim/plugged')
 
@@ -128,13 +129,15 @@ colorscheme molokai
 " ==================== CtrlP ====================
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_max_height = 10       " maxiumum height of match window
-let g:ctrlp_switch_buffer = 'vt'  " open file in the current buffer
+let g:ctrlp_switch_buffer = 'et'  " open file in the current buffer
 let g:ctrlp_mruf_max=450          " number of recently opened files
 let g:ctrlp_max_files=0           " do not limit the number of searchable files
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
 let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
+nmap <C-g> :CtrlPBufTag<cr>
+imap <C-g> <esc>:CtrlPBufTag<cr>
 
 " ==================== delimitmate ====================
 let g:delimitMate_expand_cr = 1
@@ -311,7 +314,7 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre *.py :call <SID>StripTrailingWhitespaces()
 
-" ==================== window switching ==================
+" =================== window switching ===================
 tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
