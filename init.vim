@@ -28,6 +28,9 @@ Plug 'raimondi/delimitmate'
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'shougo/deoplete.nvim'
+Plug 'Shougo/neopairs.vim'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 Plug 'svanharmelen/molokai'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -46,12 +49,14 @@ let mapleader = ' '
 let g:mapleader = ' '
 
 " General setting
+set breakat=,)                       " Break lines at specific characters only
 set clipboard^=unnamed               " Copy selected text to the system clipboard
 set clipboard^=unnamedplus           " Copy selected text to the system clipboard
 set cmdheight=1                      " Force the command height to 1
 set colorcolumn=100                  " Highlight 100 character limits
-set completeopt-=preview             " Do not show completion options in the preview window"
+set completeopt-=preview             " Do not show completion options in the preview window
 set hidden                           " Allow buffers to be backgrounded without being saved
+set linebreak                        " Break lines at `breakat` characters only
 set list                             " Show invisible characters
 set listchars=tab:▸\ ,eol:¬          " Set the characters for the invisibles
 set noshowmode                       " We show the current mode with airline
@@ -61,6 +66,7 @@ set scrolloff=999                    " Keep the cursor centered
 set sessionoptions-=help             " Do not save help windows
 set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
 set shortmess+=c                     " Silent short messages from deoplete.nvim
+set showbreak=>>>                    " Show clearly were linebreaks are applied
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
 
@@ -154,9 +160,14 @@ let g:deoplete#ignore_sources._ = ['member', 'tag']
 let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 call deoplete#custom#set('go', 'disabled_syntaxes', ['Comment', 'String'])
+call deoplete#custom#set('neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+" ===================== neosnippet =====================
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+vmap <C-k> <Plug>(neosnippet_expand_or_jump)
 
 " ====================== nerdtree ======================
 nmap <leader>n :NERDTreeToggle<CR>
@@ -197,6 +208,9 @@ let g:gitgutter_sign_column_always = 1
 let g:go_auto_type_info = 1
 let g:go_list_type = "quickfix"
 let g:go_fmt_command = "goimports"
+let g:go_snippet_engine = "neosnippet"
+let g:go_term_enabled = 1
+let g:go_term_mode = "split"
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_array_whitespace_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
