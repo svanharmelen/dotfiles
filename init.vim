@@ -223,7 +223,7 @@ let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
 let g:go_metalinter_deadline = "10s"
 let g:go_metalinter_enabled = [
-      \ 'vet', 'vetshadow', 'golint', 'gotype', 'gocyclo', 'varcheck', 'structcheck',
+      \ 'vet', 'golint', 'gotype', 'gocyclo', 'varcheck', 'structcheck',
       \ 'errcheck', 'deadcode', 'ineffassign', 'unconvert', 'interfacer'
       \ ]
 au FileType go nmap <leader>r  <Plug>(go-run)
