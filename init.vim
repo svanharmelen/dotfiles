@@ -221,8 +221,10 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
+let g:go_metalinter_deadline = "10s"
 let g:go_metalinter_enabled = [
-      \ 'gotype', 'varcheck', 'structcheck', 'errcheck', 'deadcode', 'ineffassign'
+      \ 'vet', 'vetshadow', 'golint', 'gotype', 'gocyclo', 'varcheck', 'structcheck',
+      \ 'errcheck', 'deadcode', 'ineffassign', 'unconvert', 'interfacer'
       \ ]
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
