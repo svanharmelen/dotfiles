@@ -28,7 +28,6 @@ Plug 'raimondi/delimitmate'
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'shougo/deoplete.nvim'
-Plug 'Shougo/neopairs.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'svanharmelen/molokai'
@@ -142,8 +141,6 @@ let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
 let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
-nmap <C-g> :CtrlPBufTag<cr>
-imap <C-g> <esc>:CtrlPBufTag<cr>
 
 " ==================== delimitmate ====================
 let g:delimitMate_expand_cr = 1
@@ -232,15 +229,17 @@ au FileType go nmap <leader>i  <Plug>(go-install)
 au FileType go nmap <leader>t  <Plug>(go-test)
 au FileType go nmap <leader>tf <Plug>(go-test-func)
 au FileType go nmap <leader>c  <Plug>(go-coverage)
-au FileType go nmap <leader>l  :GoMetaLinter<CR>
+au FileType go nmap <leader>l  <Plug>(go-metalinter)
 au FileType go nmap <leader>d  <Plug>(go-def)
-au FileType go nmap <leader>ds <Plug>(go-def-split)
-au FileType go nmap <leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <leader>ga <Plug>(go-alternate)
 au FileType go nmap <leader>gd <Plug>(go-doc)
-au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <leader>gg <Plug>(go-generate)
 au FileType go nmap <leader>gi <Plug>(go-implements)
 au FileType go nmap <leader>gr <Plug>(go-rename)
-au FileType go nmap <leader>im :GoImports<CR>
+au FileType go nmap <C-g> :GoDecls<CR>
+au FileType go imap <C-g> <ESC>:GoDecls<CR>
+au FileType go nmap © :GoDeclsDir<CR>
+au FileType go imap © <ESC>:GoDeclsDir<CR>
 
 " ====================== vim-json ======================
 let g:vim_json_syntax_conceal = 0
@@ -260,7 +259,6 @@ let g:session_lock_enabled = 0
 nmap so :OpenSession
 nmap ss :SaveSession
 nmap sc :CloseSession<CR>
-nmap sd :DeleteSession<CR>
 
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "
