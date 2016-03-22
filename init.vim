@@ -159,6 +159,7 @@ let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const
 call deoplete#custom#set('go', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#set('neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
+call deoplete#custom#set('_', 'converters', ['converter_auto_paren'])
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -231,6 +232,7 @@ au FileType go nmap <leader>tf <Plug>(go-test-func)
 au FileType go nmap <leader>c  <Plug>(go-coverage)
 au FileType go nmap <leader>l  <Plug>(go-metalinter)
 au FileType go nmap <leader>d  <Plug>(go-def)
+au FileType go nmap <leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <leader>ga <Plug>(go-alternate)
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gg <Plug>(go-generate)
