@@ -35,6 +35,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 't-yuki/vim-go-coverlay'
 Plug 'wesq3/vim-windowswap'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
@@ -186,15 +187,15 @@ let g:NERDTreeIndicatorMapCustom = {
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
+let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#default#layout = [
       \ [ 'a', 'b', 'c' ],
-      \ [ 'y', 'z', 'warning' ]
+      \ [ 'y', 'z', 'error', 'warning' ]
       \ ]
 function! AirlineInit()
-  let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
   let g:airline_section_z = '%{go#jobcontrol#Statusline()}'.g:airline_section_z
 endfunction
-autocmd VimEnter * call AirlineInit()
+autocmd User AirlineAfterInit call AirlineInit()
 
 " ================== vim-coffee-script =================
 au BufRead,BufNewFile *.cson set ft=coffee
@@ -204,11 +205,10 @@ let g:gitgutter_sign_column_always = 1
 
 " ======================= vim-go =======================
 let g:go_auto_type_info = 1
-let g:go_list_type = "quickfix"
+let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
+let g:go_list_type = "quickfix"
 let g:go_snippet_engine = "neosnippet"
-let g:go_term_enabled = 1
-let g:go_term_mode = "split"
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_array_whitespace_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
@@ -218,10 +218,10 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
+let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype', 'goconst']
 let g:go_metalinter_deadline = "10s"
 let g:go_metalinter_enabled = [
-      \ 'vet', 'golint', 'gotype', 'gocyclo', 'varcheck', 'structcheck',
+      \ 'vet', 'golint', 'gotype', 'goconst', 'varcheck', 'structcheck',
       \ 'errcheck', 'deadcode', 'ineffassign', 'unconvert', 'interfacer'
       \ ]
 au FileType go nmap <leader>r  <Plug>(go-run)
@@ -229,15 +229,17 @@ au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>i  <Plug>(go-install)
 au FileType go nmap <leader>t  <Plug>(go-test)
 au FileType go nmap <leader>tf <Plug>(go-test-func)
-au FileType go nmap <leader>c  <Plug>(go-coverage)
 au FileType go nmap <leader>l  <Plug>(go-metalinter)
 au FileType go nmap <leader>d  <Plug>(go-def)
+au FileType go nmap <leader>ds <Plug>(go-def-split)
 au FileType go nmap <leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <leader>ga <Plug>(go-alternate)
+au FileType go nmap <leader>ga <Plug>(go-alternate-edit)
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gg <Plug>(go-generate)
 au FileType go nmap <leader>gi <Plug>(go-implements)
 au FileType go nmap <leader>gr <Plug>(go-rename)
+au FileType go nmap <leader>c  <Plug>(go-coverlay)
+au FileType go nmap <leader>C  <Plug>(go-clearlay)
 au FileType go nmap <C-g> :GoDecls<CR>
 au FileType go imap <C-g> <ESC>:GoDecls<CR>
 au FileType go nmap © :GoDeclsDir<CR>
