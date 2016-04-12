@@ -28,14 +28,11 @@ Plug 'raimondi/delimitmate'
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'shougo/deoplete.nvim'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
 Plug 'svanharmelen/molokai'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 't-yuki/vim-go-coverlay'
 Plug 'wesq3/vim-windowswap'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
@@ -135,7 +132,7 @@ colorscheme molokai
 " ==================== CtrlP ====================
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_max_height = 10       " maxiumum height of match window
-let g:ctrlp_switch_buffer = 'et'  " open file in the current buffer
+let g:ctrlp_switch_buffer = 'vt'  " open file in the current buffer
 let g:ctrlp_mruf_max=450          " number of recently opened files
 let g:ctrlp_max_files=0           " do not limit the number of searchable files
 let g:ctrlp_use_caching = 1
@@ -155,20 +152,20 @@ imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#ignore_sources = {}
 let g:deoplete#ignore_sources._ = ['member', 'tag']
+let g:deoplete#max_list = 25
 let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+" let g:deoplete#sources#go#use_cache = 1
 call deoplete#custom#set('go', 'disabled_syntaxes', ['Comment', 'String'])
-call deoplete#custom#set('neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
-call deoplete#custom#set('_', 'converters', ['converter_auto_paren'])
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-" ===================== neosnippet =====================
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-vmap <C-k> <Plug>(neosnippet_expand_or_jump)
+" ====================== fugitive ======================
+nmap <leader>fd :Gdiff<CR>
 
 " ====================== nerdtree ======================
+let g:NERDTreeMinimalUI = 1
 nmap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
@@ -193,9 +190,10 @@ let g:airline#extensions#default#layout = [
       \ [ 'y', 'z', 'error', 'warning' ]
       \ ]
 function! AirlineInit()
+  let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
   let g:airline_section_z = '%{go#jobcontrol#Statusline()}'.g:airline_section_z
 endfunction
-autocmd User AirlineAfterInit call AirlineInit()
+autocmd VimEnter * call AirlineInit()
 
 " ================== vim-coffee-script =================
 au BufRead,BufNewFile *.cson set ft=coffee
@@ -208,7 +206,6 @@ let g:go_auto_type_info = 1
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
 let g:go_list_type = "quickfix"
-let g:go_snippet_engine = "neosnippet"
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_array_whitespace_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
@@ -218,7 +215,7 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype', 'goconst']
+let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
 let g:go_metalinter_deadline = "10s"
 let g:go_metalinter_enabled = [
       \ 'vet', 'golint', 'gotype', 'goconst', 'varcheck', 'structcheck',
@@ -229,6 +226,7 @@ au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>i  <Plug>(go-install)
 au FileType go nmap <leader>t  <Plug>(go-test)
 au FileType go nmap <leader>tf <Plug>(go-test-func)
+au FileType go nmap <leader>c  <Plug>(go-coverage)
 au FileType go nmap <leader>l  <Plug>(go-metalinter)
 au FileType go nmap <leader>d  <Plug>(go-def)
 au FileType go nmap <leader>ds <Plug>(go-def-split)
@@ -238,8 +236,6 @@ au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gg <Plug>(go-generate)
 au FileType go nmap <leader>gi <Plug>(go-implements)
 au FileType go nmap <leader>gr <Plug>(go-rename)
-au FileType go nmap <leader>c  <Plug>(go-coverlay)
-au FileType go nmap <leader>C  <Plug>(go-clearlay)
 au FileType go nmap <C-g> :GoDecls<CR>
 au FileType go imap <C-g> <ESC>:GoDecls<CR>
 au FileType go nmap © :GoDeclsDir<CR>
