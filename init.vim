@@ -13,8 +13,6 @@ call plug#begin('~/.config/nvim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'edkolev/tmuxline.vim'
@@ -36,6 +34,8 @@ Plug 'tpope/vim-surround'
 Plug 'wesq3/vim-windowswap'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', { 'do': 'make' }
 
@@ -146,7 +146,7 @@ let g:delimitMate_expand_space = 1
 let g:delimitMate_smart_quotes = 1
 let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
-imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
+inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
@@ -158,14 +158,15 @@ let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const
 " let g:deoplete#sources#go#use_cache = 1
 call deoplete#custom#set('go', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
-imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " ====================== fugitive ======================
-nmap <leader>fd :Gdiff<CR>
+nnoremap <leader>fb :Gblame<CR>
+nnoremap <leader>fd :Gdiff<CR>
 
 " ====================== nerdtree ======================
-nmap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
 let g:NERDTreeIndicatorMapCustom = {
@@ -255,9 +256,9 @@ let g:session_directory = '~/.config/nvim/sessions'
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
 let g:session_lock_enabled = 0
-nmap so :OpenSession
-nmap ss :SaveSession
-nmap sc :CloseSession<CR>
+nnoremap so :OpenSession
+nnoremap ss :SaveSession
+nnoremap sc :CloseSession<CR>
 
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "
@@ -286,6 +287,12 @@ command Wq wq
 command Q q
 command W w
 
+" ================== move visual lines ===================
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
 " ================== quickfix shortcuts ==================
 function! <SID>LocationPrevious()
   try
@@ -313,8 +320,8 @@ nnoremap <leader>a :cclose<CR>
 let g:terminal_scrollback_buffer_size = 100000
 autocmd WinEnter term://* startinsert
 tnoremap <Esc> <C-\><C-n>
-nmap ts :new<CR><ESC>:term<CR>
-nmap tv :vnew<CR><ESC>:term<CR>
+nnoremap ts :new<CR><ESC>:term<CR>
+nnoremap tv :vnew<CR><ESC>:term<CR>
 
 " ================== trailing whitespace =================
 function! <SID>StripTrailingWhitespaces()
