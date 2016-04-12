@@ -165,7 +165,6 @@ imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 nmap <leader>fd :Gdiff<CR>
 
 " ====================== nerdtree ======================
-let g:NERDTreeMinimalUI = 1
 nmap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
