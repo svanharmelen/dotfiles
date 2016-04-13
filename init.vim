@@ -320,8 +320,10 @@ nnoremap <leader>a :cclose<CR>
 let g:terminal_scrollback_buffer_size = 100000
 autocmd WinEnter term://* startinsert
 tnoremap <Esc> <C-\><C-n>
-nnoremap ts :new<CR><ESC>:term<CR>
-nnoremap tv :vnew<CR><ESC>:term<CR>
+noremap <C-f>s :new<CR><ESC>:term<CR>
+noremap <C-f>v :bo vnew<CR><ESC>:term<CR>
+tnoremap <C-f>s <c-\><C-n>:new<CR><ESC>:term<CR>
+tnoremap <C-f>v <c-\><C-n>:vnew<CR><ESC>:term<CR>
 
 " ================== trailing whitespace =================
 function! <SID>StripTrailingWhitespaces()
