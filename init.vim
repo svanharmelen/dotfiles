@@ -146,7 +146,7 @@ let g:delimitMate_expand_space = 1
 let g:delimitMate_smart_quotes = 1
 let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
-inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
+imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
@@ -158,8 +158,8 @@ let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const
 " let g:deoplete#sources#go#use_cache = 1
 call deoplete#custom#set('go', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " ====================== fugitive ======================
 nnoremap <leader>fb :Gblame<CR>
