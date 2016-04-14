@@ -52,6 +52,7 @@ set clipboard^=unnamedplus           " Copy selected text to the system clipboar
 set cmdheight=1                      " Force the command height to 1
 set colorcolumn=100                  " Highlight 100 character limits
 set completeopt-=preview             " Do not show completion options in the preview window
+set diffopt+=vertical                " Make diffs split vertically
 set hidden                           " Allow buffers to be backgrounded without being saved
 set linebreak                        " Break lines at `breakat` characters only
 set list                             " Show invisible characters
@@ -130,14 +131,15 @@ colorscheme molokai
 " ----------------------------------------- "
 
 " ==================== CtrlP ====================
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_max_height = 10       " maxiumum height of match window
-let g:ctrlp_switch_buffer = 'vt'  " open file in the current buffer
-let g:ctrlp_mruf_max=450          " number of recently opened files
-let g:ctrlp_max_files=0           " do not limit the number of searchable files
-let g:ctrlp_use_caching = 1
-let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_max_files = 0         " do not limit the number of searchable files
+let g:ctrlp_max_height = 10       " maxiumum height of match window
+let g:ctrlp_mruf_max = 500        " number of recently opened files
+let g:ctrlp_mruf_relative = 1     " show only MRU files in the working directory
+let g:ctrlp_switch_buffer = 'et'  " open file in the current buffer
+let g:ctrlp_use_caching = 1
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
 
 " ==================== delimitmate ====================
@@ -318,7 +320,7 @@ nnoremap <leader>a :cclose<CR>
 
 " ======================= terminal =======================
 let g:terminal_scrollback_buffer_size = 100000
-autocmd WinEnter term://* startinsert
+autocmd BufWinEnter,WinEnter term://* startinsert
 tnoremap <Esc> <C-\><C-n>
 noremap <C-f>s :new<CR><ESC>:term<CR>
 noremap <C-f>v :bo vnew<CR><ESC>:term<CR>
