@@ -339,6 +339,9 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre *.py :call <SID>StripTrailingWhitespaces()
 
+" ================ write and close buffer ================
+cnoreabbrev x update<bar>BD
+
 " =================== window switching ===================
 tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
