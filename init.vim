@@ -26,6 +26,7 @@ Plug 'raimondi/delimitmate'
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'shougo/deoplete.nvim'
+Plug 'shougo/vimproc.vim', { 'do': 'make' }
 Plug 'svanharmelen/molokai'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
