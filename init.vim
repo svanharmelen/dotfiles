@@ -18,6 +18,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'elzr/vim-json'
 Plug 'fatih/vim-go'
+Plug 'jvirtanen/vim-octave'
 Plug 'kchmck/vim-coffee-script'
 Plug 'majutsushi/tagbar'
 Plug 'nvie/vim-flake8'
@@ -250,6 +251,11 @@ let g:vim_json_syntax_conceal = 0
 " Prettify JSON, install: brew install yajl
 command! JSONFormat %!json_reformat
 command! JSONMinimize %!json_reformat -m
+
+" ===================== vim-octave =====================
+augroup filetypedetect 
+  au! BufRead,BufNewFile *.m,*.oct set filetype=octave 
+augroup END
 
 " ===================== vim-rooter =====================
 let g:rooter_silent_chdir = 1
