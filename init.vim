@@ -329,7 +329,7 @@ nnoremap <leader>a :cclose<CR>
 " ======================= terminal =======================
 let g:terminal_scrollback_buffer_size = 100000
 autocmd BufWinEnter,WinEnter term://* startinsert
-tnoremap <Esc> <C-\><C-n>
+tnoremap <ESC> <C-\><C-n>
 noremap <C-f>s :new<CR><ESC>:term<CR>
 noremap <C-f>v :bo vnew<CR><ESC>:term<CR>
 tnoremap <C-f>s <c-\><C-n>:new<CR><ESC>:term<CR>
@@ -350,10 +350,18 @@ autocmd BufWritePre *.py :call <SID>StripTrailingWhitespaces()
 cnoreabbrev x update<bar>BD
 
 " =================== window switching ===================
+inoremap <C-h> <ESC><C-w>h
+inoremap <C-j> <ESC><C-w>j
+inoremap <C-k> <ESC><C-w>k
+inoremap <C-l> <ESC><C-w>l
 tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
+vnoremap <C-h> <ESC><C-w>h
+vnoremap <C-j> <ESC><C-w>j
+vnoremap <C-k> <ESC><C-w>k
+vnoremap <C-l> <ESC><C-w>l
 
 " =============== window switching by number =============
 let i = 1
