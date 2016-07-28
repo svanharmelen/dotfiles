@@ -133,7 +133,7 @@ colorscheme molokai
 " Plugin configs                            "
 " ----------------------------------------- "
 
-" ==================== CtrlP ====================
+" ======================= CtrlP =======================
 let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
 let g:ctrlp_clear_cache_on_exit = 0
@@ -146,7 +146,7 @@ let g:ctrlp_use_caching = 1
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
 
-" ==================== delimitmate ====================
+" ===================== delimitmate ====================
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_smart_quotes = 1
@@ -259,6 +259,7 @@ augroup filetypedetect
 augroup END
 
 " ===================== vim-rooter =====================
+let g:rooter_change_directory_for_non_project_files = 'current'
 let g:rooter_silent_chdir = 1
 let g:rooter_use_lcd = 1
 
@@ -271,23 +272,26 @@ nnoremap so :OpenSession
 nnoremap ss :SaveSession
 nnoremap sc :CloseSession<CR>
 
+" ==================== vim-terraform ===================
+let g:terraform_fmt_on_save = 1
+
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "
 " ----------------------------------------- "
 
-" ============== always put quickfix on bottom ===========
+" ============= always put quickfix on bottom ==========
 autocmd FileType qf wincmd J
 
-" ================== auto resize windows =================
+" ================= auto resize windows ================
 au VimResized * :wincmd =
 
-" ================== disable cursor keys =================
+" ================= disable cursor keys ================
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-" =================== fix generic typos ==================
+" ================== fix generic typos =================
 command WQA wq
 command WQa wq
 command Wqa wq
@@ -298,13 +302,13 @@ command Wq wq
 command Q q
 command W w
 
-" ================== move visual lines ===================
+" ================= move visual lines ==================
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
 vnoremap k gk
 
-" ================== quickfix shortcuts ==================
+" ================= quickfix shortcuts =================
 function! <SID>LocationPrevious()
   try
     cprev
@@ -327,7 +331,7 @@ map <silent> <C-n> <Plug>LocationPrevious
 map <silent> <C-m> <Plug>LocationNext
 nnoremap <leader>a :cclose<CR>
 
-" ======================= terminal =======================
+" ====================== terminal ======================
 let g:terminal_scrollback_buffer_size = 100000
 autocmd BufWinEnter,WinEnter term://* startinsert
 tnoremap <ESC> <C-\><C-n>
@@ -336,7 +340,7 @@ noremap <C-f>v :bo vnew<CR><ESC>:term<CR>
 tnoremap <C-f>s <c-\><C-n>:new<CR><ESC>:term<CR>
 tnoremap <C-f>v <c-\><C-n>:vnew<CR><ESC>:term<CR>
 
-" ================== trailing whitespace =================
+" ================= trailing whitespace ================
 function! <SID>StripTrailingWhitespaces()
     let _s=@/
     let l = line(".")
@@ -347,10 +351,10 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre *.py :call <SID>StripTrailingWhitespaces()
 
-" ================ write and close buffer ================
+" =============== write and close buffer ===============
 cnoreabbrev x update<bar>BD
 
-" =================== window switching ===================
+" ================== window switching ==================
 inoremap <C-h> <ESC><C-w>h
 inoremap <C-j> <ESC><C-w>j
 inoremap <C-k> <ESC><C-w>k
@@ -364,7 +368,7 @@ vnoremap <C-j> <ESC><C-w>j
 vnoremap <C-k> <ESC><C-w>k
 vnoremap <C-l> <ESC><C-w>l
 
-" =============== window switching by number =============
+" ============== window switching by number ============
 let i = 1
 while i <= 9
     execute 'nnoremap <leader>' . i . ' :' . i . 'wincmd w<CR>'

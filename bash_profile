@@ -11,6 +11,8 @@ alias cookdir="cd $HOME/Documents/Cookbooks"
 alias gitdir="cd $HOME/Documents/Git-Stuff"
 alias mldir="cd $HOME/Documents/Git-Stuff/machine-learning"
 
+source <(kubectl completion bash)
+
 function gocd ()
 { 
   cd `go list -f "{{.Dir}}" .../$1`
