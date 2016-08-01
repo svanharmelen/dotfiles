@@ -242,6 +242,8 @@ au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gg <Plug>(go-generate)
 au FileType go nmap <leader>gi <Plug>(go-implements)
 au FileType go nmap <leader>gr <Plug>(go-rename)
+au FileType go nmap <leader>gm :GoMetalinterAutoSaveToggle<CR>
+au FileType go nmap <leader>gs :GoSameIdsAutoToggle<CR>
 au FileType go nmap <C-g> :GoDecls<CR>
 au FileType go imap <C-g> <ESC>:GoDecls<CR>
 au FileType go nmap © :GoDeclsDir<CR>

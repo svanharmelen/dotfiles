@@ -11,6 +11,10 @@ alias cookdir="cd $HOME/Documents/Cookbooks"
 alias gitdir="cd $HOME/Documents/Git-Stuff"
 alias mldir="cd $HOME/Documents/Git-Stuff/machine-learning"
 
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+. $(brew --prefix)/etc/bash_completion
+fi
+
 source <(kubectl completion bash)
 
 function gocd ()
