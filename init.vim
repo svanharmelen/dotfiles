@@ -161,9 +161,7 @@ let g:deoplete#ignore_sources._ = ['member', 'tag']
 let g:deoplete#max_list = 30
 let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'var', 'type', 'const']
-" let g:deoplete#sources#go#use_cache = 1
 call deoplete#custom#set('_', 'converters', ['converter_remove_overlap'])
-call deoplete#custom#set('go', 'disabled_syntaxes', ['Comment', 'String'])
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -208,6 +206,7 @@ au BufRead,BufNewFile *.cson set ft=coffee
 let g:gitgutter_sign_column_always = 1
 
 " ======================= vim-go =======================
+" Settings
 let g:go_auto_type_info = 1
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
@@ -227,6 +226,7 @@ let g:go_metalinter_enabled = [
       \ 'vet', 'golint', 'gotype', 'goconst', 'varcheck', 'structcheck',
       \ 'errcheck', 'deadcode', 'ineffassign', 'unconvert', 'interfacer'
       \ ]
+" Bindings
 au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>i  <Plug>(go-install)
@@ -248,6 +248,8 @@ au FileType go nmap <C-g> :GoDecls<CR>
 au FileType go imap <C-g> <ESC>:GoDecls<CR>
 au FileType go nmap © :GoDeclsDir<CR>
 au FileType go imap © <ESC>:GoDeclsDir<CR>
+" Highlighting
+hi def link goPredefinedIdentifiers Boolean
 
 " ====================== vim-json ======================
 let g:vim_json_syntax_conceal = 0

@@ -11,12 +11,15 @@ alias cookdir="cd $HOME/Documents/Cookbooks"
 alias gitdir="cd $HOME/Documents/Git-Stuff"
 alias mldir="cd $HOME/Documents/Git-Stuff/machine-learning"
 
+# Enable bash completion
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
-. $(brew --prefix)/etc/bash_completion
+  . $(brew --prefix)/etc/bash_completion
 fi
 
+# Source kubectl completion
 source <(kubectl completion bash)
 
+# A nice helper function to cd into Go packages
 function gocd ()
 { 
   cd `go list -f "{{.Dir}}" .../$1`
