@@ -16,8 +16,14 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
 fi
 
+# Source docker completion
+source ~/dotfiles/docker-completion.bash
+
 # Source kubectl completion
 source <(kubectl completion bash)
+
+# Source git completion
+source ~/dotfiles/git-completion.bash
 
 # A nice helper function to cd into Go packages
 function gocd ()
