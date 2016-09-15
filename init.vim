@@ -68,6 +68,7 @@ set sessionoptions-=help             " Do not save help windows
 set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
 set shortmess+=c                     " Silent short messages from deoplete.nvim
 set showbreak=>>>                    " Show clearly were linebreaks are applied
+set spelllang=en_us                  " Set default spell check language to English US
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
 
@@ -141,7 +142,7 @@ let g:ctrlp_max_files = 0         " do not limit the number of searchable files
 let g:ctrlp_max_height = 10       " maxiumum height of match window
 let g:ctrlp_mruf_max = 500        " number of recently opened files
 let g:ctrlp_mruf_relative = 1     " show only MRU files in the working directory
-let g:ctrlp_switch_buffer = 'et'  " open file in the current buffer
+let g:ctrlp_switch_buffer = 0     " open file in the current buffer
 let g:ctrlp_use_caching = 1
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
@@ -309,6 +310,9 @@ nnoremap j gj
 nnoremap k gk
 vnoremap j gj
 vnoremap k gk
+
+" ================ toggle spell checking ===============
+nmap <silent> <leader>s :set spell!<CR>
 
 " ================= quickfix shortcuts =================
 function! <SID>LocationPrevious()
