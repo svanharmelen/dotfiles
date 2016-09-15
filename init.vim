@@ -248,8 +248,6 @@ au FileType go nmap <C-g> :GoDecls<CR>
 au FileType go imap <C-g> <ESC>:GoDecls<CR>
 au FileType go nmap © :GoDeclsDir<CR>
 au FileType go imap © <ESC>:GoDeclsDir<CR>
-" Highlighting
-hi def link goPredefinedIdentifiers Boolean
 
 " ====================== vim-json ======================
 let g:vim_json_syntax_conceal = 0
