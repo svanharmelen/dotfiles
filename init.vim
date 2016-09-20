@@ -62,6 +62,7 @@ set list                             " Show invisible characters
 set listchars=tab:▸\ ,eol:¬          " Set the characters for the invisibles
 set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
+set mouse-=a                         " Disable mouse clicks to go to a position
 set relativenumber                   " Show relative line numbers
 set scrolloff=999                    " Keep the cursor centered
 set sessionoptions-=help             " Do not save help windows
@@ -71,6 +72,7 @@ set showbreak=>>>                    " Show clearly were linebreaks are applied
 set spelllang=en_us                  " Set default spell check language to English US
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
+set updatetime=500                   " Let plugins show effects after 500ms
 
 " Backup settings
 set backupdir=~/.config/nvim/backup
@@ -142,10 +144,9 @@ let g:ctrlp_max_files = 0         " do not limit the number of searchable files
 let g:ctrlp_max_height = 10       " maxiumum height of match window
 let g:ctrlp_mruf_max = 500        " number of recently opened files
 let g:ctrlp_mruf_relative = 1     " show only MRU files in the working directory
-let g:ctrlp_switch_buffer = 0     " open file in the current buffer
+let g:ctrlp_switch_buffer = 0     " always open file in the current buffer
 let g:ctrlp_use_caching = 1
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
 
 " ===================== delimitmate ====================
 let g:delimitMate_expand_cr = 1
@@ -204,6 +205,7 @@ autocmd VimEnter * call AirlineInit()
 au BufRead,BufNewFile *.cson set ft=coffee
 
 " ==================== vim-gitgutter ===================
+let g:gitgutter_max_signs = 10000
 let g:gitgutter_sign_column_always = 1
 
 " ======================= vim-go =======================
