@@ -172,6 +172,11 @@ nnoremap <leader>fb :Gblame<CR>
 nnoremap <leader>fd :Gdiff<CR>
 
 " ====================== nerdtree ======================
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeChDirMode = 2
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeShowLineNumbers = 1
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
