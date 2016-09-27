@@ -301,6 +301,9 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
+" ===================== fast saving ====================
+nnoremap <leader>w :w<CR>
+
 " ================== fix generic typos =================
 command WQA wq
 command WQa wq
@@ -343,6 +346,9 @@ nnoremap <silent> <Plug>LocationNext     :<C-u>exe 'call <SID>LocationNext()'<CR
 map <silent> <C-n> <Plug>LocationPrevious
 map <silent> <C-m> <Plug>LocationNext
 nnoremap <leader>a :cclose<CR>
+
+" ================ remove search highlight =============
+nnoremap <leader><space> :nohlsearch<CR>
 
 " ====================== terminal ======================
 let g:terminal_scrollback_buffer_size = 100000
