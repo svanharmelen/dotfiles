@@ -39,6 +39,7 @@ Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-ruby/vim-ruby'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', { 'do': 'make' }
 
@@ -170,6 +171,9 @@ imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " ====================== fugitive ======================
 nnoremap <leader>fb :Gblame<CR>
 nnoremap <leader>fd :Gdiff<CR>
+nnoremap <leader>fc :Gcommit -am 
+nnoremap <leader>fl :Glog<CR>
+nnoremap <leader>fp :Gpush<CR>
 
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
@@ -301,8 +305,9 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-" ===================== fast saving ====================
+" =============== fast saving and closing ==============
 nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
 
 " ================== fix generic typos =================
 command WQA wq
