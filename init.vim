@@ -22,10 +22,10 @@ Plug 'hashivim/vim-terraform'
 Plug 'jvirtanen/vim-octave'
 Plug 'kchmck/vim-coffee-script'
 Plug 'majutsushi/tagbar'
+Plug 'mileszs/ack.vim'
 Plug 'nvie/vim-flake8'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
-Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'shougo/deoplete.nvim'
 Plug 'shougo/vimproc.vim', { 'do': 'make' }
@@ -34,6 +34,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'wesq3/vim-windowswap'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
@@ -137,6 +138,12 @@ colorscheme molokai
 " Plugin configs                            "
 " ----------------------------------------- "
 
+" ====================== ack.vim ======================
+let g:ackprg = 'pt --nogroup'
+let g:ackhighlight = 1
+command! Pt Ack!
+command! PtWindow AckWindow!
+
 " ======================= CtrlP =======================
 let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
@@ -178,23 +185,21 @@ nnoremap <leader>fp :Gpush<CR>
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeChDirMode = 2
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeShowLineNumbers = 1
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "~",
-    \ "Staged"    : "+",
-    \ "Untracked" : "≠",
-    \ "Renamed"   : "→",
-    \ "Unmerged"  : "=",
-    \ "Deleted"   : "×",
-    \ "Dirty"     : "~",
-    \ "Clean"     : "√",
-    \ "Unknown"   : "?"
-    \ }
+      \ "Modified"  : "~",
+      \ "Staged"    : "+",
+      \ "Untracked" : "≠",
+      \ "Renamed"   : "→",
+      \ "Unmerged"  : "=",
+      \ "Deleted"   : "×",
+      \ "Dirty"     : "~",
+      \ "Clean"     : "√",
+      \ "Unknown"   : "?"
+      \ }
 
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
@@ -310,15 +315,15 @@ nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 
 " ================== fix generic typos =================
-command WQA wq
-command WQa wq
-command Wqa wq
-command QA qa
-command Qa qa
-command WQ wq
-command Wq wq
-command Q q
-command W w
+command! -bang WQA wq<bang>
+command! -bang WQa wq<bang>
+command! -bang Wqa wq<bang>
+command! -bang QA qa<bang>
+command! -bang Qa qa<bang>
+command! -bang WQ wq<bang>
+command! -bang Wq wq<bang>
+command! -bang Q q<bang>
+command! -bang W w<bang>
 
 " ================= move visual lines ==================
 nnoremap j gj
@@ -366,14 +371,17 @@ tnoremap <C-f>v <c-\><C-n>:vnew<CR><ESC>:term<CR>
 
 " ================= trailing whitespace ================
 function! <SID>StripTrailingWhitespaces()
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
+  if &ft =~ 'go'
+    return
+  endif
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  let @/=_s
+  call cursor(l, c)
 endfunction
-autocmd BufWritePre *.py :call <SID>StripTrailingWhitespaces()
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " =============== write and close buffer ===============
 cnoreabbrev x update<bar>BD
@@ -395,11 +403,11 @@ vnoremap <C-l> <ESC><C-w>l
 " ============== window switching by number ============
 let i = 1
 while i <= 9
-    execute 'nnoremap <leader>' . i . ' :' . i . 'wincmd w<CR>'
-    let i = i + 1
+  execute 'nnoremap <leader>' . i . ' :' . i . 'wincmd w<CR>'
+  let i = i + 1
 endwhile
 function! WindowNumber()
-    let str=tabpagewinnr(tabpagenr())
-    return str
+  let str=tabpagewinnr(tabpagenr())
+  return str
 endfunction
 set statusline=win:%{WindowNumber()}

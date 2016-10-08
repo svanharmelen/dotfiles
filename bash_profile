@@ -28,5 +28,5 @@ source ~/dotfiles/git-completion.bash
 # A nice helper function to cd into Go packages
 function gocd ()
 { 
-  cd `go list -f "{{.Dir}}" .../$1`
+  cd `go list -f "{{.Dir}}" .../$1 | awk '{ print length($0) " " $0; }' $file | sort -n | cut -d' ' -f2 | head -1`
 }
