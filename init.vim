@@ -178,7 +178,7 @@ imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " ====================== fugitive ======================
 nnoremap <leader>fb :Gblame<CR>
 nnoremap <leader>fd :Gdiff<CR>
-nnoremap <leader>fc :Gcommit -am 
+nnoremap <leader>fc :Gcommit -am
 nnoremap <leader>fl :Glog<CR>
 nnoremap <leader>fp :Gpush<CR>
 
@@ -252,8 +252,6 @@ au FileType go nmap <leader>tf <Plug>(go-test-func)
 au FileType go nmap <leader>c  :GoCoverageToggle<CR>
 au FileType go nmap <leader>l  <Plug>(go-metalinter)
 au FileType go nmap <leader>d  <Plug>(go-def)
-au FileType go nmap <leader>ds <Plug>(go-def-split)
-au FileType go nmap <leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <leader>ga :GoAlternate!<CR>
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gg <Plug>(go-generate)
@@ -273,8 +271,8 @@ command! JSONFormat %!json_reformat
 command! JSONMinimize %!json_reformat -m
 
 " ===================== vim-octave =====================
-augroup filetypedetect 
-  au! BufRead,BufNewFile *.m,*.oct set filetype=octave 
+augroup filetypedetect
+  au! BufRead,BufNewFile *.m,*.oct set filetype=octave
 augroup END
 
 " ===================== vim-rooter =====================
