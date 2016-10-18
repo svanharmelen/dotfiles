@@ -200,6 +200,8 @@ let g:NERDTreeIndicatorMapCustom = {
       \ "Clean"     : "√",
       \ "Unknown"   : "?"
       \ }
+hi def link NERDTreeOpenable Title
+hi def link NERDTreeClosable Title
 
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
