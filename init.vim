@@ -1,12 +1,11 @@
 "   1. Install the accompanying powerline patched font (or create your own)
 "   2. Run the following commands in terminal:
-"      mkdir -p ~/.config/nvim/after/plugin ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
+"      mkdir -p ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
 "      curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "   3. Link this file in your nvim config directory as ~/.config/nvim/init.vim
-"   4. Link disable_mappings.vim to ~/.config/nvim/after/plugin/disable_mappings.vim
-"   5. Launch nvim and Run:
+"   4. Launch nvim and Run:
 "      :PlugInstall
-"   6. Restart nvim
+"   5. Restart nvim
 
 call plug#begin('~/.config/nvim/plugged')
 
@@ -16,18 +15,13 @@ Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'edkolev/tmuxline.vim'
-Plug 'elzr/vim-json'
 Plug 'fatih/vim-go'
-Plug 'hashivim/vim-terraform'
-Plug 'jvirtanen/vim-octave'
-Plug 'kchmck/vim-coffee-script'
-Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'nvie/vim-flake8'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
-Plug 'shougo/deoplete.nvim'
+Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'shougo/vimproc.vim', { 'do': 'make' }
 Plug 'svanharmelen/molokai'
 Plug 'tpope/vim-commentary'
@@ -35,14 +29,20 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'wesq3/vim-windowswap'
-Plug 'xolox/vim-session'
-Plug 'xolox/vim-misc'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-ruby/vim-ruby'
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', { 'do': 'make' }
+
+Plug 'elzr/vim-json', {'for' : 'json'}
+Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
+Plug 'hashivim/vim-hashicorp-tools'
+Plug 'jvirtanen/vim-octave'
+Plug 'kchmck/vim-coffee-script'
+Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
+Plug 'vim-ruby/vim-ruby'
 
 call plug#end()
 
@@ -202,6 +202,9 @@ let g:NERDTreeIndicatorMapCustom = {
       \ }
 hi def link NERDTreeOpenable Title
 hi def link NERDTreeClosable Title
+
+" ===================== vim-surround ===================
+let g:surround_no_insert_mappings = 1
 
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
