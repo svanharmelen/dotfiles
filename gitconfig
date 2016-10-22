@@ -1,0 +1,12 @@
+[user]
+	name = Sander van Harmelen
+	email = sander@xanzy.io
+[push]
+	default = simple
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
+[diff]
+	tool = vimdiff
