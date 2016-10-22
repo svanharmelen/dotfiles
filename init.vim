@@ -184,6 +184,7 @@ nnoremap <leader>fp :Gpush<CR>
 
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeBookmarksFile = $HOME . '/.config/nvim/NERDTreeBookmarks'
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeShowLineNumbers = 1
 nnoremap <leader>n :NERDTreeToggle<CR>
