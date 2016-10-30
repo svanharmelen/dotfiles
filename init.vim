@@ -186,6 +186,7 @@ nnoremap <leader>fp :Gpush<CR>
 let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeBookmarksFile = $HOME . '/.config/nvim/NERDTreeBookmarks'
 let g:NERDTreeChDirMode = 2
+let g:NERDTreeShowHidden = 1
 let g:NERDTreeShowLineNumbers = 1
 nnoremap <leader>n :NERDTreeToggle<CR>
 
@@ -254,6 +255,7 @@ au FileType go nmap <leader>r  <Plug>(go-run)
 au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>i  <Plug>(go-install)
 au FileType go nmap <leader>t  <Plug>(go-test)
+au FileType go nmap <leader>tc <Plug>(go-test-compile)
 au FileType go nmap <leader>tf <Plug>(go-test-func)
 au FileType go nmap <leader>c  :GoCoverageToggle<CR>
 au FileType go nmap <leader>l  <Plug>(go-metalinter)
@@ -294,9 +296,6 @@ let g:session_lock_enabled = 0
 nnoremap so :OpenSession
 nnoremap ss :SaveSession
 nnoremap sc :CloseSession<CR>
-
-" ==================== vim-terraform ===================
-let g:terraform_fmt_on_save = 1
 
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "
