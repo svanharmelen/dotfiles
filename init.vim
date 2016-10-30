@@ -22,6 +22,7 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'shougo/neosnippet'
 Plug 'shougo/vimproc.vim', { 'do': 'make' }
 Plug 'svanharmelen/molokai'
 Plug 'tpope/vim-commentary'
@@ -171,8 +172,9 @@ let g:deoplete#ignore_sources._ = ['member', 'tag']
 let g:deoplete#max_list = 30
 let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'var', 'type', 'const']
-call deoplete#custom#set('_', 'converters', ['converter_remove_overlap'])
-imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+call deoplete#custom#set('_', 'converters', ['converter_remove_overlap', 'converter_auto_paren'])
+call deoplete#custom#set('neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
+" imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " ====================== fugitive ======================
@@ -181,6 +183,34 @@ nnoremap <leader>fd :Gdiff<CR>
 nnoremap <leader>fc :Gcommit -am
 nnoremap <leader>fl :Glog<CR>
 nnoremap <leader>fp :Gpush<CR>
+
+" ===================== neosnippet =====================
+let g:neosnippet#enable_completed_snippet = 1
+let g:neosnippet#disable_runtime_snippets = {'_' : 1}
+function! s:neosnippet_complete()
+  if pumvisible()
+    if neosnippet#expandable()
+      return "\<Plug>(neosnippet_expand)"
+    else
+      return deoplete#mappings#close_popup()
+    endif
+  else
+    return "\<CR>"
+  endif
+endfunction
+imap <expr><CR> <SID>neosnippet_complete()
+
+function! s:neosnippet_jump()
+  if pumvisible()
+    return "\<C-n>"
+  elseif neosnippet#jumpable()
+    return "\<Plug>(neosnippet_jump)"
+  else
+    return "\<TAB>"
+  endif
+endfunction
+imap <expr><TAB> <SID>neosnippet_jump()
+smap <expr><TAB> <SID>neosnippet_jump()
 
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
@@ -243,6 +273,7 @@ let g:go_highlight_extra_types = 0
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+let g:go_snippet_engine = "neosnippet"
 let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
 let g:go_metalinter_deadline = "10s"
