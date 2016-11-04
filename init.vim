@@ -40,6 +40,8 @@ Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
 Plug 'hashivim/vim-hashicorp-tools'
+Plug 'othree/html5.vim'
+Plug 'pangloss/vim-javascript'
 Plug 'jvirtanen/vim-octave'
 Plug 'kchmck/vim-coffee-script'
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
@@ -160,10 +162,10 @@ let g:ctrlp_working_path_mode = 'ra'
 " ===================== delimitmate ====================
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
-let g:delimitMate_smart_quotes = 1
 let g:delimitMate_expand_inside_quotes = 0
+let g:delimitMate_smart_quotes = 1
 let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
-imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
+" imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
@@ -172,8 +174,8 @@ let g:deoplete#ignore_sources._ = ['member', 'tag']
 let g:deoplete#max_list = 30
 let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'var', 'type', 'const']
-call deoplete#custom#set('_', 'converters', ['converter_remove_overlap', 'converter_auto_paren'])
-call deoplete#custom#set('neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
+call deoplete#custom#set('_', 'converters', ['converter_remove_overlap'])
+call deoplete#custom#set('go,neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
 " imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -187,18 +189,20 @@ nnoremap <leader>fp :Gpush<CR>
 " ===================== neosnippet =====================
 let g:neosnippet#enable_completed_snippet = 1
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}
-function! s:neosnippet_complete()
+function! s:neosnippet_expand()
   if pumvisible()
     if neosnippet#expandable()
       return "\<Plug>(neosnippet_expand)"
+    elseif neosnippet#jumpable()
+      return "\<Plug>(neosnippet_jump)"
     else
-      return deoplete#mappings#close_popup()
+      return deoplete#close_popup()
     endif
   else
-    return "\<CR>"
+    return "\<Plug>delimitMateCR"
   endif
 endfunction
-imap <expr><CR> <SID>neosnippet_complete()
+imap <expr><CR> <SID>neosnippet_expand()
 
 function! s:neosnippet_jump()
   if pumvisible()
@@ -216,7 +220,6 @@ smap <expr><TAB> <SID>neosnippet_jump()
 let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeBookmarksFile = $HOME . '/.config/nvim/NERDTreeBookmarks'
 let g:NERDTreeChDirMode = 2
-let g:NERDTreeShowHidden = 1
 let g:NERDTreeShowLineNumbers = 1
 nnoremap <leader>n :NERDTreeToggle<CR>
 
@@ -418,6 +421,7 @@ endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " =============== write and close buffer ===============
+" make a function that detects if were in a terminal of not
 cnoreabbrev x update<bar>BD
 
 " ================== window switching ==================
