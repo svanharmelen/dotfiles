@@ -11,6 +11,9 @@ alias cookdir="cd $HOME/Documents/Cookbooks"
 alias gitdir="cd $HOME/Documents/Git-Stuff"
 alias mldir="cd $HOME/Documents/Git-Stuff/machine-learning"
 
+# Add all keys to the agent
+ssh-add -A > /dev/null 2>&1
+
 # Enable bash completion
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
@@ -27,6 +30,6 @@ source ~/dotfiles/git-completion.bash
 
 # A nice helper function to cd into Go packages
 function gocd ()
-{ 
+{
   cd `go list -f "{{.Dir}}" .../$1 | awk '{ print length($0) " " $0; }' $file | sort -n | cut -d' ' -f2 | head -1`
 }
