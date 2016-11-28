@@ -62,6 +62,7 @@ set colorcolumn=100                  " Highlight 100 character limits
 set completeopt-=preview             " Do not show completion options in the preview window
 set diffopt+=vertical                " Make diffs split vertically
 set hidden                           " Allow buffers to be backgrounded without being saved
+set inccommand=nosplit               " Live update (preview) substitutions
 set linebreak                        " Break lines at `breakat` characters only
 set list                             " Show invisible characters
 set listchars=tab:▸\ ,eol:¬          " Set the characters for the invisibles
@@ -251,7 +252,7 @@ let g:airline#extensions#default#layout = [
       \ ]
 function! AirlineInit()
   let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
-  let g:airline_section_z = '%{go#jobcontrol#Statusline()}'.g:airline_section_z
+  " let g:airline_section_z = '%#goStatuslineColor#%{go#statusline#Show()}'.g:airline_section_z
 endfunction
 autocmd VimEnter * call AirlineInit()
 
