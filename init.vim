@@ -25,6 +25,7 @@ Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'shougo/neosnippet'
 Plug 'shougo/vimproc.vim', { 'do': 'make' }
 Plug 'svanharmelen/molokai'
+Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -222,6 +223,12 @@ let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeBookmarksFile = $HOME . '/.config/nvim/NERDTreeBookmarks'
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeShowLineNumbers = 1
+function! s:nerdtree()
+  redraw | echohl Debug |
+    \ echom index(["\" Press ? for help", "", ".. (up a dir)"], getline(".")) < 0 ?
+    \ "NERDTree: " . matchstr(getline("."), "[0-9A-Za-z_/].*") : "" | echohl None
+endfunction
+autocmd CursorMoved NERD_tree* call <SID>nerdtree()
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
@@ -239,9 +246,6 @@ let g:NERDTreeIndicatorMapCustom = {
 hi def link NERDTreeOpenable Title
 hi def link NERDTreeClosable Title
 
-" ===================== vim-surround ===================
-let g:surround_no_insert_mappings = 1
-
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
@@ -257,7 +261,7 @@ endfunction
 autocmd VimEnter * call AirlineInit()
 
 " ================== vim-coffee-script =================
-au BufRead,BufNewFile *.cson set ft=coffee
+autocmd BufRead,BufNewFile *.cson set ft=coffee
 
 " ==================== vim-gitgutter ===================
 let g:gitgutter_max_signs = 10000
@@ -286,26 +290,34 @@ let g:go_metalinter_enabled = [
       \ 'errcheck', 'deadcode', 'ineffassign', 'unconvert', 'interfacer'
       \ ]
 " Bindings
-au FileType go nmap <leader>r  <Plug>(go-run)
-au FileType go nmap <leader>b  <Plug>(go-build)
-au FileType go nmap <leader>i  <Plug>(go-install)
-au FileType go nmap <leader>t  <Plug>(go-test)
-au FileType go nmap <leader>tc <Plug>(go-test-compile)
-au FileType go nmap <leader>tf <Plug>(go-test-func)
-au FileType go nmap <leader>c  :GoCoverageToggle<CR>
-au FileType go nmap <leader>l  <Plug>(go-metalinter)
-au FileType go nmap <leader>d  <Plug>(go-def)
-au FileType go nmap <leader>ga :GoAlternate!<CR>
-au FileType go nmap <leader>gd <Plug>(go-doc)
-au FileType go nmap <leader>gg <Plug>(go-generate)
-au FileType go nmap <leader>gi <Plug>(go-implements)
-au FileType go nmap <leader>gr <Plug>(go-rename)
-au FileType go nmap <leader>gm :GoMetalinterAutoSaveToggle<CR>
-au FileType go nmap <leader>gs :GoSameIdsAutoToggle<CR>
-au FileType go nmap <C-g> :GoDecls<CR>
-au FileType go imap <C-g> <ESC>:GoDecls<CR>
-au FileType go nmap © :GoDeclsDir<CR>
-au FileType go imap © <ESC>:GoDeclsDir<CR>
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>i  <Plug>(go-install)
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd FileType go nmap <leader>tc <Plug>(go-test-compile)
+autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
+autocmd FileType go nmap <leader>c  :GoCoverageToggle<CR>
+autocmd FileType go nmap <leader>l  <Plug>(go-metalinter)
+autocmd FileType go nmap <leader>d  <Plug>(go-def)
+autocmd FileType go nmap <leader>ga :GoAlternate!<CR>
+autocmd FileType go nmap <leader>gd <Plug>(go-doc)
+autocmd FileType go nmap <leader>gg <Plug>(go-generate)
+autocmd FileType go nmap <leader>gi <Plug>(go-implements)
+autocmd FileType go nmap <leader>gr <Plug>(go-rename)
+autocmd FileType go nmap <leader>gm :GoMetalinterAutoSaveToggle<CR>
+autocmd FileType go nmap <leader>gs :GoSameIdsAutoToggle<CR>
+autocmd FileType go nmap <C-g> :GoDecls<CR>
+autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
+autocmd FileType go nmap © :GoDeclsDir<CR>
+autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
+
+" ==================== vim-hardtime ====================
+let g:hardtime_allow_different_key = 1
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_maxcount = 2
+let g:hardtime_showmsg = 1
 
 " ====================== vim-json ======================
 let g:vim_json_syntax_conceal = 0
@@ -314,9 +326,7 @@ command! JSONFormat %!json_reformat
 command! JSONMinimize %!json_reformat -m
 
 " ===================== vim-octave =====================
-augroup filetypedetect
-  au! BufRead,BufNewFile *.m,*.oct set filetype=octave
-augroup END
+autocmd BufRead,BufNewFile *.m,*.oct set filetype=octave
 
 " ===================== vim-rooter =====================
 let g:rooter_change_directory_for_non_project_files = 'current'
@@ -332,6 +342,9 @@ nnoremap so :OpenSession
 nnoremap ss :SaveSession
 nnoremap sc :CloseSession<CR>
 
+" ===================== vim-surround ===================
+let g:surround_no_insert_mappings = 1
+
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "
 " ----------------------------------------- "
@@ -340,13 +353,7 @@ nnoremap sc :CloseSession<CR>
 autocmd FileType qf wincmd J
 
 " ================= auto resize windows ================
-au VimResized * :wincmd =
-
-" ================= disable cursor keys ================
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+autocmd VimResized * :wincmd =
 
 " =============== fast saving and closing ==============
 nnoremap <leader>w :w<CR>
