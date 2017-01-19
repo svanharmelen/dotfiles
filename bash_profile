@@ -1,4 +1,9 @@
-export PS1="\u@macbook [ \w ] (\t)\n> "
+red='\[\e[0;31m\]'
+yellow='\[\e[0;33m\]'
+reset='\[\e[0m\]'
+
+parse_git_branch(){ git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'; }
+export PS1="\u@macbook [${yellow}\w${reset}]${red}\$(parse_git_branch)${reset} \t\n> "
 
 export LANG=en_US.UTF-8
 export GOPATH=$HOME/Documents/GoCode
