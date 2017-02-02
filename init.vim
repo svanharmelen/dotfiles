@@ -146,8 +146,6 @@ colorscheme molokai
 " ====================== ack.vim ======================
 let g:ackprg = 'pt --nogroup'
 let g:ackhighlight = 1
-command! Pt Ack!
-command! PtWindow AckWindow!
 
 " ======================= CtrlP =======================
 let g:ctrlp_cmd = 'CtrlPMRU'
@@ -286,7 +284,6 @@ let g:go_metalinter_enabled = [
       \ 'errcheck', 'deadcode', 'ineffassign', 'unconvert', 'interfacer'
       \ ]
 " Bindings
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>i  <Plug>(go-install)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
@@ -300,7 +297,8 @@ autocmd FileType go nmap <leader>gd <Plug>(go-doc)
 autocmd FileType go nmap <leader>gg <Plug>(go-generate)
 autocmd FileType go nmap <leader>gi <Plug>(go-implements)
 autocmd FileType go nmap <leader>gr <Plug>(go-rename)
-autocmd FileType go nmap <leader>gm :GoMetalinterAutoSaveToggle<CR>
+autocmd FileType go nmap <leader>r  <Plug>(go-referrers)
+autocmd FileType go nmap <leader>gm :GoMetaLinterAutoSaveToggle<CR>
 autocmd FileType go nmap <leader>gs :GoSameIdsAutoToggle<CR>
 autocmd FileType go nmap <C-g> :GoDecls<CR>
 autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
