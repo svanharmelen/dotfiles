@@ -287,7 +287,7 @@ let g:go_metalinter_enabled = [
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>i  <Plug>(go-install)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
-autocmd FileType go nmap <leader>tc <Plug>(go-test-compile)
+autocmd FileType go nmap <leader>tc :w<CR><Plug>(go-test-compile)
 autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
 autocmd FileType go nmap <leader>c  :GoCoverageToggle<CR>
 autocmd FileType go nmap <leader>l  <Plug>(go-metalinter)
