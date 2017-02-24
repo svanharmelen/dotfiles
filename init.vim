@@ -250,11 +250,13 @@ let g:airline_theme = 'murmur'
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#default#layout = [
       \ [ 'a', 'b', 'c' ],
-      \ [ 'y', 'z', 'error', 'warning' ]
+      \ [ 'x', 'y', 'z', 'error', 'warning' ]
       \ ]
+call airline#parts#define_raw('go', '%#goStatuslineColor#%{go#statusline#Show()}%')
+call airline#parts#define_condition('go', '&filetype=="go"')
+let g:airline_section_x = airline#section#create(['go'])
 function! AirlineInit()
   let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
-  " let g:airline_section_z = '%#goStatuslineColor#%{go#statusline#Show()}'.g:airline_section_z
 endfunction
 autocmd VimEnter * call AirlineInit()
 
@@ -276,6 +278,7 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_snippet_engine = "neosnippet"
+let g:go_statusline_duration = 30000
 let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
 let g:go_metalinter_deadline = "10s"
