@@ -314,7 +314,7 @@ let g:hardtime_allow_different_key = 1
 let g:hardtime_default_on = 1
 let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
 let g:hardtime_ignore_quickfix = 1
-let g:hardtime_maxcount = 2
+let g:hardtime_maxcount = 3
 let g:hardtime_showmsg = 1
 
 " ====================== vim-json ======================
@@ -368,11 +368,14 @@ command! -bang Wq wq<bang>
 command! -bang Q q<bang>
 command! -bang W w<bang>
 
+" ========== make pasting work more naturally ==========
+xnoremap p "_d"0P
+
 " ================= move visual lines ==================
-nnoremap j gj
-nnoremap k gk
-vnoremap j gj
-vnoremap k gk
+" nnoremap j gj
+" nnoremap k gk
+" vnoremap j gj
+" vnoremap k gk
 
 " ================ toggle spell checking ===============
 nmap <silent> <leader>s :set spell!<CR>
