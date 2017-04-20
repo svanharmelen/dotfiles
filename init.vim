@@ -38,6 +38,7 @@ Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', { 'do': 'make' }
 
+" Syntax related plugins
 Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
 Plug 'hashivim/vim-hashicorp-tools'
