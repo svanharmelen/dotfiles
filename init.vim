@@ -369,6 +369,10 @@ command! -bang Q q<bang>
 command! -bang W w<bang>
 
 " ========== make pasting work more naturally ==========
+nnoremap p "0p
+nnoremap P "0P
+nnoremap x "0x
+nnoremap X "0X
 xnoremap p "_d"0P
 
 " ================= move visual lines ==================
