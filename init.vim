@@ -133,9 +133,6 @@ set wildignore+=go/bin-vagrant                   " Go bin-vagrant files
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
 
-" Change the cursor shape on insert mode
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-
 " Configure the look and feel
 let g:molokai_original = 1
 colorscheme molokai
@@ -369,10 +366,6 @@ command! -bang Q q<bang>
 command! -bang W w<bang>
 
 " ========== make pasting work more naturally ==========
-nnoremap p "0p
-nnoremap P "0P
-nnoremap x "0x
-nnoremap X "0X
 xnoremap p "_d"0P
 
 " ================= move visual lines ==================
