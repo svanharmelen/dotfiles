@@ -143,8 +143,9 @@ colorscheme molokai
 " ----------------------------------------- "
 
 " ====================== ack.vim ======================
-let g:ackprg = 'pt --nogroup'
+let g:ackprg = 'pt --nogroup --ignore=vendor --smart-case -e'
 let g:ackhighlight = 1
+nnoremap <leader>ff :Ack!<Space>
 
 " ======================= CtrlP =======================
 let g:ctrlp_cmd = 'CtrlPMRU'
