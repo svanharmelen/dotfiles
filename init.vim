@@ -21,6 +21,7 @@ Plug 'mileszs/ack.vim'
 Plug 'nvie/vim-flake8'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
+Plug 'romainl/vim-qf'
 Plug 'scrooloose/nerdtree'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'shougo/neosnippet'
@@ -34,6 +35,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'w0rp/ale'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
@@ -141,6 +143,26 @@ colorscheme molokai
 " ----------------------------------------- "
 " Plugin configs                            "
 " ----------------------------------------- "
+
+" ======================== ale ========================
+let g:ale_go_gometalinter_options = '
+  \ --aggregate
+  \ --fast
+  \ --sort=line
+  \ --vendor
+  \ --vendored-linters
+  \ --disable=gas
+  \ --disable=goconst
+  \ --disable=gocyclo
+  \ '
+let g:ale_linters = {'go': ['gometalinter'], 'javascript': ['eslint'], 'python': ['flake8']}
+let g:ale_set_quickfix = 1
+let g:ale_set_signs = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
+let g:ale_statusline_format = ['✗ %d', '⚠ %d', '✓ OK']
+let g:ale_warn_about_trailing_whitespace = 0
 
 " ====================== ack.vim ======================
 let g:ackprg = 'pt --nogroup --ignore=vendor --smart-case -e'
@@ -278,13 +300,11 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_snippet_engine = "neosnippet"
-let g:go_statusline_duration = 30000
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'gotype']
-let g:go_metalinter_deadline = "10s"
+let g:go_statusline_duration = 10000
 let g:go_metalinter_enabled = [
-      \ 'vet', 'golint', 'gotype', 'goconst', 'varcheck', 'structcheck',
-      \ 'errcheck', 'deadcode', 'ineffassign', 'unconvert', 'interfacer'
+      \ 'deadcode', 'errcheck', 'gas', 'goconst', 'golint', 'gosimple',
+      \ 'gotype', 'ineffassign', 'interfacer', 'staticcheck', 'structcheck',
+      \ 'unconvert', 'varcheck', 'vet', 'vetshadow',
       \ ]
 " Bindings
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
@@ -301,7 +321,7 @@ autocmd FileType go nmap <leader>gg <Plug>(go-generate)
 autocmd FileType go nmap <leader>gi <Plug>(go-implements)
 autocmd FileType go nmap <leader>gr <Plug>(go-rename)
 autocmd FileType go nmap <leader>r  <Plug>(go-referrers)
-autocmd FileType go nmap <leader>gm :GoMetaLinterAutoSaveToggle<CR>
+autocmd FileType go nmap <leader>gm :GoMetaLinter<CR>
 autocmd FileType go nmap <leader>gs :GoSameIdsAutoToggle<CR>
 autocmd FileType go nmap <C-g> :GoDecls<CR>
 autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
@@ -339,15 +359,20 @@ nnoremap so :OpenSession
 nnoremap ss :SaveSession
 nnoremap sc :CloseSession<CR>
 
+" ====================== vim-qf ========================
+let g:qf_mapping_ack_style = 1
+let g:qf_auto_open_quickfix = 0
+let g:qf_auto_open_loclist = 0
+nmap <C-n> <Plug>(qf_qf_previous)
+nmap <C-m> <Plug>(qf_qf_next)
+nmap <leader>a <Plug>(qf_qf_toggle)
+
 " ===================== vim-surround ===================
 let g:surround_no_insert_mappings = 1
 
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "
 " ----------------------------------------- "
-
-" ============= always put quickfix on bottom ==========
-autocmd FileType qf wincmd J
 
 " ================= auto resize windows ================
 autocmd VimResized * :wincmd =
@@ -379,29 +404,6 @@ xnoremap p "_d"0P
 " ================ toggle spell checking ===============
 nmap <silent> <leader>s :set spell!<CR>
 
-" ================= quickfix shortcuts =================
-function! <SID>LocationPrevious()
-  try
-    cprev
-  catch /^Vim\%((\a\+)\)\=:E553/
-    clast
-  endtry
-endfunction
-
-function! <SID>LocationNext()
-  try
-    cnext
-  catch /^Vim\%((\a\+)\)\=:E553/
-    cfirst
-  endtry
-endfunction
-
-nnoremap <silent> <Plug>LocationPrevious :<C-u>exe 'call <SID>LocationPrevious()'<CR>
-nnoremap <silent> <Plug>LocationNext     :<C-u>exe 'call <SID>LocationNext()'<CR>
-map <silent> <C-n> <Plug>LocationPrevious
-map <silent> <C-m> <Plug>LocationNext
-nnoremap <leader>a :cclose<CR>
-
 " ================ remove search highlight =============
 nnoremap <leader><space> :nohlsearch<CR>
 
@@ -415,7 +417,7 @@ tnoremap <C-f>s <c-\><C-n>:new<CR><ESC>:term<CR>
 tnoremap <C-f>v <c-\><C-n>:vnew<CR><ESC>:term<CR>
 
 " ================= trailing whitespace ================
-function! <SID>StripTrailingWhitespaces()
+function! s:StripTrailingWhitespaces()
   if &ft =~ 'go'
     return
   endif
