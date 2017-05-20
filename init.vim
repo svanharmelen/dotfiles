@@ -12,6 +12,7 @@ call plug#begin('~/.config/nvim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
+Plug 'blueyed/vim-qf_resize'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'edkolev/tmuxline.vim'
@@ -21,7 +22,6 @@ Plug 'mileszs/ack.vim'
 Plug 'nvie/vim-flake8'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
-Plug 'romainl/vim-qf'
 Plug 'scrooloose/nerdtree'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'shougo/neosnippet'
@@ -155,8 +155,8 @@ let g:ale_go_gometalinter_options = '
   \ --disable=goconst
   \ --disable=gocyclo
   \ '
-let g:ale_linters = {'go': ['gometalinter'], 'javascript': ['eslint'], 'python': ['flake8']}
-let g:ale_set_quickfix = 1
+let g:ale_history_enabled = 0
+let g:ale_linters = {'go': ['gometalinter'], 'javascript': ['eslint']}
 let g:ale_set_signs = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
@@ -294,6 +294,7 @@ let g:gitgutter_sign_column_always = 1
 let g:go_auto_type_info = 1
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
 let g:go_list_type = "quickfix"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -313,7 +314,7 @@ autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <leader>tc :w<CR><Plug>(go-test-compile)
 autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
 autocmd FileType go nmap <leader>c  :GoCoverageToggle<CR>
-autocmd FileType go nmap <leader>l  <Plug>(go-metalinter)
+autocmd FileType go nmap <leader>gm <Plug>(go-metalinter)
 autocmd FileType go nmap <leader>d  <Plug>(go-def)
 autocmd FileType go nmap <leader>ga :GoAlternate!<CR>
 autocmd FileType go nmap <leader>gd <Plug>(go-doc)
@@ -321,7 +322,6 @@ autocmd FileType go nmap <leader>gg <Plug>(go-generate)
 autocmd FileType go nmap <leader>gi <Plug>(go-implements)
 autocmd FileType go nmap <leader>gr <Plug>(go-rename)
 autocmd FileType go nmap <leader>r  <Plug>(go-referrers)
-autocmd FileType go nmap <leader>gm :GoMetaLinter<CR>
 autocmd FileType go nmap <leader>gs :GoSameIdsAutoToggle<CR>
 autocmd FileType go nmap <C-g> :GoDecls<CR>
 autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
@@ -359,14 +359,6 @@ nnoremap so :OpenSession
 nnoremap ss :SaveSession
 nnoremap sc :CloseSession<CR>
 
-" ====================== vim-qf ========================
-let g:qf_mapping_ack_style = 1
-let g:qf_auto_open_quickfix = 0
-let g:qf_auto_open_loclist = 0
-nmap <C-n> <Plug>(qf_qf_previous)
-nmap <C-m> <Plug>(qf_qf_next)
-nmap <leader>a <Plug>(qf_qf_toggle)
-
 " ===================== vim-surround ===================
 let g:surround_no_insert_mappings = 1
 
@@ -403,6 +395,82 @@ xnoremap p "_d"0P
 
 " ================ toggle spell checking ===============
 nmap <silent> <leader>s :set spell!<CR>
+"
+" ================= quickfix settings ==================
+autocmd FileType qf wincmd J
+let g:return_to_window = winnr()
+
+function! s:LocationPrevious()
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      try
+        cprev
+      catch /^Vim\%((\a\+)\)\=:E553/
+        clast
+      catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+      endtry
+      return
+    endif
+  endfor
+  try
+    lprev
+  catch /^Vim\%((\a\+)\)\=:E553/
+    llast
+  catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+  endtry
+endfunction
+
+function! s:LocationNext()
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      try
+        cnext
+      catch /^Vim\%((\a\+)\)\=:E553/
+        cfirst
+      catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+      endtry
+      return
+    endif
+  endfor
+  try
+    lnext
+  catch /^Vim\%((\a\+)\)\=:E553/
+    lfirst
+  catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+  endtry
+endfunction
+
+function! GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
+endfunction
+
+function! s:LocationToggle(bufname, pfx)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      execute g:return_to_window . "wincmd w"
+      return
+    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
+  endif
+  let g:return_to_window = winnr()
+  exec(a:pfx.'open')
+endfunction
+
+nnoremap <silent> <C-n> :call <SID>LocationPrevious()<CR>
+nnoremap <silent> <C-m> :call <SID>LocationNext()<CR>
+nnoremap <silent> <leader>a :call <SID>LocationToggle("Quickfix List", 'c')<CR>
+nnoremap <silent> <leader>l :call <SID>LocationToggle("Location List", 'l')<CR>
 
 " ================ remove search highlight =============
 nnoremap <leader><space> :nohlsearch<CR>
