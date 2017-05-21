@@ -454,13 +454,16 @@ function! s:LocationToggle(bufname, pfx)
   for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
     if bufwinnr(bufnum) != -1
       exec(a:pfx.'close')
-      execute g:return_to_window . "wincmd w"
+      execute g:return_to_window . 'wincmd w'
       return
     endif
   endfor
-  if a:pfx == 'l' && len(getloclist(0)) == 0
-      echohl ErrorMsg
-      echo "Location List is Empty."
+  if a:pfx == 'c' && empty(getqflist())
+      echo 'Quickfix List is Empty.'
+      return
+  endif
+  if a:pfx == 'l' && empty(getloclist(0))
+      echo 'Location List is Empty.'
       return
   endif
   let g:return_to_window = winnr()
