@@ -18,6 +18,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go'
+Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'nvie/vim-flake8'
 Plug 'qpkorr/vim-bufkill'
@@ -155,14 +156,15 @@ let g:ale_go_gometalinter_options = '
   \ --disable=goconst
   \ --disable=gocyclo
   \ '
-let g:ale_history_enabled = 0
 let g:ale_linters = {'go': ['gometalinter'], 'javascript': ['eslint']}
 let g:ale_set_signs = 1
 let g:ale_sign_column_always = 1
-let g:ale_sign_error = '✗'
+let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
-let g:ale_statusline_format = ['✗ %d', '⚠ %d', '✓ OK']
 let g:ale_warn_about_trailing_whitespace = 0
+hi ALEErrorSign   ctermfg=15 ctermbg=236
+hi ALEInfoSign    ctermfg=15 ctermbg=236
+hi ALEWarningSign ctermfg=15 ctermbg=236
 
 " ====================== ack.vim ======================
 let g:ackprg = 'pt --nogroup --ignore=vendor --smart-case -e'
@@ -187,7 +189,6 @@ let g:delimitMate_expand_space = 1
 let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_smart_quotes = 1
 let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
-" imap <expr><CR> pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
 
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
@@ -198,7 +199,6 @@ let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'var', 'type', 'const']
 call deoplete#custom#set('_', 'converters', ['converter_remove_overlap'])
 call deoplete#custom#set('go,neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
-" imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " ====================== fugitive ======================
@@ -265,6 +265,35 @@ let g:NERDTreeIndicatorMapCustom = {
       \ }
 hi def link NERDTreeOpenable Title
 hi def link NERDTreeClosable Title
+
+" ======================= tagbar =======================
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+  \ }
 
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
