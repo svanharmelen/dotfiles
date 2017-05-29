@@ -416,15 +416,9 @@ command! -bang W w<bang>
 " ========== make pasting work more naturally ==========
 xnoremap p "_d"0P
 
-" ================= move visual lines ==================
-" nnoremap j gj
-" nnoremap k gk
-" vnoremap j gj
-" vnoremap k gk
-
 " ================ toggle spell checking ===============
 nmap <silent> <leader>s :set spell!<CR>
-"
+
 " ================= quickfix settings ==================
 autocmd FileType qf wincmd J
 let g:return_to_window = winnr()
