@@ -157,6 +157,7 @@ let g:ale_go_gometalinter_options = '
   \ --disable=gocyclo
   \ '
 let g:ale_linters = {'go': ['gometalinter'], 'javascript': ['eslint']}
+let g:ale_set_highlights = 0
 let g:ale_set_signs = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✖'
@@ -491,6 +492,7 @@ function! s:LocationToggle(bufname, pfx)
   endif
   let g:return_to_window = winnr()
   exec(a:pfx.'open')
+  execute g:return_to_window . 'wincmd w'
 endfunction
 
 nnoremap <silent> <C-n> :call <SID>LocationPrevious()<CR>
