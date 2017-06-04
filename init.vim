@@ -12,15 +12,12 @@ call plug#begin('~/.config/nvim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
-Plug 'blueyed/vim-qf_resize'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go'
-Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
-Plug 'nvie/vim-flake8'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
@@ -33,7 +30,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
@@ -60,6 +56,7 @@ let mapleader = ' '
 let g:mapleader = ' '
 
 " General setting
+set autoread                         " Automatically reload files when changed outside vim
 set breakat=,)                       " Break lines at specific characters only
 set clipboard^=unnamed               " Copy selected text to the system clipboard
 set clipboard^=unnamedplus           " Copy selected text to the system clipboard
@@ -156,7 +153,7 @@ let g:ale_go_gometalinter_options = '
   \ --disable=goconst
   \ --disable=gocyclo
   \ '
-let g:ale_linters = {'go': ['gometalinter'], 'javascript': ['eslint']}
+let g:ale_linters = {'html': [], 'javascript': ['eslint'], 'go': ['gometalinter']}
 let g:ale_set_highlights = 0
 let g:ale_set_signs = 1
 let g:ale_sign_column_always = 1
@@ -212,7 +209,7 @@ nnoremap <leader>fp :Gpush<CR>
 " ===================== neosnippet =====================
 let g:neosnippet#enable_completed_snippet = 1
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}
-function! s:neosnippet_expand()
+function! s:NeosnippetExpand()
   if pumvisible()
     if neosnippet#expandable()
       return "\<Plug>(neosnippet_expand)"
@@ -225,9 +222,9 @@ function! s:neosnippet_expand()
     return "\<Plug>delimitMateCR"
   endif
 endfunction
-imap <expr><CR> <SID>neosnippet_expand()
+imap <expr><CR> <SID>NeosnippetExpand()
 
-function! s:neosnippet_jump()
+function! s:NeosnippetJump()
   if pumvisible()
     return "\<C-n>"
   elseif neosnippet#jumpable()
@@ -236,20 +233,20 @@ function! s:neosnippet_jump()
     return "\<TAB>"
   endif
 endfunction
-imap <expr><TAB> <SID>neosnippet_jump()
-smap <expr><TAB> <SID>neosnippet_jump()
+imap <expr><TAB> <SID>NeosnippetJump()
+smap <expr><TAB> <SID>NeosnippetJump()
 
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeBookmarksFile = $HOME . '/.config/nvim/NERDTreeBookmarks'
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeShowLineNumbers = 1
-function! s:nerdtree()
+function! s:ShowFilename()
   redraw | echohl Debug |
     \ echom index(["\" Press ? for help", "", ".. (up a dir)"], getline(".")) < 0 ?
     \ "NERDTree: " . matchstr(getline("."), "[0-9A-Za-z_/].*") : "" | echohl None
 endfunction
-autocmd CursorMoved NERD_tree* call <SID>nerdtree()
+autocmd CursorMoved NERD_tree* :call <SID>ShowFilename()
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
@@ -267,35 +264,6 @@ let g:NERDTreeIndicatorMapCustom = {
 hi def link NERDTreeOpenable Title
 hi def link NERDTreeClosable Title
 
-" ======================= tagbar =======================
-let g:tagbar_type_go = {
-	\ 'ctagstype' : 'go',
-	\ 'kinds'     : [
-		\ 'p:package',
-		\ 'i:imports:1',
-		\ 'c:constants',
-		\ 'v:variables',
-		\ 't:types',
-		\ 'n:interfaces',
-		\ 'w:fields',
-		\ 'e:embedded',
-		\ 'm:methods',
-		\ 'r:constructor',
-		\ 'f:functions'
-	\ ],
-	\ 'sro' : '.',
-	\ 'kind2scope' : {
-		\ 't' : 'ctype',
-		\ 'n' : 'ntype'
-	\ },
-	\ 'scope2kind' : {
-		\ 'ctype' : 't',
-		\ 'ntype' : 'n'
-	\ },
-	\ 'ctagsbin'  : 'gotags',
-	\ 'ctagsargs' : '-sort -silent'
-  \ }
-
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
@@ -307,10 +275,10 @@ let g:airline#extensions#default#layout = [
 call airline#parts#define_raw('go', '%#goStatuslineColor#%{go#statusline#Show()}%')
 call airline#parts#define_condition('go', '&filetype=="go"')
 let g:airline_section_x = airline#section#create(['go'])
-function! AirlineInit()
+function! s:AirlineInit()
   let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
 endfunction
-autocmd VimEnter * call AirlineInit()
+autocmd VimEnter * :call <SID>AirlineInit()
 
 " ================== vim-coffee-script =================
 autocmd BufRead,BufNewFile *.cson set ft=coffee
@@ -396,12 +364,22 @@ let g:surround_no_insert_mappings = 1
 " Some helpful functions and key bindings   "
 " ----------------------------------------- "
 
+" ================= auto reload buffers ================
+autocmd FocusGained,BufEnter,CursorHold * :checktime
+
 " ================= auto resize windows ================
 autocmd VimResized * :wincmd =
 
 " =============== fast saving and closing ==============
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
+
+" =============== find next merge conflict =============
+function! s:NextMergeConflict(reverse)
+  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+endfunction
+nmap ]n :call <SID>NextMergeConflict(0)<CR>
+nmap [n :call <SID>NextMergeConflict(1)<CR>
 
 " ================== fix generic typos =================
 command! -bang WQA wq<bang>
@@ -422,10 +400,17 @@ nmap <silent> <leader>s :set spell!<CR>
 
 " ================= quickfix settings ==================
 autocmd FileType qf wincmd J
-let g:return_to_window = winnr()
+let s:return_to_window = winnr()
+
+function! s:GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
+endfunction
 
 function! s:LocationPrevious()
-  let buflist = GetBufferList()
+  let buflist = s:GetBufferList()
   for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
     if bufwinnr(bufnum) != -1
       try
@@ -446,7 +431,7 @@ function! s:LocationPrevious()
 endfunction
 
 function! s:LocationNext()
-  let buflist = GetBufferList()
+  let buflist = s:GetBufferList()
   for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
     if bufwinnr(bufnum) != -1
       try
@@ -466,33 +451,42 @@ function! s:LocationNext()
   endtry
 endfunction
 
-function! GetBufferList()
-  redir =>buflist
-  silent! ls!
-  redir END
-  return buflist
+function! s:Height(height)
+  if a:height == 1
+    return 2
+  elseif a:height > 10
+    return 10
+  else
+    return a:height
+  endif
 endfunction
 
 function! s:LocationToggle(bufname, pfx)
-  let buflist = GetBufferList()
+  let buflist = s:GetBufferList()
   for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
     if bufwinnr(bufnum) != -1
-      exec(a:pfx.'close')
-      execute g:return_to_window . 'wincmd w'
+      exec a:pfx.'close'
+      exec s:return_to_window . 'wincmd w'
       return
     endif
   endfor
-  if a:pfx == 'c' && empty(getqflist())
+  if a:pfx == 'c'
+    let height = len(getqflist())
+    if height == 0
       echo 'Quickfix List is Empty.'
       return
+    endif
   endif
-  if a:pfx == 'l' && empty(getloclist(0))
+  if a:pfx == 'l'
+    let height = len(getloclist(0))
+    if height == 0
       echo 'Location List is Empty.'
       return
+    endif
   endif
-  let g:return_to_window = winnr()
-  exec(a:pfx.'open')
-  execute g:return_to_window . 'wincmd w'
+  let s:return_to_window = winnr()
+  exec a:pfx.'open ' . s:Height(height)
+  exec s:return_to_window . 'wincmd w'
 endfunction
 
 nnoremap <silent> <C-n> :call <SID>LocationPrevious()<CR>
@@ -550,8 +544,3 @@ while i <= 9
   execute 'nnoremap <leader>' . i . ' :' . i . 'wincmd w<CR>'
   let i = i + 1
 endwhile
-function! WindowNumber()
-  let str=tabpagewinnr(tabpagenr())
-  return str
-endfunction
-set statusline=win:%{WindowNumber()}
