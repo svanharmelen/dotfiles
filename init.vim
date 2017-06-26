@@ -499,6 +499,7 @@ nnoremap <leader><space> :nohlsearch<CR>
 
 " ====================== terminal ======================
 let g:terminal_scrollback_buffer_size = 100000
+autocmd TermOpen * setlocal relativenumber
 autocmd BufWinEnter,WinEnter term://* startinsert
 tnoremap <ESC> <C-\><C-n>
 noremap <C-f>s :new<CR><ESC>:term<CR>
@@ -519,10 +520,6 @@ function! s:StripTrailingWhitespaces()
   call cursor(l, c)
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
-
-" =============== write and close buffer ===============
-" make a function that detects if were in a terminal of not
-cnoreabbrev x update<bar>BD
 
 " ================== window switching ==================
 inoremap <C-h> <ESC><C-w>h

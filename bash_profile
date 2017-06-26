@@ -17,6 +17,7 @@ alias grep="pt"
 alias pt="pt --nogroup --smart-case -e"
 alias qq="$(echo "$GOPATH" | cut -d : -f 1)/src/github.com/y0ssar1an/q/q.sh"
 alias rmqq="rm $TMPDIR/q"
+alias connectvpn="sudo openconnect --cafile=sbp.pem --user=$(whoami) -c \`p11tool --list-all-certs --only-urls pkcs11:model=eToken\` --authgroup=4.PKI-extern_With_Office mcinfravpn.schubergphilis.com"
 
 alias godir="cd $HOME/Documents/GoCode/src"
 alias cookdir="cd $HOME/Documents/Cookbooks"
