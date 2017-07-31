@@ -499,7 +499,6 @@ nnoremap <leader><space> :nohlsearch<CR>
 
 " ====================== terminal ======================
 let g:terminal_scrollback_buffer_size = 100000
-autocmd TermOpen * setlocal relativenumber
 autocmd BufWinEnter,WinEnter term://* startinsert
 tnoremap <ESC> <C-\><C-n>
 noremap <C-f>s :new<CR><ESC>:term<CR>
