@@ -78,6 +78,7 @@ set sessionoptions-=help             " Do not save help windows
 set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
 set shortmess+=c                     " Silent short messages from deoplete.nvim
 set showbreak=>>>                    " Show clearly were linebreaks are applied
+set signcolumn=yes                   " Always show the sign column
 set spelllang=en_us                  " Set default spell check language to English US
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
@@ -284,8 +285,7 @@ autocmd VimEnter * :call <SID>AirlineInit()
 autocmd BufRead,BufNewFile *.cson set ft=coffee
 
 " ==================== vim-gitgutter ===================
-let g:gitgutter_max_signs = 10000
-let g:gitgutter_sign_column_always = 1
+let g:gitgutter_max_signs = 1000
 
 " ======================= vim-go =======================
 " Settings
