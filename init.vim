@@ -144,6 +144,11 @@ colorscheme molokai
 " ----------------------------------------- "
 
 " ======================== ale ========================
+let g:ale_linters = {
+  \ 'html': [],
+  \ 'javascript': ['eslint'],
+  \ 'go': ['gometalinter']
+  \ }
 let g:ale_go_gometalinter_options = '
   \ --aggregate
   \ --fast
@@ -154,7 +159,6 @@ let g:ale_go_gometalinter_options = '
   \ --disable=goconst
   \ --disable=gocyclo
   \ '
-let g:ale_linters = {'html': [], 'javascript': ['eslint'], 'go': ['gometalinter']}
 let g:ale_set_highlights = 0
 let g:ale_set_signs = 1
 let g:ale_sign_column_always = 1
