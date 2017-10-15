@@ -15,32 +15,9 @@ alias ssh="ssh -A"
 alias octave="octave-cli"
 alias grep="pt"
 alias pt="pt --nogroup --smart-case -e"
-alias qq="$(echo "$GOPATH" | cut -d : -f 1)/src/github.com/y0ssar1an/q/q.sh"
-alias rmqq="rm $TMPDIR/q"
 alias connect="sudo openconnect --cafile=$HOME/workspace/sbp.pem --user=$(whoami) \
   -c \`p11tool --list-all-certs --only-urls pkcs11:model=eToken\`  \
   --authgroup=4.PKI-extern_With_Office mcinfravpn.schubergphilis.com -b"
 
-alias godir="cd $HOME/Documents/GoCode/src"
-alias cookdir="cd $HOME/Documents/Cookbooks"
-alias gitdir="cd $HOME/Documents/Git-Stuff"
-
 # Enable bash completion
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
-fi
-
-# Source docker completion
-source ~/dotfiles/docker-completion.bash
-
-# Source kubectl completion
-source <(kubectl completion bash)
-
-# Source git completion
-source ~/dotfiles/git-completion.bash
-
-# A nice helper function to cd into Go packages
-function gocd ()
-{
-  cd `go list -f "{{.Dir}}" .../$1 | awk '{ print length($0) " " $0; }' $file | sort -n | cut -d' ' -f2 | head -1`
-}
+[ -f $(brew --prefix)/etc/bash_completion ] && . $(brew --prefix)/etc/bash_completion
