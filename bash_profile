@@ -19,5 +19,8 @@ alias connect="sudo openconnect --cafile=$HOME/workspace/sbp.pem --user=$(whoami
   -c \`p11tool --list-all-certs --only-urls pkcs11:model=eToken\`  \
   --authgroup=4.PKI-extern_With_Office mcinfravpn.schubergphilis.com -b"
 
+# Enable auto jump
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
 # Enable bash completion
 [ -f $(brew --prefix)/etc/bash_completion ] && . $(brew --prefix)/etc/bash_completion
