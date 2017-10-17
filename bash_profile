@@ -24,3 +24,6 @@ alias connect="sudo openconnect --cafile=$HOME/workspace/sbp.pem --user=$(whoami
 
 # Enable bash completion
 [ -f $(brew --prefix)/etc/bash_completion ] && . $(brew --prefix)/etc/bash_completion
+
+# Enable support for fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
