@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/svanharmelen/dotfiles/oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -31,9 +31,6 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export LANG=en_US.UTF-8
-export GOPATH=$HOME/Documents/GoCode
-
 # Set usefull aliasses
 alias vi="nvim"
 alias vim="nvim"
@@ -47,7 +44,7 @@ alias connect="sudo openconnect --cafile=$HOME/workspace/sbp.pem --user=$(whoami
 
 # Some knife aliasses
 alias kcu="knife cookbook upload"
-alias kou="knife cookbook upload -o ../ $(basename `pwd`)"
+alias kcu.="knife cookbook upload -o ../ ${PWD##*/}"
 
 # Enable auto completions
 fpath=(/usr/local/share/zsh-completions $fpath)
