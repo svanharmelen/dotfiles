@@ -64,3 +64,14 @@ function nvim () {
     fi
   fi
 }
+
+# Some logic to show execution times
+RPROMPT="%F{cyan}%* %{$reset_color%}"
+reset-prompt-and-accept-line() {
+    zle reset-prompt
+    zle accept-line
+}
+
+zle -N reset-prompt-and-accept-line
+
+bindkey '^m' reset-prompt-and-accept-line
