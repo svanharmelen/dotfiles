@@ -503,6 +503,7 @@ nnoremap <silent> <leader>l :call <SID>LocationToggle("Location List", 'l')<CR>
 nnoremap <leader><space> :nohlsearch<CR>
 
 " ====================== terminal ======================
+let $EDITOR = 'nvr --remote-wait'
 let $VISUAL = 'nvr --remote-wait'
 let g:terminal_scrollback_buffer_size = 100000
 autocmd BufWinEnter,WinEnter term://* startinsert
