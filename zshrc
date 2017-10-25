@@ -38,6 +38,12 @@ alias ssh="ssh -A"
 alias octave="octave-cli"
 alias grep="pt"
 alias pt="pt --nogroup --smart-case -e"
+
+# Alias to activate tensorflow virual environment
+# virtualenv --always-copy ~/Documents/Python/tensorflow
+alias tf="source ~/Documents/Python/tensorflow/bin/activate"
+
+# Alias to connect the SBP VPN
 alias connect="sudo openconnect --cafile=$HOME/workspace/sbp.pem --user=$(whoami) \
   -c \`p11tool --list-all-certs --only-urls pkcs11:model=eToken\`  \
   --authgroup=4.PKI-extern_With_Office mcinfravpn.schubergphilis.com -b"
