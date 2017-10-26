@@ -506,7 +506,8 @@ nnoremap <leader><space> :nohlsearch<CR>
 let $EDITOR = 'nvr --remote-wait'
 let $VISUAL = 'nvr --remote-wait'
 let g:terminal_scrollback_buffer_size = 100000
-autocmd BufWinEnter,WinEnter term://* startinsert
+" autocmd WinEnter term://* startinsert
+autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
 tnoremap <ESC> <C-\><C-n>
 noremap <C-f>s :new<CR><ESC>:term<CR>
 noremap <C-f>v :bo vnew<CR><ESC>:term<CR>
