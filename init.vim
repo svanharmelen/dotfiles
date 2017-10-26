@@ -25,6 +25,7 @@ Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'shougo/neosnippet'
 Plug 'shougo/vimproc.vim', { 'do': 'make' }
 Plug 'svanharmelen/molokai'
+Plug 'svanharmelen/vim-session'
 Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -33,7 +34,6 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
-Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', { 'do': 'make' }
@@ -505,9 +505,11 @@ nnoremap <leader><space> :nohlsearch<CR>
 " ====================== terminal ======================
 let $EDITOR = 'nvr --remote-wait'
 let $VISUAL = 'nvr --remote-wait'
+let $FZF_DEFAULT_OPTS .= ' --no-height'
 let g:terminal_scrollback_buffer_size = 100000
 " autocmd WinEnter term://* startinsert
 autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
+autocmd TermClose * bd!
 tnoremap <ESC> <C-\><C-n>
 noremap <C-f>s :new<CR><ESC>:term<CR>
 noremap <C-f>v :bo vnew<CR><ESC>:term<CR>
