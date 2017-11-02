@@ -13,3 +13,5 @@
 	tool = vimdiff
 [core]
 	excludesfile = ~/.gitignore_global
+[credential]
+	helper = cache --timeout=86400
