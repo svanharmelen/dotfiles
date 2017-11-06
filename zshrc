@@ -72,10 +72,30 @@ function nvim () {
 }
 
 # Some logic to show execution times
+_command_time_preexec() {
+  timer=${timer:-$SECONDS}
+}
+
+_command_time_precmd() {
+  if [ $timer ]; then
+    elapsed=$(($SECONDS - $timer))
+    if [ -n "$TTY" ] && [ $elapsed -ge 30 ]; then
+      printf -v duration '%02d:%02d:%02d' $(($elapsed/3600)) $(($elapsed%3600/60)) $(($elapsed%60))
+      RPROMPT="%F{cyan}${duration} %{$reset_color%}"
+    fi
+    unset timer
+  fi
+}
+
+precmd_functions+=(_command_time_precmd)
+preexec_functions+=(_command_time_preexec)
+
+# Some logic to add a timestamp
 RPROMPT="%F{cyan}%* %{$reset_color%}"
 reset-prompt-and-accept-line() {
-    zle reset-prompt
-    zle accept-line
+  zle reset-prompt
+  zle accept-line
+  RPROMPT="%F{cyan}%* %{$reset_color%}"
 }
 
 zle -N reset-prompt-and-accept-line
