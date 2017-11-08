@@ -30,6 +30,7 @@ plugins=(autojump docker git knife sudo)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+unsetopt share_history
 
 # Set usefull aliasses
 alias vi="nvim"
@@ -79,7 +80,7 @@ _command_time_preexec() {
 _command_time_precmd() {
   if [ $timer ]; then
     elapsed=$(($SECONDS - $timer))
-    if [ -n "$TTY" ] && [ $elapsed -ge 30 ]; then
+    if [ -n "$TTY" ] && [ $elapsed -ge 10 ]; then
       printf -v duration '%02d:%02d:%02d' $(($elapsed/3600)) $(($elapsed%3600/60)) $(($elapsed%60))
       RPROMPT="%F{cyan}${duration} %{$reset_color%}"
     fi
