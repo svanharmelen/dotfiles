@@ -507,14 +507,19 @@ let $EDITOR = 'nvr --remote-wait'
 let $VISUAL = 'nvr --remote-wait'
 let $FZF_DEFAULT_OPTS .= ' --no-height'
 let g:terminal_scrollback_buffer_size = 100000
-" autocmd WinEnter term://* startinsert
-autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
+function! TweakTerminal()
+  set norelativenumber
+  set nonumber
+  startinsert
+endfunc
+autocmd TermOpen * :call TweakTerminal()
+autocmd BufEnter * if &buftype == 'terminal' | startinsert | endif
 autocmd TermClose * bd!
 tnoremap <ESC> <C-\><C-n>
-noremap <C-f>s :new<CR><ESC>:term<CR>
-noremap <C-f>v :bo vnew<CR><ESC>:term<CR>
-tnoremap <C-f>s <c-\><C-n>:new<CR><ESC>:term<CR>
-tnoremap <C-f>v <c-\><C-n>:vnew<CR><ESC>:term<CR>
+noremap <C-f>s :new +term<CR>
+noremap <C-f>v :bo vnew +term<CR>
+tnoremap <C-f>s <c-\><C-n>:new +term<CR>
+tnoremap <C-f>v <c-\><C-n>:vnew +term<CR>
 
 " ================= trailing whitespace ================
 function! s:StripTrailingWhitespaces()
