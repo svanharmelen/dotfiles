@@ -508,8 +508,9 @@ let $VISUAL = 'nvr --remote-wait'
 let $FZF_DEFAULT_OPTS .= ' --no-height'
 let g:terminal_scrollback_buffer_size = 100000
 function! TweakTerminal()
-  set norelativenumber
-  set nonumber
+  setlocal norelativenumber
+  setlocal nonumber
+  setlocal scrollback=100000
   startinsert
 endfunc
 autocmd TermOpen * :call TweakTerminal()
