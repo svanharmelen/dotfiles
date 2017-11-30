@@ -83,7 +83,7 @@ _command_time_precmd() {
     elapsed=$(($SECONDS - $timer))
     if [ -n "$TTY" ] && [ $elapsed -ge 10 ]; then
       printf -v duration '%02d:%02d:%02d' $(($elapsed/3600)) $(($elapsed%3600/60)) $(($elapsed%60))
-      RPROMPT="%F{cyan}${duration} %{$reset_color%}"
+      RPROMPT="%F{cyan}(${duration}) %* %{$reset_color%}"
     fi
     unset timer
   fi
