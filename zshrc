@@ -9,9 +9,8 @@ export ZSH=$HOME/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-HYPHEN_INSENSITIVE="true"
+# Set to this to use case-sensitive completion
+CASE_SENSITIVE="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -56,6 +55,9 @@ alias kcu.="knife cookbook upload -o ../ ${PWD##*/}"
 
 # Enable auto completions
 fpath=(/usr/local/share/zsh-completions $fpath)
+
+# Tweak the way completions work
+zstyle ':completion:*' insert-unambiguous true
 
 # Enable support for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
