@@ -295,7 +295,6 @@ let g:gitgutter_max_signs = 1000
 
 " ======================= vim-go =======================
 " Settings
-let g:go_auto_type_info = 1
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
@@ -323,7 +322,7 @@ autocmd FileType go nmap <leader>d  <Plug>(go-def)
 autocmd FileType go nmap <leader>ga :GoAlternate!<CR>
 autocmd FileType go nmap <leader>gd <Plug>(go-doc)
 autocmd FileType go nmap <leader>gg <Plug>(go-generate)
-autocmd FileType go nmap <leader>gi <Plug>(go-implements)
+autocmd FileType go nmap <leader>gi <Plug>(go-info)
 autocmd FileType go nmap <leader>gr <Plug>(go-rename)
 autocmd FileType go nmap <leader>r  <Plug>(go-referrers)
 autocmd FileType go nmap <leader>gs :GoSameIdsAutoToggle<CR>
