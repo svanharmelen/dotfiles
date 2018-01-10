@@ -59,6 +59,9 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 # Tweak the way completions work
 zstyle ':completion:*' insert-unambiguous true
 
+# Enable shell command completion for gcloud
+[ -f "$HOME/.google-cloud-sdk/completion.zsh.inc" ] && source "$HOME/.google-cloud-sdk/completion.zsh.inc"
+
 # Enable support for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
