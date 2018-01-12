@@ -41,7 +41,8 @@ alias grep="pt"
 alias pt="pt --nogroup --smart-case -e"
 
 # Alias to activate tensorflow virual environment
-# virtualenv --always-copy ~/Documents/Python/tensorflow
+# python3 -m venv --copies ~/Documents/Python/xxxxxx
+alias ml="source ~/Documents/Python/ml/bin/activate"
 alias tf="source ~/Documents/Python/tensorflow/bin/activate"
 
 # Alias to connect the SBP VPN
