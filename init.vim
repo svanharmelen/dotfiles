@@ -18,6 +18,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go'
 Plug 'mileszs/ack.vim'
+Plug 'plytophogy/vim-virtualenv'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
@@ -37,6 +38,7 @@ Plug 'w0rp/ale'
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', { 'do': 'make' }
+Plug 'zchee/deoplete-jedi'
 
 " Syntax related plugins
 Plug 'elzr/vim-json', {'for' : 'json'}
@@ -145,9 +147,10 @@ colorscheme molokai
 
 " ======================== ale ========================
 let g:ale_linters = {
+  \ 'go': ['gometalinter'],
   \ 'html': [],
   \ 'javascript': ['eslint'],
-  \ 'go': ['gometalinter']
+  \ 'python': ['flake8']
   \ }
 let g:ale_go_gometalinter_options = '
   \ --aggregate
@@ -159,6 +162,9 @@ let g:ale_go_gometalinter_options = '
   \ --disable=goconst
   \ --disable=gocyclo
   \ --tests
+  \ '
+let g:ale_python_flake8_options = '
+  \ --ignore=E501
   \ '
 let g:ale_set_highlights = 0
 let g:ale_set_signs = 1
@@ -364,6 +370,9 @@ nnoremap sc :CloseSession<CR>
 
 " ===================== vim-surround ===================
 let g:surround_no_insert_mappings = 1
+
+" ==================== vim-virtualenv ==================
+let g:virtualenv_directory = '~/Documents/Python'
 
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "
