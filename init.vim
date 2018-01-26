@@ -154,17 +154,16 @@ let g:ale_linters = {
   \ }
 let g:ale_go_gometalinter_options = '
   \ --aggregate
-  \ --fast
-  \ --sort=line
-  \ --vendor
-  \ --vendored-linters
   \ --disable=gas
   \ --disable=goconst
   \ --disable=gocyclo
+  \ --fast
+  \ --sort=line
   \ --tests
+  \ --vendor
   \ '
 let g:ale_python_flake8_options = '
-  \ --ignore=E501
+  \ --ignore=E226,E501
   \ '
 let g:ale_set_highlights = 0
 let g:ale_set_signs = 1
