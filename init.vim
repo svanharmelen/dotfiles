@@ -208,7 +208,7 @@ let g:deoplete#sources#go#align_class = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'var', 'type', 'const']
 call deoplete#custom#source('_', 'converters', ['converter_remove_overlap'])
 call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy', 'matcher_length'])
-call deoplete#custom#source('go,neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
+" call deoplete#custom#source('go,neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " ====================== fugitive ======================
