@@ -46,6 +46,7 @@ Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
 Plug 'hashivim/vim-hashicorp-tools'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'plasticboy/vim-markdown'
 Plug 'jvirtanen/vim-octave'
 Plug 'kchmck/vim-coffee-script'
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
