@@ -141,6 +141,10 @@ set wildignore+=*.orig                           " Merge resolution files
 let g:molokai_original = 1
 colorscheme molokai
 
+" Config python used by Neovim
+let g:loaded_python_provider = 1
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 " ----------------------------------------- "
 " Plugin configs                            "
 " ----------------------------------------- "
