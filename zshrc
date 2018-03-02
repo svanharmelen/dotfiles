@@ -33,12 +33,13 @@ setopt nonomatch
 unsetopt share_history
 
 # Set usefull aliasses
+alias bu="brew update && brew upgrade && brew cleanup -s && brew prune && brew cask cleanup && brew cask outdated"
+alias grep="pt"
+alias octave="octave-cli"
+alias pt="pt --nogroup --smart-case -e"
+alias ssh="ssh -A"
 alias vi="nvim"
 alias vim="nvim"
-alias ssh="ssh -A"
-alias octave="octave-cli"
-alias grep="pt"
-alias pt="pt --nogroup --smart-case -e"
 
 # Alias to activate tensorflow virual environment
 # python3 -m venv --copies ~/Documents/Python/xxxxxx
