@@ -16,15 +16,15 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'google/vim-searchindex'
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', {'tag': '*'}
 Plug 'mileszs/ack.vim'
 Plug 'plytophogy/vim-virtualenv'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
-Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'shougo/neosnippet'
-Plug 'shougo/vimproc.vim', { 'do': 'make' }
+Plug 'shougo/vimproc.vim', {'do': 'make'}
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
 Plug 'takac/vim-hardtime'
@@ -37,12 +37,12 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
-Plug 'zchee/deoplete-go', { 'do': 'make' }
+Plug 'zchee/deoplete-go', {'do': 'make'}
 Plug 'zchee/deoplete-jedi'
 
 " Syntax related plugins
-Plug 'elzr/vim-json', {'for' : 'json'}
-Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
+Plug 'elzr/vim-json', {'for': 'json'}
+Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'hashivim/vim-hashicorp-tools'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
@@ -325,9 +325,9 @@ let g:go_metalinter_enabled = [
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>i  <Plug>(go-install)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
-autocmd FileType go nmap <leader>tc :w<CR><Plug>(go-test-compile)
+autocmd FileType go nmap <leader>tc <Plug>(go-test-compile)
 autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
-autocmd FileType go nmap <leader>c  :GoCoverageToggle<CR>
+autocmd FileType go nmap <Leader>c  <Plug>(go-coverage-toggle)
 autocmd FileType go nmap <leader>gm <Plug>(go-metalinter)
 autocmd FileType go nmap <leader>d  <Plug>(go-def)
 autocmd FileType go nmap <leader>ga :GoAlternate!<CR>
