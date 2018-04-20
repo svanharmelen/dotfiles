@@ -378,7 +378,7 @@ nnoremap sc :CloseSession<CR>
 let g:surround_no_insert_mappings = 1
 
 " ==================== vim-virtualenv ==================
-let g:virtualenv_directory = '~/Documents/Python'
+let g:virtualenv_directory = '~/Python'
 
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "

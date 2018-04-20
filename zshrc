@@ -42,9 +42,9 @@ alias vi="nvim"
 alias vim="nvim"
 
 # Alias to activate tensorflow virual environment
-# python3 -m venv --copies ~/Documents/Python/xxxxxx
-alias ml="source ~/Documents/Python/ml/bin/activate"
-alias tf="source ~/Documents/Python/tensorflow/bin/activate"
+# python3 -m venv --copies ~/Python/xxxxxx
+alias ml="source ~/Python/ml/bin/activate"
+alias tf="source ~/Python/tensorflow/bin/activate"
 
 # Alias to connect the SBP VPN
 alias connect="sudo openconnect --cafile=$HOME/workspace/sbp.pem --user=$(whoami) \

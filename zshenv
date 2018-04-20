@@ -4,7 +4,7 @@
 export LANG=en_US.UTF-8
 
 # Set some default paths
-export GOPATH="$HOME/Documents/GoCode"
+export GOPATH="$HOME/GoCode"
 export PATH="$PATH:$GOPATH/bin:$HOME/.google-cloud-sdk/bin"
 
 # Only set EDITOR if it doesn't exist. This check is needed
