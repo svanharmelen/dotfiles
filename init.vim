@@ -219,8 +219,9 @@ imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " ====================== fugitive ======================
 nnoremap <leader>fb :Gblame<CR>
-nnoremap <leader>fd :Gdiff<CR>
+nnoremap <leader>fs :Gbrowse<CR>
 nnoremap <leader>fc :Gcommit -am
+nnoremap <leader>fd :Gdiff<CR>
 nnoremap <leader>fl :Glog<CR>
 nnoremap <leader>fp :Gpush<CR>
 
@@ -356,6 +357,9 @@ let g:vim_json_syntax_conceal = 0
 " Prettify JSON, install: brew install yajl
 command! JSONFormat %!json_reformat
 command! JSONMinimize %!json_reformat -m
+
+" ==================== vim-markdown ====================
+let g:vim_markdown_folding_disabled = 1
 
 " ===================== vim-octave =====================
 autocmd BufRead,BufNewFile *.m,*.oct set filetype=octave

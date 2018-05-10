@@ -12,12 +12,8 @@ export GOPATH=$HOME/GoCode
 
 # Set usefull aliasses
 alias ssh="ssh -A"
-alias octave="octave-cli"
 alias grep="pt"
 alias pt="pt --nogroup --smart-case -e"
-alias connect="sudo openconnect --cafile=$HOME/workspace/sbp.pem --user=$(whoami) \
-  -c \`p11tool --list-all-certs --only-urls pkcs11:model=eToken\`  \
-  --authgroup=4.PKI-extern_With_Office mcinfravpn.schubergphilis.com -b"
 
 # Enable auto jump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh

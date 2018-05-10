@@ -14,4 +14,4 @@
 [core]
 	excludesfile = ~/.gitignore_global
 [credential]
-	helper = cache --timeout=86400
+	helper = osxkeychain

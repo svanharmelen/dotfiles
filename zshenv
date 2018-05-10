@@ -5,7 +5,7 @@ export LANG=en_US.UTF-8
 
 # Set some default paths
 export GOPATH="$HOME/GoCode"
-export PATH="$PATH:$GOPATH/bin:$HOME/.google-cloud-sdk/bin"
+export PATH="$GOPATH/bin:$HOME/.google-cloud-sdk/bin:$HOME/.rbenv/shims:/usr/local/opt/postgresql@9.6/bin:$PATH"
 
 # Only set EDITOR if it doesn't exist. This check is needed
 # because in an nvim terminal we overwrite this variable
