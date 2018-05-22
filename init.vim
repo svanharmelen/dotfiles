@@ -30,6 +30,7 @@ Plug 'svanharmelen/vim-session'
 Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
@@ -155,7 +156,8 @@ let g:ale_linters = {
   \ 'go': ['gometalinter'],
   \ 'html': [],
   \ 'javascript': ['eslint'],
-  \ 'python': ['flake8']
+  \ 'python': ['flake8'],
+  \ 'ruby': ['brakeman', 'rails_best_pratices', 'rubocop']
   \ }
 let g:ale_go_gometalinter_options = '
   \ --aggregate
