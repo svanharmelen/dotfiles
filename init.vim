@@ -189,7 +189,7 @@ cnoreabbrev Ack Ack!
 nnoremap <leader>ff :Ack!<Space>
 
 " ======================= CtrlP =======================
-let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0         " do not limit the number of searchable files
