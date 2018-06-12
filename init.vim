@@ -30,6 +30,7 @@ Plug 'svanharmelen/vim-session'
 Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -164,6 +165,7 @@ let g:ale_go_gometalinter_options = '
   \ --disable=gas
   \ --disable=goconst
   \ --disable=gocyclo
+  \ --disable=vetshadow
   \ --fast
   \ --sort=line
   \ --tests
