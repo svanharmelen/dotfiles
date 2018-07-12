@@ -38,13 +38,9 @@ alias grep="pt"
 alias pt="pt --nogroup --smart-case -e"
 alias sn="export NVM_DIR=$HOME/.nvm && source /usr/local/opt/nvm/nvm.sh && nvm use"
 alias ssh="ssh -A"
+alias tf="terraform"
 alias vi="nvim"
 alias vim="nvim"
-
-# Alias to activate tensorflow virual environment
-# python3 -m venv --copies ~/Python/xxxxxx
-alias ml="source ~/Python/ml/bin/activate"
-alias tf="source ~/Python/tensorflow/bin/activate"
 
 # Enable auto completions
 fpath=(/usr/local/share/zsh-completions $fpath)
