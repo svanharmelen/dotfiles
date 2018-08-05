@@ -7,3 +7,5 @@ export EDITOR="nvr --remote-wait"
 alias vi="nvr"
 alias vim="nvr"
 alias nvim="nvr"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

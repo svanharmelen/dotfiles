@@ -18,7 +18,6 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go', {'tag': '*'}
 Plug 'mileszs/ack.vim'
-Plug 'plytophogy/vim-virtualenv'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
@@ -30,7 +29,6 @@ Plug 'svanharmelen/vim-session'
 Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-" Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -46,12 +44,13 @@ Plug 'zchee/deoplete-jedi'
 Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'hashivim/vim-hashicorp-tools'
+Plug 'jvirtanen/vim-octave'
+Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown'
-Plug 'jvirtanen/vim-octave'
-Plug 'kchmck/vim-coffee-script'
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
+Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
 
 call plug#end()
@@ -164,7 +163,6 @@ let g:ale_go_gometalinter_options = '
   \ --aggregate
   \ --disable=gas
   \ --disable=goconst
-  \ --disable=gocyclo
   \ --disable=vetshadow
   \ --fast
   \ --sort=line
@@ -191,7 +189,7 @@ cnoreabbrev Ack Ack!
 nnoremap <leader>ff :Ack!<Space>
 
 " ======================= CtrlP =======================
-let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_cmd = 'exe "CtrlP".get(["MRU", ""], v:count)'
 let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0         " do not limit the number of searchable files
@@ -343,6 +341,7 @@ autocmd FileType go nmap <leader>gi <Plug>(go-info)
 autocmd FileType go nmap <leader>gr <Plug>(go-rename)
 autocmd FileType go nmap <leader>r  <Plug>(go-referrers)
 autocmd FileType go nmap <leader>gs :GoSameIdsAutoToggle<CR>
+autocmd FileType go imap <C-e> <ESC>:GoIfErr<CR>i
 autocmd FileType go nmap <C-g> :GoDecls<CR>
 autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
 autocmd FileType go nmap © :GoDeclsDir<CR>

@@ -24,7 +24,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(autojump colorize docker docker-compose git sudo terraform)
+plugins=(autojump colorize docker docker-compose git github sudo terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -41,6 +41,9 @@ alias ssh="ssh -A"
 alias tf="terraform"
 alias vi="nvim"
 alias vim="nvim"
+
+# Create an alias for hub->git
+eval "$(hub alias -s)"
 
 # Enable auto completions
 fpath=(/usr/local/share/zsh-completions $fpath)
