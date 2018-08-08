@@ -35,7 +35,7 @@ unsetopt share_history
 # Set usefull aliasses
 alias bu="brew update && brew upgrade && brew cleanup -s && brew prune && brew cask cleanup && brew cask outdated"
 alias grep="pt"
-alias pt="pt --nogroup --smart-case -e"
+alias pt="pt --nogroup --smart-case"
 alias sn="export NVM_DIR=$HOME/.nvm && source /usr/local/opt/nvm/nvm.sh && nvm use"
 alias ssh="ssh -A"
 alias tf="terraform"

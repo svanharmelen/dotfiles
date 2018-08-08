@@ -183,7 +183,7 @@ hi ALEInfoSign    ctermfg=15 ctermbg=236
 hi ALEWarningSign ctermfg=15 ctermbg=236
 
 " ====================== ack.vim ======================
-let g:ackprg = 'pt --nogroup --ignore=vendor --smart-case -e'
+let g:ackprg = 'pt --nogroup --ignore=vendor --smart-case'
 let g:ackhighlight = 1
 cnoreabbrev Ack Ack!
 nnoremap <leader>ff :Ack!<Space>
