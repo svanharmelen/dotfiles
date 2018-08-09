@@ -222,7 +222,7 @@ imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " ====================== fugitive ======================
 nnoremap <leader>fb :Gblame<CR>
 nnoremap <leader>fs :Gbrowse<CR>
-nnoremap <leader>fc :Gcommit -am
+nnoremap <leader>fc :Gcommit -a<CR>
 nnoremap <leader>fd :Gdiff<CR>
 nnoremap <leader>fl :Glog<CR>
 nnoremap <leader>fp :Gpush<CR>

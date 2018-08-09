@@ -33,7 +33,9 @@ setopt nonomatch
 unsetopt share_history
 
 # Set usefull aliasses
+alias atlas="envchain GITHUB ./scripts/run_compose.sh"
 alias bu="brew update && brew upgrade && brew cleanup -s && brew prune && brew cask cleanup && brew cask outdated"
+alias git="envchain GITHUB hub"
 alias grep="pt"
 alias pt="pt --nogroup --smart-case"
 alias sn="export NVM_DIR=$HOME/.nvm && source /usr/local/opt/nvm/nvm.sh && nvm use"
@@ -41,9 +43,6 @@ alias ssh="ssh -A"
 alias tf="terraform"
 alias vi="nvim"
 alias vim="nvim"
-
-# Create an alias for hub->git
-eval "$(hub alias -s)"
 
 # Enable auto completions
 fpath=(/usr/local/share/zsh-completions $fpath)
