@@ -24,7 +24,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(autojump colorize docker docker-compose git github sudo terraform)
+plugins=(colorize common-aliases docker docker-compose git terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -33,9 +33,8 @@ setopt nonomatch
 unsetopt share_history
 
 # Set usefull aliasses
-alias atlas="envchain GITHUB ./scripts/run_compose.sh"
+alias atlas="envchain github ./scripts/run_compose.sh"
 alias bu="brew update && brew upgrade && brew cleanup -s && brew prune && brew cask cleanup && brew cask outdated"
-alias git="envchain GITHUB hub"
 alias grep="pt"
 alias pt="pt --nogroup --smart-case"
 alias sn="export NVM_DIR=$HOME/.nvm && source /usr/local/opt/nvm/nvm.sh && nvm use"
@@ -43,6 +42,10 @@ alias ssh="ssh -A"
 alias tf="terraform"
 alias vi="nvim"
 alias vim="nvim"
+
+# Some additional git aliasses
+alias git="hub"
+alias gpr="envchain github hub pull-request"
 
 # Enable auto completions
 fpath=(/usr/local/share/zsh-completions $fpath)
@@ -55,6 +58,9 @@ zstyle ':completion:*' insert-unambiguous true
 
 # Enable support for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Enable support for z
+[ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
 
 # Enable rbenv
 eval "$(rbenv init -)"
