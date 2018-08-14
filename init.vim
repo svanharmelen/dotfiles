@@ -398,15 +398,24 @@ autocmd FocusGained,BufEnter,CursorHold * :checktime
 autocmd VimResized * :wincmd =
 
 " =============== fast saving and closing ==============
+function! s:ReturnToTerminal()
+  if bufname('#') =~ '^term://'
+    BD " BufKillBd
+  else
+    quit
+  endif
+endfunction
 nnoremap <leader>w :w<CR>
-nnoremap <leader>q :q<CR>
+nnoremap <silent> <leader>q :call <SID>ReturnToTerminal()<CR>
 
 " =============== find next merge conflict =============
 function! s:NextMergeConflict(reverse)
-  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+  if !search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+    echo 'No merge conflicts found.'
+  endif
 endfunction
-nmap ]n :call <SID>NextMergeConflict(0)<CR>
-nmap [n :call <SID>NextMergeConflict(1)<CR>
+nmap <silent> ]n :call <SID>NextMergeConflict(0)<CR>
+nmap <silent> [n :call <SID>NextMergeConflict(1)<CR>
 
 " ================== fix generic typos =================
 command! -bang WQA wq<bang>
