@@ -24,16 +24,18 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(colorize common-aliases docker docker-compose git terraform)
+plugins=(colorize docker docker-compose git terraform)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 setopt nonomatch
+setopt rmstarsilent
 unsetopt share_history
 
 # Set usefull aliasses
-alias bu="brew update && brew upgrade && brew cleanup -s && brew prune && brew cask cleanup && brew cask outdated"
+alias atlas="envchain atlas ./run_compose.sh"
+alias bu="brew update && brew upgrade && brew cleanup -s && brew prune && brew cask outdated"
 alias grep="pt"
 alias pt="pt --nogroup --smart-case"
 alias sn="export NVM_DIR=$HOME/.nvm && source /usr/local/opt/nvm/nvm.sh && nvm use"

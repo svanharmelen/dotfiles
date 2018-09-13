@@ -16,17 +16,21 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'google/vim-searchindex'
-Plug 'fatih/vim-go', {'tag': '*'}
+Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go', {'tag': '*'}
 Plug 'mileszs/ack.vim'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-go'
+Plug 'ncm2/ncm2-jedi'
+Plug 'ncm2/ncm2-ultisnips'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
+Plug 'roxma/nvim-yarp'
 Plug 'scrooloose/nerdtree'
-Plug 'shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-Plug 'shougo/neosnippet'
-Plug 'shougo/vimproc.vim', {'do': 'make'}
+Plug 'sirver/ultisnips'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
-Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -37,8 +41,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
-Plug 'zchee/deoplete-go', {'do': 'make'}
-Plug 'zchee/deoplete-jedi'
 
 " Syntax related plugins
 Plug 'elzr/vim-json', {'for': 'json'}
@@ -60,33 +62,33 @@ let mapleader = ' '
 let g:mapleader = ' '
 
 " General setting
-set autoread                         " Automatically reload files when changed outside vim
-set breakat=,)                       " Break lines at specific characters only
-set clipboard^=unnamed               " Copy selected text to the system clipboard
-set clipboard^=unnamedplus           " Copy selected text to the system clipboard
-set cmdheight=1                      " Force the command height to 1
-set colorcolumn=100                  " Highlight 100 character limits
-set completeopt-=preview             " Do not show completion options in the preview window
-set diffopt+=vertical                " Make diffs split vertically
-set hidden                           " Allow buffers to be backgrounded without being saved
-set inccommand=nosplit               " Live update (preview) substitutions
-set linebreak                        " Break lines at `breakat` characters only
-set list                             " Show invisible characters
-set listchars=tab:▸\ ,eol:¬          " Set the characters for the invisibles
-set noshowmode                       " We show the current mode with airline
-set number                           " Show the absolute line number the cursor is on
-set mouse-=a                         " Disable mouse clicks to go to a position
-set relativenumber                   " Show relative line numbers
-set scrolloff=999                    " Keep the cursor centered
-set sessionoptions-=help             " Do not save help windows
-set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
-set shortmess+=c                     " Silent short messages from deoplete.nvim
-set showbreak=>>>                    " Show clearly were linebreaks are applied
-set signcolumn=yes                   " Always show the sign column
-set spelllang=en_us                  " Set default spell check language to English US
-set splitbelow                       " Splits show up below by default
-set splitright                       " Splits go to the right by default
-set updatetime=500                   " Let plugins show effects after 500ms
+set autoread                              " Automatically reload files when changed outside vim
+set breakat=,)                            " Break lines at specific characters only
+set clipboard^=unnamed                    " Copy selected text to the system clipboard
+set clipboard^=unnamedplus                " Copy selected text to the system clipboard
+set cmdheight=1                           " Force the command height to 1
+set colorcolumn=100                       " Highlight 100 character limits
+set completeopt=menuone,noinsert,noselect " Set completion options that work well with ncm2
+set diffopt+=vertical                     " Make diffs split vertically
+set hidden                                " Allow buffers to be backgrounded without being saved
+set inccommand=nosplit                    " Live update (preview) substitutions
+set linebreak                             " Break lines at `breakat` characters only
+set list                                  " Show invisible characters
+set listchars=tab:▸\ ,eol:¬               " Set the characters for the invisibles
+set noshowmode                            " We show the current mode with airline
+set number                                " Show the absolute line number the cursor is on
+set mouse-=a                              " Disable mouse clicks to go to a position
+set relativenumber                        " Show relative line numbers
+set scrolloff=999                         " Keep the cursor centered
+set sessionoptions-=help                  " Do not save help windows
+set sessionoptions-=buffers               " Do not save hidden and uploaded buffers
+set shortmess+=c                          " Silent short messages from deoplete.nvim
+set showbreak=>>>                         " Show clearly were linebreaks are applied
+set signcolumn=yes                        " Always show the sign column
+set spelllang=en_us                       " Set default spell check language to English US
+set splitbelow                            " Splits show up below by default
+set splitright                            " Splits go to the right by default
+set updatetime=500                        " Let plugins show effects after 500ms
 
 " Backup settings
 set backupdir=~/.config/nvim/backup
@@ -207,18 +209,6 @@ let g:delimitMate_expand_space = 1
 let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_insert_eol_marker = 0
 
-" ====================== deoplete ======================
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#ignore_sources = {}
-let g:deoplete#ignore_sources._ = ['member', 'tag']
-let g:deoplete#max_list = 30
-let g:deoplete#sources#go#align_class = 1
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'var', 'type', 'const']
-call deoplete#custom#source('_', 'converters', ['converter_remove_overlap'])
-call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy', 'matcher_length'])
-" call deoplete#custom#source('go,neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
-imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
 " ====================== fugitive ======================
 nnoremap <leader>fb :Gblame<CR>
 nnoremap <leader>fs :Gbrowse<CR>
@@ -227,35 +217,9 @@ nnoremap <leader>fd :Gdiff<CR>
 nnoremap <leader>fl :Glog<CR>
 nnoremap <leader>fp :Gpush<CR>
 
-" ===================== neosnippet =====================
-let g:neosnippet#enable_completed_snippet = 1
-let g:neosnippet#disable_runtime_snippets = {'_' : 1}
-function! s:NeosnippetExpand()
-  if pumvisible()
-    if neosnippet#expandable()
-      return "\<Plug>(neosnippet_expand)"
-    elseif neosnippet#jumpable()
-      return "\<Plug>(neosnippet_jump)"
-    else
-      return deoplete#close_popup()
-    endif
-  else
-    return "\<Plug>delimitMateCR"
-  endif
-endfunction
-imap <expr><CR> <SID>NeosnippetExpand()
-
-function! s:NeosnippetJump()
-  if pumvisible()
-    return "\<C-n>"
-  elseif neosnippet#jumpable()
-    return "\<Plug>(neosnippet_jump)"
-  else
-    return "\<TAB>"
-  endif
-endfunction
-imap <expr><TAB> <SID>NeosnippetJump()
-smap <expr><TAB> <SID>NeosnippetJump()
+" ======================== ncm2 ========================
+let g:ncm2#complete_length = [[1,2],[7,2]]
+autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
@@ -272,27 +236,77 @@ nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
 let g:NERDTreeIndicatorMapCustom = {
-      \ "Modified"  : "~",
-      \ "Staged"    : "+",
-      \ "Untracked" : "≠",
-      \ "Renamed"   : "→",
-      \ "Unmerged"  : "=",
-      \ "Deleted"   : "×",
-      \ "Dirty"     : "~",
-      \ "Clean"     : "√",
-      \ "Unknown"   : "?"
-      \ }
+  \ "Modified"  : "~",
+  \ "Staged"    : "+",
+  \ "Untracked" : "≠",
+  \ "Renamed"   : "→",
+  \ "Unmerged"  : "=",
+  \ "Deleted"   : "×",
+  \ "Dirty"     : "~",
+  \ "Clean"     : "√",
+  \ "Unknown"   : "?"
+  \ }
 hi def link NERDTreeOpenable Title
 hi def link NERDTreeClosable Title
+
+" ===================== ultisnips ======================
+let g:UltiSnipsExpandTrigger = "<nop>"
+let g:UltiSnipsJumpForwardTrigger = "<nop>"
+let g:UltiSnipsJumpBackwardTrigger = "<nop>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
+let g:ulti_expand_res = 0
+let g:ulti_jump_backwards_res = 0
+let g:ulti_jump_forwards_res = 0
+function! s:ExpandOrJump()
+  if pumvisible()
+    call  UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res
+      return ""
+    endif
+    if ncm2_ultisnips#completed_is_snippet()
+      call feedkeys("\<Plug>(ncm2_ultisnips_expand_completed)", "m")
+      return ""
+    endif
+    call UltiSnips#JumpForwards()
+    if g:ulti_jump_forwards_res
+      return ""
+    endif
+    return "\<C-y>\<CR>"
+  else
+    call feedkeys("\<Plug>delimitMateCR", "m")
+    return ""
+  endif
+endfunction
+imap <silent><CR> <C-R>=<SID>ExpandOrJump()<CR>
+
+function! s:JumpForwards()
+  call UltiSnips#JumpForwards()
+  if g:ulti_jump_forwards_res
+    return ""
+  endif
+  return "\<TAB>"
+endfunction
+inoremap <silent><expr><TAB> pumvisible() ? "\<C-n>" : "<C-R>=<SID>JumpForwards()<CR>"
+snoremap <silent><expr><TAB> pumvisible() ? "\<C-n>" : "<ESC>:call UltiSnips#JumpForwards()<CR>"
+
+function! s:JumpBackwards()
+  call UltiSnips#JumpBackwards()
+  if g:ulti_jump_backwards_res
+    return ""
+   endif
+   return "\<S-TAB>"
+endfunction
+inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "<C-R>=<SID>JumpBackwards()<CR>"
+snoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "<ESC>:call UltiSnips#JumpBackwards()<CR>"
 
 " ===================== vim-airline ====================
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#default#layout = [
-      \ [ 'a', 'b', 'c' ],
-      \ [ 'x', 'y', 'z', 'error', 'warning' ]
-      \ ]
+  \ [ 'a', 'b', 'c' ],
+  \ [ 'x', 'y', 'z', 'error', 'warning' ]
+  \ ]
 call airline#parts#define_raw('go', '%#goStatuslineColor#%{go#statusline#Show()}%')
 call airline#parts#define_condition('go', '&filetype=="go"')
 let g:airline_section_x = airline#section#create(['go'])
@@ -318,13 +332,13 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
-let g:go_snippet_engine = "neosnippet"
+let g:go_snippet_engine = "ultisnips"
 let g:go_statusline_duration = 10000
 let g:go_metalinter_enabled = [
-      \ 'deadcode', 'errcheck', 'gas', 'goconst', 'golint', 'gosimple',
-      \ 'gotype', 'ineffassign', 'interfacer', 'staticcheck', 'structcheck',
-      \ 'unconvert', 'varcheck', 'vet', 'vetshadow',
-      \ ]
+  \ 'deadcode', 'errcheck', 'gas', 'goconst', 'golint', 'gosimple',
+  \ 'gotype', 'ineffassign', 'interfacer', 'staticcheck', 'structcheck',
+  \ 'unconvert', 'varcheck', 'vet', 'vetshadow',
+  \ ]
 " Bindings
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>i  <Plug>(go-install)
@@ -346,14 +360,6 @@ autocmd FileType go nmap <C-g> :GoDecls<CR>
 autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
 autocmd FileType go nmap © :GoDeclsDir<CR>
 autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
-
-" ==================== vim-hardtime ====================
-let g:hardtime_allow_different_key = 1
-let g:hardtime_default_on = 1
-let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_maxcount = 3
-let g:hardtime_showmsg = 1
 
 " ====================== vim-json ======================
 let g:vim_json_syntax_conceal = 0
@@ -428,15 +434,11 @@ command! -bang Wq wq<bang>
 command! -bang Q q<bang>
 command! -bang W w<bang>
 
-" ========== make pasting work more naturally ==========
-xnoremap p "_d"0P
-
 " ================ toggle spell checking ===============
 nmap <silent> <leader>s :set spell!<CR>
 
 " ================= quickfix settings ==================
 autocmd FileType qf wincmd J
-let s:return_to_window = winnr()
 
 function! s:GetBufferList()
   redir =>buflist
@@ -498,6 +500,7 @@ function! s:Height(height)
 endfunction
 
 function! s:LocationToggle(bufname, pfx)
+  let s:return_to_window = winnr()
   let buflist = s:GetBufferList()
   for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
     if bufwinnr(bufnum) != -1
@@ -520,7 +523,6 @@ function! s:LocationToggle(bufname, pfx)
       return
     endif
   endif
-  let s:return_to_window = winnr()
   exec a:pfx.'open ' . s:Height(height)
   exec s:return_to_window . 'wincmd w'
 endfunction
