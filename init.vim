@@ -16,8 +16,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'google/vim-searchindex'
-Plug 'fatih/vim-go'
-" Plug 'fatih/vim-go', {'tag': '*'}
+Plug 'fatih/vim-go', {'tag': 'v1.18'}
 Plug 'mileszs/ack.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
@@ -43,8 +42,6 @@ Plug 'zchee/deoplete-jedi'
 Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'hashivim/vim-hashicorp-tools'
-Plug 'jvirtanen/vim-octave'
-Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown'
@@ -188,14 +185,15 @@ cnoreabbrev Ack Ack!
 nnoremap <leader>ff :Ack!<Space>
 
 " ======================= CtrlP =======================
-let g:ctrlp_cmd = 'exe "CtrlP".get(["MRU", ""], v:count)'
+let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
 let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_files = 0         " do not limit the number of searchable files
-let g:ctrlp_max_height = 10       " maxiumum height of match window
-let g:ctrlp_mruf_max = 500        " number of recently opened files
-let g:ctrlp_mruf_relative = 1     " show only MRU files in the working directory
-let g:ctrlp_switch_buffer = 0     " always open file in the current buffer
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_height = 10
+let g:ctrlp_mruf_max = 500
+let g:ctrlp_mruf_relative = 1
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_types = ['mru', 'fil']
 let g:ctrlp_use_caching = 1
 let g:ctrlp_working_path_mode = 'ra'
 
@@ -271,7 +269,7 @@ function! s:ShowFilename()
     \ echom index(["\" Press ? for help", "", ".. (up a dir)"], getline(".")) < 0 ?
     \ "NERDTree: " . matchstr(getline("."), "[0-9A-Za-z_/].*") : "" | echohl None
 endfunction
-autocmd CursorMoved NERD_tree* :call <SID>ShowFilename()
+autocmd CursorHold *NERD_tree* :call <SID>ShowFilename()
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
@@ -359,9 +357,6 @@ command! JSONMinimize %!json_reformat -m
 
 " ==================== vim-markdown ====================
 let g:vim_markdown_folding_disabled = 1
-
-" ===================== vim-octave =====================
-autocmd BufRead,BufNewFile *.m,*.oct set filetype=octave
 
 " ===================== vim-rooter =====================
 let g:rooter_change_directory_for_non_project_files = 'current'
