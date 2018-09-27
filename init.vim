@@ -14,7 +14,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'edkolev/tmuxline.vim'
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go', {'tag': 'v1.18'}
 Plug 'mileszs/ack.vim'
@@ -25,6 +24,7 @@ Plug 'shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'shougo/neosnippet.vim'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
+Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -269,7 +269,7 @@ function! s:ShowFilename()
     \ echom index(["\" Press ? for help", "", ".. (up a dir)"], getline(".")) < 0 ?
     \ "NERDTree: " . matchstr(getline("."), "[0-9A-Za-z_/].*") : "" | echohl None
 endfunction
-autocmd CursorHold *NERD_tree* :call <SID>ShowFilename()
+autocmd CursorMoved NERD_tree* :call <SID>ShowFilename()
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
@@ -298,13 +298,6 @@ let g:airline#extensions#default#layout = [
 call airline#parts#define_raw('go', '%#goStatuslineColor#%{go#statusline#Show()}%')
 call airline#parts#define_condition('go', '&filetype=="go"')
 let g:airline_section_x = airline#section#create(['go'])
-function! s:AirlineInit()
-  let g:airline_section_y = airline#section#create(['ffenc', ' %{strftime("%H:%M")}'])
-endfunction
-autocmd VimEnter * :call <SID>AirlineInit()
-
-" ================== vim-coffee-script =================
-autocmd BufRead,BufNewFile *.cson set ft=coffee
 
 " ==================== vim-gitgutter ===================
 let g:gitgutter_max_signs = 1000
@@ -349,6 +342,14 @@ autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
 autocmd FileType go nmap © :GoDeclsDir<CR>
 autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
 
+" ==================== vim-hardtime ====================
+let g:hardtime_allow_different_key = 1
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_maxcount = 3
+let g:hardtime_showmsg = 1
+
 " ====================== vim-json ======================
 let g:vim_json_syntax_conceal = 0
 " Prettify JSON, install: brew install yajl
@@ -386,15 +387,16 @@ autocmd FocusGained,BufEnter,CursorHold * :checktime
 autocmd VimResized * :wincmd =
 
 " =============== fast saving and closing ==============
-function! s:ReturnToTerminal()
-  if bufname('#') =~ '^term://'
-    BD " BufKillBd
-  else
-    quit
-  endif
-endfunction
+" function! s:ReturnToTerminal()
+"   if bufname('#') =~ '^term://'
+"     BD " BufKillBd
+"   else
+"     quit
+"   endif
+" endfunction
+" nnoremap <silent> <leader>q :call <SID>ReturnToTerminal()<CR>
 nnoremap <leader>w :w<CR>
-nnoremap <silent> <leader>q :call <SID>ReturnToTerminal()<CR>
+nnoremap <leader>q :q<CR>
 
 " =============== find next merge conflict =============
 function! s:NextMergeConflict(reverse)
@@ -522,24 +524,24 @@ nnoremap <silent> <leader>l :call <SID>LocationToggle("Location List", 'l')<CR>
 nnoremap <leader><space> :nohlsearch<CR>
 
 " ====================== terminal ======================
-let $EDITOR = 'nvr --remote-wait'
-let $VISUAL = 'nvr --remote-wait'
-let $FZF_DEFAULT_OPTS .= ' --no-height'
-let g:terminal_scrollback_buffer_size = 100000
-function! TweakTerminal()
-  setlocal norelativenumber
-  setlocal nonumber
-  setlocal scrollback=100000
-  startinsert
-endfunc
-autocmd TermOpen * :call TweakTerminal()
-autocmd BufEnter * if &buftype == 'terminal' | startinsert | endif
-autocmd TermClose * bd!
-tnoremap <ESC> <C-\><C-n>
-noremap <C-f>s :new +term<CR>
-noremap <C-f>v :bo vnew +term<CR>
-tnoremap <C-f>s <c-\><C-n>:new +term<CR>
-tnoremap <C-f>v <c-\><C-n>:vnew +term<CR>
+" let $EDITOR = 'nvr --remote-wait'
+" let $VISUAL = 'nvr --remote-wait'
+" let $FZF_DEFAULT_OPTS .= ' --no-height'
+" let g:terminal_scrollback_buffer_size = 100000
+" function! TweakTerminal()
+"   setlocal norelativenumber
+"   setlocal nonumber
+"   setlocal scrollback=100000
+"   startinsert
+" endfunc
+" autocmd TermOpen * :call TweakTerminal()
+" autocmd BufEnter * if &buftype == 'terminal' | startinsert | endif
+" autocmd TermClose * bd!
+" tnoremap <ESC> <C-\><C-n>
+" noremap <C-f>s :new +term<CR>
+" noremap <C-f>v :bo vnew +term<CR>
+" tnoremap <C-f>s <c-\><C-n>:new +term<CR>
+" tnoremap <C-f>v <c-\><C-n>:vnew +term<CR>
 
 " ================= trailing whitespace ================
 function! s:StripTrailingWhitespaces()
@@ -560,10 +562,10 @@ inoremap <C-h> <ESC><C-w>h
 inoremap <C-j> <ESC><C-w>j
 inoremap <C-k> <ESC><C-w>k
 inoremap <C-l> <ESC><C-w>l
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
+" tnoremap <C-h> <C-\><C-n><C-w>h
+" tnoremap <C-j> <C-\><C-n><C-w>j
+" tnoremap <C-k> <C-\><C-n><C-w>k
+" tnoremap <C-l> <C-\><C-n><C-w>l
 vnoremap <C-h> <ESC><C-w>h
 vnoremap <C-j> <ESC><C-w>j
 vnoremap <C-k> <ESC><C-w>k

@@ -28,6 +28,11 @@ plugins=(colorize docker docker-compose git terraform)
 
 source $ZSH/oh-my-zsh.sh
 
+# Change into my working directory
+if [[ "$PWD" == "$HOME" ]]; then
+  cd ~/workspace
+fi
+
 # User configuration
 setopt nonomatch
 setopt rmstarsilent
