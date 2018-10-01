@@ -12,7 +12,6 @@ call plug#begin('~/.config/nvim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go', {'tag': 'v1.18'}
@@ -24,6 +23,7 @@ Plug 'shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'shougo/neosnippet.vim'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
+Plug 'svanharmelen/vim-tmux-navigator'
 Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -193,7 +193,6 @@ let g:ctrlp_max_height = 10
 let g:ctrlp_mruf_max = 500
 let g:ctrlp_mruf_relative = 1
 let g:ctrlp_switch_buffer = 0
-let g:ctrlp_types = ['mru', 'fil']
 let g:ctrlp_use_caching = 1
 let g:ctrlp_working_path_mode = 'ra'
 
@@ -220,7 +219,7 @@ nnoremap <leader>fb :Gblame<CR>
 nnoremap <leader>fs :Gbrowse<CR>
 nnoremap <leader>fc :Gcommit -a<CR>
 nnoremap <leader>fd :Gdiff<CR>
-nnoremap <leader>fl :Glog<CR>
+nnoremap <leader>fl :Glog -- %<CR>
 nnoremap <leader>fp :Gpush<CR>
 
 " ===================== neosnippet =====================
@@ -288,6 +287,7 @@ hi def link NERDTreeOpenable Title
 hi def link NERDTreeClosable Title
 
 " ===================== vim-airline ====================
+let g:airline_focuslost_inactive=1
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
 let g:airline#extensions#whitespace#enabled = 0
@@ -357,6 +357,7 @@ command! JSONFormat %!json_reformat
 command! JSONMinimize %!json_reformat -m
 
 " ==================== vim-markdown ====================
+let g:vim_markdown_conceal = 0
 let g:vim_markdown_folding_disabled = 1
 
 " ===================== vim-rooter =====================

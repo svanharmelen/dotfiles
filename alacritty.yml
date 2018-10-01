@@ -348,6 +348,7 @@ key_bindings:
   - { key: L,        mods: Alt|Command,   chars: "\x06\x6e"                    }
   - { key: H,        mods: Shift|Command, chars: "\x06\x68"                    }
   - { key: L,        mods: Shift|Command, chars: "\x06\x6c"                    }
+  - { key: O,        mods: Command,       chars: "\x06\x6f"                    }
   - { key: Key1,     mods: Command,       chars: "\x06\x31"                    }
   - { key: Key2,     mods: Command,       chars: "\x06\x32"                    }
   - { key: Key3,     mods: Command,       chars: "\x06\x33"                    }
