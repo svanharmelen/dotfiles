@@ -221,6 +221,11 @@ nnoremap <leader>fc :Gcommit -a<CR>
 nnoremap <leader>fd :Gdiff<CR>
 nnoremap <leader>fl :Glog -- %<CR>
 nnoremap <leader>fp :Gpush<CR>
+if &diff
+  nnoremap <silent> db :diffget BASE<Bar>diffupdate<CR>
+  nnoremap <silent> dl :diffget LOCAL<Bar>diffupdate<CR>
+  nnoremap <silent> dr :diffget REMOTE<Bar>diffupdate<CR>
+endif
 
 " ===================== neosnippet =====================
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}
@@ -524,26 +529,6 @@ nnoremap <silent> <leader>l :call <SID>LocationToggle("Location List", 'l')<CR>
 " ================ remove search highlight =============
 nnoremap <leader><space> :nohlsearch<CR>
 
-" ====================== terminal ======================
-" let $EDITOR = 'nvr --remote-wait'
-" let $VISUAL = 'nvr --remote-wait'
-" let $FZF_DEFAULT_OPTS .= ' --no-height'
-" let g:terminal_scrollback_buffer_size = 100000
-" function! TweakTerminal()
-"   setlocal norelativenumber
-"   setlocal nonumber
-"   setlocal scrollback=100000
-"   startinsert
-" endfunc
-" autocmd TermOpen * :call TweakTerminal()
-" autocmd BufEnter * if &buftype == 'terminal' | startinsert | endif
-" autocmd TermClose * bd!
-" tnoremap <ESC> <C-\><C-n>
-" noremap <C-f>s :new +term<CR>
-" noremap <C-f>v :bo vnew +term<CR>
-" tnoremap <C-f>s <c-\><C-n>:new +term<CR>
-" tnoremap <C-f>v <c-\><C-n>:vnew +term<CR>
-
 " ================= trailing whitespace ================
 function! s:StripTrailingWhitespaces()
   if &ft =~ 'go'
@@ -563,10 +548,6 @@ inoremap <C-h> <ESC><C-w>h
 inoremap <C-j> <ESC><C-w>j
 inoremap <C-k> <ESC><C-w>k
 inoremap <C-l> <ESC><C-w>l
-" tnoremap <C-h> <C-\><C-n><C-w>h
-" tnoremap <C-j> <C-\><C-n><C-w>j
-" tnoremap <C-k> <C-\><C-n><C-w>k
-" tnoremap <C-l> <C-\><C-n><C-w>l
 vnoremap <C-h> <ESC><C-w>h
 vnoremap <C-j> <ESC><C-w>j
 vnoremap <C-k> <ESC><C-w>k

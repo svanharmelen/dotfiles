@@ -42,6 +42,7 @@ unsetopt share_history
 alias atlas="envchain atlas ./run_compose.sh"
 alias bu="brew update && brew upgrade && brew cleanup -s && brew prune && brew cask outdated"
 alias grep="pt"
+alias ll="ls -la"
 alias pt="pt --nogroup --smart-case"
 alias sn="export NVM_DIR=$HOME/.nvm && source /usr/local/opt/nvm/nvm.sh && nvm use"
 alias ssh="ssh -A"
@@ -51,7 +52,10 @@ alias vim="nvim"
 
 # Some additional git aliasses
 alias git="hub"
+alias gpsuppr="gpsup && hub pull-request"
 alias gpr="hub pull-request"
+alias gt="git tag"
+alias gdt="git difftool"
 
 # Enable auto completions
 fpath=(/usr/local/share/zsh-completions $fpath)

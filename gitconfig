@@ -1,17 +1,23 @@
 [user]
 	name = Sander van Harmelen
 	email = sander@xanzy.io
-[push]
-	default = simple
+[core]
+	excludesfile = ~/.gitignore_global
+[credential]
+	helper = osxkeychain
+[diff]
+	tool = vimdiff
+[difftool "vimdiff"]
+	path = nvim
 [merge]
 	tool = vimdiff
 	conflictstyle = diff3
 [mergetool]
 	prompt = false
 	keepBackup = false
-[diff]
-	tool = vimdiff
-[core]
-	excludesfile = ~/.gitignore_global
-[credential]
-	helper = osxkeychain
+[mergetool "vimdiff"]
+  path = nvim
+[push]
+	default = simple
+[rebase]
+  instructionFormat = %s (%an <%ae>)
