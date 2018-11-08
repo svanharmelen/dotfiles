@@ -14,7 +14,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'google/vim-searchindex'
-Plug 'fatih/vim-go', {'tag': 'v1.18'}
+Plug 'fatih/vim-go', {'tag': '*'}
 Plug 'mileszs/ack.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
@@ -32,7 +32,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
+Plug 'w0rp/ale', {'tag': '*'}
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', {'do': 'make'}
@@ -312,6 +312,7 @@ let g:gitgutter_max_signs = 1000
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
+let g:go_gocode_propose_source = 0
 let g:go_list_type = "quickfix"
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1

@@ -7,8 +7,15 @@ export LANG=en_US.UTF-8
 export GOPATH="$HOME/GoCode"
 export PATH="$GOPATH/bin:$HOME/.google-cloud-sdk/bin:$HOME/.rbenv/shims:/usr/local/opt/postgresql@9.6/bin:$PATH"
 
+# Set Go related variables.
+export GOBIN="$GOPATH/bin"
+# export GO111MODULE=on
+
 # Set the Github username and token variables.
 export $(/usr/local/bin/envchain -l github -v)
+
+# Set the required tfe:local variables.
+export $(/usr/local/bin/envchain -l tfelocal -v)
 
 # Only set EDITOR if it doesn't exist. This check is needed
 # because in an nvim terminal we overwrite this variable
