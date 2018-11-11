@@ -12,10 +12,9 @@ call plug#begin('~/.config/nvim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go', {'tag': '*'}
-Plug 'mileszs/ack.vim'
+Plug 'junegunn/fzf.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
@@ -24,7 +23,6 @@ Plug 'shougo/neosnippet.vim'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
-Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -36,7 +34,6 @@ Plug 'w0rp/ale', {'tag': '*'}
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', {'do': 'make'}
-Plug 'zchee/deoplete-jedi'
 
 " Syntax related plugins
 Plug 'elzr/vim-json', {'for': 'json'}
@@ -73,6 +70,7 @@ set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
 set mouse-=a                         " Disable mouse clicks to go to a position
 set relativenumber                   " Show relative line numbers
+set runtimepath+=/usr/local/opt/fzf  " Add the fzf binary to the runtime path
 set scrolloff=999                    " Keep the cursor centered
 set sessionoptions-=help             " Do not save help windows
 set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
@@ -178,24 +176,6 @@ hi ALEErrorSign   ctermfg=15 ctermbg=236
 hi ALEInfoSign    ctermfg=15 ctermbg=236
 hi ALEWarningSign ctermfg=15 ctermbg=236
 
-" ====================== ack.vim ======================
-let g:ackprg = 'pt --nogroup --ignore=vendor --smart-case'
-let g:ackhighlight = 1
-cnoreabbrev Ack Ack!
-nnoremap <leader>ff :Ack!<Space>
-
-" ======================= CtrlP =======================
-let g:ctrlp_cmd = 'CtrlPMRU'
-let g:ctrlp_cache_dir = '~/.config/nvim/ctrlp'
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_height = 10
-let g:ctrlp_mruf_max = 500
-let g:ctrlp_mruf_relative = 1
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_use_caching = 1
-let g:ctrlp_working_path_mode = 'ra'
-
 " ===================== delimitmate ====================
 let g:delimitMate_balance_matchpairs = 1
 let g:delimitMate_expand_cr = 1
@@ -205,12 +185,13 @@ let g:delimitMate_insert_eol_marker = 0
 
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#align_class = 1
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'var', 'type', 'const']
-call deoplete#custom#option('ignore_sources', {'_': ['member', 'tag']})
-call deoplete#custom#option('max_list', 30)
-call deoplete#custom#source('_', 'converters', ['converter_remove_overlap'])
-call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy', 'matcher_length'])
+let g:deoplete#sources#go#auto_goos = 1
+let g:deoplete#sources#go#gocode_binary = '/Users/sander/GoCode/bin/gocode'
+let g:deoplete#sources#go#unimported_packages = 1
+call deoplete#custom#option('ignore_sources', {'_': ['around', 'dictionary', 'member', 'tag']})
+call deoplete#custom#option('refresh_always', v:false)
+call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
+call deoplete#custom#source('_', 'sorters', ['sorter_word'])
 call deoplete#custom#source('neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -226,6 +207,22 @@ if &diff
   nnoremap <silent> dl :diffget LOCAL<Bar>diffupdate<CR>
   nnoremap <silent> dr :diffget REMOTE<Bar>diffupdate<CR>
 endif
+
+" ======================== fzf =========================
+let g:fzf_action = {
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit'
+  \ }
+let g:fzf_layout = { 'down': '~30%' }
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>, '--color-match="1;31"', fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+
+nnoremap <C-P> :Files<CR>
+nnoremap <leader>ff :Ag<Space>
 
 " ===================== neosnippet =====================
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}
@@ -270,23 +267,23 @@ let g:NERDTreeChDirMode = 2
 let g:NERDTreeShowLineNumbers = 1
 function! s:ShowFilename()
   redraw | echohl Debug |
-    \ echom index(["\" Press ? for help", "", ".. (up a dir)"], getline(".")) < 0 ?
-    \ "NERDTree: " . matchstr(getline("."), "[0-9A-Za-z_/].*") : "" | echohl None
+    \ echom index(['" Press ? for help', '', '.. (up a dir)'], getline('.')) < 0 ?
+    \ 'NERDTree: ' . matchstr(getline('.'), '[0-9A-Za-z_/].*') : '' | echohl None
 endfunction
 autocmd CursorMoved NERD_tree* :call <SID>ShowFilename()
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
 let g:NERDTreeIndicatorMapCustom = {
-  \ "Modified"  : "~",
-  \ "Staged"    : "+",
-  \ "Untracked" : "≠",
-  \ "Renamed"   : "→",
-  \ "Unmerged"  : "=",
-  \ "Deleted"   : "×",
-  \ "Dirty"     : "~",
-  \ "Clean"     : "√",
-  \ "Unknown"   : "?"
+  \ 'Modified'  : '~',
+  \ 'Staged'    : '+',
+  \ 'Untracked' : '≠',
+  \ 'Renamed'   : '→',
+  \ 'Unmerged'  : '=',
+  \ 'Deleted'   : '×',
+  \ 'Dirty'     : '~',
+  \ 'Clean'     : '√',
+  \ 'Unknown'   : '?'
   \ }
 hi def link NERDTreeOpenable Title
 hi def link NERDTreeClosable Title
@@ -310,16 +307,15 @@ let g:gitgutter_max_signs = 1000
 " ======================= vim-go =======================
 " Settings
 let g:go_def_mapping_enabled = 0
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
-let g:go_gocode_propose_source = 0
-let g:go_list_type = "quickfix"
+let g:go_list_type = 'quickfix'
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
-let g:go_snippet_engine = "neosnippet"
+let g:go_snippet_engine = 'neosnippet'
 let g:go_statusline_duration = 10000
 let g:go_metalinter_enabled = [
   \ 'deadcode', 'errcheck', 'gas', 'goconst', 'golint', 'gosimple',
@@ -347,14 +343,6 @@ autocmd FileType go nmap <C-g> :GoDecls<CR>
 autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
 autocmd FileType go nmap © :GoDeclsDir<CR>
 autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
-
-" ==================== vim-hardtime ====================
-let g:hardtime_allow_different_key = 1
-let g:hardtime_default_on = 1
-let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_maxcount = 3
-let g:hardtime_showmsg = 1
 
 " ====================== vim-json ======================
 let g:vim_json_syntax_conceal = 0
@@ -393,15 +381,6 @@ autocmd FocusGained,BufEnter,CursorHold * :checktime
 " ================= auto resize windows ================
 autocmd VimResized * :wincmd =
 
-" =============== fast saving and closing ==============
-" function! s:ReturnToTerminal()
-"   if bufname('#') =~ '^term://'
-"     BD " BufKillBd
-"   else
-"     quit
-"   endif
-" endfunction
-" nnoremap <silent> <leader>q :call <SID>ReturnToTerminal()<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 
@@ -524,8 +503,8 @@ endfunction
 
 nnoremap <silent> <C-n> :call <SID>LocationPrevious()<CR>
 nnoremap <silent> <C-m> :call <SID>LocationNext()<CR>
-nnoremap <silent> <leader>a :call <SID>LocationToggle("Quickfix List", 'c')<CR>
-nnoremap <silent> <leader>l :call <SID>LocationToggle("Location List", 'l')<CR>
+nnoremap <silent> <leader>a :call <SID>LocationToggle('Quickfix List', 'c')<CR>
+nnoremap <silent> <leader>l :call <SID>LocationToggle('Location List', 'l')<CR>
 
 " ================ remove search highlight =============
 nnoremap <leader><space> :nohlsearch<CR>
@@ -536,8 +515,8 @@ function! s:StripTrailingWhitespaces()
     return
   endif
   let _s=@/
-  let l = line(".")
-  let c = col(".")
+  let l = line('.')
+  let c = col('.')
   %s/\s\+$//e
   let @/=_s
   call cursor(l, c)
