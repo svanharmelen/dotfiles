@@ -67,9 +67,12 @@ zstyle ':completion:*' insert-unambiguous true
 
 # Enable support for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+bindkey '^P' fzf-file-widget
 
 # Enable support for z (and use j as z cmd)
 _Z_CMD=j
+FZ_CMD=j
+FZ_SUBDIR_CMD=jj
 [ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
 
 # Enable rbenv

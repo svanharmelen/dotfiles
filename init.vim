@@ -28,6 +28,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'tweekmonster/fzf-filemru'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale', {'tag': '*'}
@@ -214,14 +215,14 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit'
   \ }
 let g:fzf_layout = { 'down': '~30%' }
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+let $FZF_DEFAULT_COMMAND='ag --hidden --ignore=.git -g ""'
+let $FZF_DEFAULT_OPTS='--bind ctrl-a:select-all'
 
 command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>, '--color-match="1;31"', fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+  \ call fzf#vim#ag(<q-args>, '--color-match="1;31"',
+  \ fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
-nnoremap <C-P> :Files<CR>
+nnoremap <C-P> :FilesMru<CR>
 nnoremap <leader>ff :Ag<Space>
 
 " ===================== neosnippet =====================
