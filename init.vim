@@ -222,7 +222,7 @@ command! -bang -nargs=* Ag
   \ call fzf#vim#ag(<q-args>, '--color-match="1;31"',
   \ fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
-nnoremap <C-P> :FilesMru<CR>
+nnoremap <silent><C-P> :FilesMru --no-sort<CR>
 nnoremap <leader>ff :Ag<Space>
 
 " ===================== neosnippet =====================
