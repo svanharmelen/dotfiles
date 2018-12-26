@@ -19,5 +19,5 @@
   path = nvim
 [push]
 	default = simple
-[rebase]
-  instructionFormat = %s (%an <%ae>)
+#[rebase]
+#  instructionFormat = %s (%an <%ae>)
