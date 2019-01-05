@@ -353,6 +353,7 @@ command! JSONMinimize %!json_reformat -m
 
 " ==================== vim-markdown ====================
 let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_folding_disabled = 1
 
 " ===================== vim-rooter =====================
@@ -404,6 +405,9 @@ command! -bang WQ wq<bang>
 command! -bang Wq wq<bang>
 command! -bang Q q<bang>
 command! -bang W w<bang>
+
+" ============== overwrite read only files =============
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <Bar> edit!
 
 " ================ toggle spell checking ===============
 nmap <silent> <leader>s :set spell!<CR>
