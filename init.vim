@@ -12,11 +12,13 @@ call plug#begin('~/.config/nvim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': './install.sh'}
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go', {'tag': '*'}
 Plug 'junegunn/fzf.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
+Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'shougo/neosnippet.vim'
@@ -167,6 +169,7 @@ let g:ale_go_gometalinter_options = '
 let g:ale_python_flake8_options = '
   \ --ignore=E226,E501
   \ '
+let g:ale_rust_cargo_use_clippy = 1
 let g:ale_set_highlights = 0
 let g:ale_set_signs = 1
 let g:ale_sign_column_always = 1
@@ -261,6 +264,12 @@ if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
 
+" ================== language-client ===================
+let g:LanguageClient_serverCommands = {
+  \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+  \ }
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeBookmarksFile = $HOME . '/.config/nvim/NERDTreeBookmarks'
@@ -288,6 +297,19 @@ let g:NERDTreeIndicatorMapCustom = {
   \ }
 hi def link NERDTreeOpenable Title
 hi def link NERDTreeClosable Title
+
+" ====================== rust.vim ======================
+" Settings
+let g:rustfmt_autosave = 1
+let g:rustfmt_fail_silently = 1
+let g:rust_clip_command = 'pbcopy'
+" Bindings
+autocmd FileType rust nmap <leader>t  :RustTest<CR>
+autocmd FileType rust nmap <leader>tf :RustTest!<CR>
+autocmd FileType rust nmap <leader>d  :call LanguageClient#textDocument_definition()<CR>
+autocmd FileType rust nmap <leader>rd <Plug>(rust-doc)
+autocmd FileType rust nmap <leader>rr :call LanguageClient#textDocument_rename()<CR>:update<CR>
+autocmd FileType rust nmap <leader>r  :call LanguageClient#textDocument_references()<CR>
 
 " ===================== vim-airline ====================
 let g:airline_focuslost_inactive=1

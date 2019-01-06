@@ -5,7 +5,7 @@ export LANG=en_US.UTF-8
 
 # Set some default paths
 export GOPATH="$HOME/GoCode"
-export PATH="$GOPATH/bin:$HOME/.google-cloud-sdk/bin:$HOME/.rbenv/shims:/usr/local/opt/postgresql@9.6/bin:$PATH"
+export PATH="$GOPATH/bin:$HOME/.cargo/bin:$HOME/.google-cloud-sdk/bin:$HOME/.rbenv/shims:/usr/local/opt/postgresql@9.6/bin:$PATH"
 
 # Set Go related variables.
 export GOBIN="$GOPATH/bin"

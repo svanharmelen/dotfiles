@@ -41,6 +41,7 @@ unsetopt share_history
 # Set usefull aliasses
 alias atlas="envchain atlas ./run_compose.sh"
 alias bu="brew update && brew upgrade && brew cleanup -s && brew prune && brew cask outdated"
+alias c="cargo"
 alias grep="ag --nogroup --color-match='1;31'"
 alias ll="ls -la"
 alias sn="export NVM_DIR=$HOME/.nvm && source /usr/local/opt/nvm/nvm.sh && nvm use"
