@@ -44,6 +44,7 @@ alias bu="brew update && brew upgrade && brew cleanup -s && brew prune && brew c
 alias c="cargo"
 alias grep="ag --nogroup --color-match='1;31'"
 alias ll="ls -la"
+alias nu="nvim +PlugUpdate +PlugUpgrade +UpdateRemotePlugins"
 alias sn="export NVM_DIR=$HOME/.nvm && source /usr/local/opt/nvm/nvm.sh && nvm use"
 alias ssh="ssh -A"
 alias tf="terraform"
