@@ -12,10 +12,6 @@ fi
 # ------------
 source "/Users/sander/dotfiles/plugins/fz.plugin.zsh"
 
-# Interactive completions
-# ------------
-source "/Users/sander/dotfiles/plugins/zsh-interactive-cd.plugin.zsh"
-
 # Key bindings
 # ------------
 source "/Users/sander/.fzf/shell/key-bindings.zsh"
