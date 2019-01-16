@@ -230,7 +230,7 @@ nnoremap <leader>ff :Ag<Space>
 
 " ===================== neosnippet =====================
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}
-let g:neosnippet#enable_completed_snippet = 1
+" let g:neosnippet#enable_completed_snippet = 1
 let g:neosnippet#enable_optional_arguments = 0
 function! s:NeosnippetExpand()
   if pumvisible()
@@ -265,6 +265,11 @@ if has('conceal')
 endif
 
 " ================== language-client ===================
+let g:LanguageClient_diagnosticsEnable = 0
+let g:LanguageClient_hasSnippetSupport = 0
+let g:LanguageClient_rootMarkers = {
+  \ 'rust': ['Cargo.toml'],
+  \ }
 let g:LanguageClient_serverCommands = {
   \ 'rust': ['rustup', 'run', 'stable', 'rls'],
   \ }
