@@ -8,9 +8,8 @@
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
-  # check the local terminfo database and use 'alacritty' if it is
-  # available, otherwise 'xterm-256color' is used.
-  #
+  # check the local terminfo database and use `alacritty` if it is
+  # available, otherwise `xterm-256color` is used.
   #TERM: xterm-256color
 
 window:
@@ -24,7 +23,7 @@ window:
 
   # Window padding (changes require restart)
   #
-  # Blank space added around the window in pixels. This padding is not scaled
+  # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
     x: 2
@@ -35,21 +34,17 @@ window:
 
   # Window decorations
   #
-  # Available values:
-  # - `full`: Window with title bar and title bar buttons
-  # - `none`: Window without title bar, rounded corners, or drop shadow
-  # - `transparent`: Window with title bar with transparent background and title
-  #   bar buttons
-  # - `buttonless`: Window with title bar with transparent background and no
-  #   title bar buttons
-  # Window decorations
-  #
   # Values for `decorations`:
   #     - full: Borders and title bar
   #     - none: Neither borders nor title bar
+  #
+  # Values for `decorations` (macOS only):
   #     - buttonless: Title bar, transparent background and title bar buttons
   #     - transparent: Title bar, transparent background, but no title bar buttons
   decorations: full
+
+  # When true, alacritty starts maximized.
+  start_maximized: false
 
 scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -85,26 +80,46 @@ tabspaces: 8
 font:
   # Normal font face
   normal:
+    # Font family
+    #
+    # Default:
+    #   - (macOS) Menlo
+    #   - (Linux) monospace
+    #   - (Windows) Consolas
     family: Monaco for Powerline
-    # style: Regular
+
+    # The `style` can be specified to pick a specific face.
+    #style: Regular
 
   # Bold font face
   bold:
+    # Font family
+    #
+    # If the bold family is not specified, it will fall back to the
+    # value specified for the normal font.
     family: Monaco for Powerline
-    # style: Bold
+
+    # The `style` can be specified to pick a specific face.
+    #style: Bold
 
   # Italic font face
   italic:
+    # Font family
+    #
+    # If the italic family is not specified, it will fall back to the
+    # value specified for the normal font.
     family: Monaco for Powerline
-    # style: Italic
+
+    # The `style` can be specified to pick a specific face.
+    #style: Italic
 
   # Point size
-  size: 11.0 # Should be 12.0 for SFMono
+  size: 11.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
-    x: 1 # Should be 0 for SFMono
+    x: 1
     y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
@@ -112,9 +127,9 @@ font:
   # increasing `y` moves the glyph upwards.
   glyph_offset:
     x: 0
-    y: 1 # Should be 0 for SFMono
+    y: 1
 
-  # Thin stroke font rendering (OS X only)
+  # Thin stroke font rendering (macOS only)
   #
   # Thin strokes are suitable for retina displays, but for non-retina screens
   # it is recommended to set `use_thin_strokes` to `false`
@@ -148,7 +163,8 @@ colors:
 
   # Cursor colors
   #
-  # These will only be used when the `custom_cursor_colors` field is set to `true`.
+  # Colors which should be used to draw the terminal cursor. If these are unset,
+  # the cursor color will be the inverse of the cell color.
   cursor:
     text: '0xffffff'
     cursor: '0xc7c7c7'
@@ -175,13 +191,29 @@ colors:
     cyan:    '0x5ffdff'
     white:   '0xffffff'
 
+  # Dim colors
+  #
+  # If the dim colors are not set, they will be calculated automatically based
+  # on the `normal` colors.
+  #dim:
+  #  black:   '0x000000'
+  #  red:     '0x8c3336'
+  #  green:   '0x7a8530'
+  #  yellow:  '0x97822e'
+  #  blue:    '0x506d8f'
+  #  magenta: '0x80638e'
+  #  cyan:    '0x497e7a'
+  #  white:   '0x9a9a9a'
+
   # Indexed Colors
   #
   # The indexed colors include all colors from 16 to 256.
   # When these are not set, they're filled with sensible defaults.
   #
-  #indexed_colors:
-  #  - { index: 16, color: '0x000000' }
+  # Example:
+  #   `- { index: 16, color: '0xff00ff' }`
+  #
+  indexed_colors: []
 
 # Visual Bell
 #
@@ -207,22 +239,26 @@ colors:
 visual_bell:
   animation: EaseOutExpo
   duration: 0
+  color: '0xffffff'
 
 # Background opacity
+#
+# Window opacity as a floating point number from `0.0` to `1.0`.
+# The value `0.0` is completely transparent and `1.0` is opaque.
 background_opacity: 1.0
 
 # Mouse bindings
 #
 # Available fields:
-# - mouse
-# - action
-# - mods (optional)
+#   - mouse
+#   - action
+#   - mods (optional)
 #
 # Values for `mouse`:
-# - Middle
-# - Left
-# - Right
-# - Numeric identifier such as `5`
+#   - Middle
+#   - Left
+#   - Right
+#   - Numeric identifier such as `5`
 #
 # All available `mods` and `action` values are documented in the key binding
 # section.
@@ -246,7 +282,12 @@ mouse:
     #
     # This program is executed when clicking on a text which is recognized as a URL.
     # The URL is always added to the command as the last parameter.
-    launcher: open
+    #
+    # Default:
+    #   - (macOS) open
+    #   - (Linux) xdg-open
+    #   - (Windows) explorer
+    #launcher: xdg-open
 
     # URL modifiers
     #
@@ -260,12 +301,13 @@ selection:
   # When set to `true`, selected text will be copied to the primary clipboard.
   save_to_clipboard: true
 
-dynamic_title: false
+# Allow terminal applications to change Alacritty's window title.
+dynamic_title: true
 
 cursor:
   # Cursor style
   #
-  # Values for 'style':
+  # Values for `style`:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
@@ -283,23 +325,44 @@ live_config_reload: true
 # You can set `shell.program` to the path of your favorite shell, e.g. `/bin/fish`.
 # Entries in `shell.args` are passed unmodified as arguments to the shell.
 #
+# Default:
+#   - (Linux/macOS) /bin/bash --login
+#   - (Windows) powershell
 shell:
   program: /usr/local/bin/zsh
   args:
     - -lc
     - tmux
 
+# Windows 10 ConPTY backend (Windows only)
+#
+# This will enable better color support and may resolve other issues,
+# however this API and its implementation is still young and so is
+# disabled by default, as stability may not be as good as the winpty
+# backend.
+#
+# Alacritty will fall back to the WinPTY automatically if the ConPTY
+# backend cannot be initialized.
+enable_experimental_conpty_backend: false
+
+# Send ESC (\x1b) before characters when alt is pressed.
+alt_send_esc: true
+
 # Key bindings
 #
-# Key bindings are specified as a list of objects. Each binding will specify
-# a key and modifiers required to trigger it, terminal modes where the binding
-# is applicable, and what should be done when the key binding fires. It can
-# either send a byte sequnce to the running application (`chars`), execute
-# a predefined action (`action`) or fork and execute a specified command plus
+# Key bindings are specified as a list of objects. Each binding will specify a
+# key and modifiers required to trigger it, terminal modes where the binding is
+# applicable, and what should be done when the key binding fires. It can either
+# send a byte sequence to the running application (`chars`), execute a
+# predefined action (`action`) or fork and execute a specified command plus
 # arguments (`command`).
 #
+# Bindings are always filled by default, but will be replaced when a new binding
+# with the same triggers is defined. To unset a default binding, it can be
+# mapped to the `None` action.
+#
 # Example:
-#   `- { key: V, mods: Command, action: Paste }`
+#   `- { key: V, mods: Control|Shift, action: Paste }`
 #
 # Available fields:
 #   - key
@@ -324,6 +387,7 @@ shell:
 # Values for `mods`:
 #   - Command
 #   - Control
+#   - Super
 #   - Shift
 #   - Alt
 #
@@ -355,6 +419,7 @@ shell:
 #   - Quit
 #   - ClearLogNotice
 #   - SpawnNewInstance
+#   - None
 #
 # Values for `command`:
 #   The `command` field must be a map containing a `program` string and
@@ -369,125 +434,125 @@ shell:
 #   - ~AppKeypad
 #   - AppKeypad
 key_bindings:
-  - { key: C,        mods: Command,       action: Copy                         }
-  - { key: T,        mods: Command,       chars: "\x06\x63"                    }
-  - { key: T,        mods: Control,       chars: "\x06\x6d"                    }
-  - { key: Q,        mods: Command,       action: Quit                         }
-  - { key: V,        mods: Command,       action: Paste                        }
-  - { key: H,        mods: Alt|Command,   chars: "\x06\x70"                    }
-  - { key: L,        mods: Alt|Command,   chars: "\x06\x6e"                    }
-  - { key: H,        mods: Shift|Command, chars: "\x06\x68"                    }
-  - { key: L,        mods: Shift|Command, chars: "\x06\x6c"                    }
-  - { key: O,        mods: Command,       chars: "\x06\x6f"                    }
-  - { key: Key1,     mods: Command,       chars: "\x06\x31"                    }
-  - { key: Key2,     mods: Command,       chars: "\x06\x32"                    }
-  - { key: Key3,     mods: Command,       chars: "\x06\x33"                    }
-  - { key: Key4,     mods: Command,       chars: "\x06\x34"                    }
-  - { key: Key5,     mods: Command,       chars: "\x06\x35"                    }
-  - { key: Key6,     mods: Command,       chars: "\x06\x36"                    }
-  - { key: Key7,     mods: Command,       chars: "\x06\x37"                    }
-  - { key: Key8,     mods: Command,       chars: "\x06\x38"                    }
-  - { key: Key9,     mods: Command,       chars: "\x06\x39"                    }
-  - { key: Left,     mods: Command,       chars: "\x01"                        }
-  - { key: Right,    mods: Command,       chars: "\x05"                        }
+  - { key: C,        mods: Command,       action: Copy                   }
+  - { key: T,        mods: Command,       chars: "\x06\x63"              }
+  - { key: T,        mods: Control,       chars: "\x06\x6d"              }
+  - { key: Q,        mods: Command,       action: Quit                   }
+  - { key: V,        mods: Command,       action: Paste                  }
+  - { key: H,        mods: Alt|Command,   chars: "\x06\x70"              }
+  - { key: L,        mods: Alt|Command,   chars: "\x06\x6e"              }
+  - { key: H,        mods: Shift|Command, chars: "\x06\x68"              }
+  - { key: L,        mods: Shift|Command, chars: "\x06\x6c"              }
+  - { key: O,        mods: Command,       chars: "\x06\x6f"              }
+  - { key: Key1,     mods: Command,       chars: "\x06\x31"              }
+  - { key: Key2,     mods: Command,       chars: "\x06\x32"              }
+  - { key: Key3,     mods: Command,       chars: "\x06\x33"              }
+  - { key: Key4,     mods: Command,       chars: "\x06\x34"              }
+  - { key: Key5,     mods: Command,       chars: "\x06\x35"              }
+  - { key: Key6,     mods: Command,       chars: "\x06\x36"              }
+  - { key: Key7,     mods: Command,       chars: "\x06\x37"              }
+  - { key: Key8,     mods: Command,       chars: "\x06\x38"              }
+  - { key: Key9,     mods: Command,       chars: "\x06\x39"              }
+  - { key: Left,     mods: Command,       chars: "\x01"                  }
+  - { key: Right,    mods: Command,       chars: "\x05"                  }
 
-  - { key: Home,                          chars: "\x1b[H",   mode: ~AppCursor  }
-  - { key: End,                           chars: "\x1bOF",   mode: AppCursor   }
-  - { key: End,                           chars: "\x1b[F",   mode: ~AppCursor  }
-  - { key: Key0,     mods: Command,       action: ResetFontSize                }
-  - { key: Equals,   mods: Command,       action: IncreaseFontSize             }
-  - { key: Minus,    mods: Command,       action: DecreaseFontSize             }
-  - { key: K,        mods: Command,       action: ClearHistory                 }
-  - { key: K,        mods: Command,       chars: "\x0c"                        }
-  - { key: PageUp,   mods: Shift,         chars: "\x1b[5;2~"                   }
-  - { key: PageUp,   mods: Control,       chars: "\x1b[5;5~"                   }
-  - { key: PageUp,                        chars: "\x1b[5~"                     }
-  - { key: PageDown, mods: Shift,         chars: "\x1b[6;2~"                   }
-  - { key: PageDown, mods: Control,       chars: "\x1b[6;5~"                   }
-  - { key: PageDown,                      chars: "\x1b[6~"                     }
-  - { key: Tab,      mods: Shift,         chars: "\x1b[Z"                      }
-  - { key: Back,                          chars: "\x7f"                        }
-  - { key: Back,     mods: Alt,           chars: "\x1b\x7f"                    }
-  - { key: Insert,                        chars: "\x1b[2~"                     }
-  - { key: Delete,                        chars: "\x1b[3~"                     }
-  - { key: Left,     mods: Shift,         chars: "\x1b[1;2D"                   }
-  - { key: Left,     mods: Control,       chars: "\x1b[1;5D"                   }
-  - { key: Left,     mods: Alt,           chars: "\x1b[1;3D"                   }
-  - { key: Left,                          chars: "\x1b[D",   mode: ~AppCursor  }
-  - { key: Left,                          chars: "\x1bOD",   mode: AppCursor   }
-  - { key: Right,    mods: Shift,         chars: "\x1b[1;2C"                   }
-  - { key: Right,    mods: Control,       chars: "\x1b[1;5C"                   }
-  - { key: Right,    mods: Alt,           chars: "\x1b[1;3C"                   }
-  - { key: Right,                         chars: "\x1b[C",   mode: ~AppCursor  }
-  - { key: Right,                         chars: "\x1bOC",   mode: AppCursor   }
-  - { key: Up,       mods: Shift,         chars: "\x1b[1;2A"                   }
-  - { key: Up,       mods: Control,       chars: "\x1b[1;5A"                   }
-  - { key: Up,       mods: Alt,           chars: "\x1b[1;3A"                   }
-  - { key: Up,                            chars: "\x1b[A",   mode: ~AppCursor  }
-  - { key: Up,                            chars: "\x1bOA",   mode: AppCursor   }
-  - { key: Down,     mods: Shift,         chars: "\x1b[1;2B"                   }
-  - { key: Down,     mods: Control,       chars: "\x1b[1;5B"                   }
-  - { key: Down,     mods: Alt,           chars: "\x1b[1;3B"                   }
-  - { key: Down,                          chars: "\x1b[B",   mode: ~AppCursor  }
-  - { key: Down,                          chars: "\x1bOB",   mode: AppCursor   }
-  - { key: F1,                            chars: "\x1bOP"                      }
-  - { key: F2,                            chars: "\x1bOQ"                      }
-  - { key: F3,                            chars: "\x1bOR"                      }
-  - { key: F4,                            chars: "\x1bOS"                      }
-  - { key: F5,                            chars: "\x1b[15~"                    }
-  - { key: F6,                            chars: "\x1b[17~"                    }
-  - { key: F7,                            chars: "\x1b[18~"                    }
-  - { key: F8,                            chars: "\x1b[19~"                    }
-  - { key: F9,                            chars: "\x1b[20~"                    }
-  - { key: F10,                           chars: "\x1b[21~"                    }
-  - { key: F11,                           chars: "\x1b[23~"                    }
-  - { key: F12,                           chars: "\x1b[24~"                    }
-  - { key: F1,       mods: Shift,         chars: "\x1b[1;2P"                   }
-  - { key: F2,       mods: Shift,         chars: "\x1b[1;2Q"                   }
-  - { key: F3,       mods: Shift,         chars: "\x1b[1;2R"                   }
-  - { key: F4,       mods: Shift,         chars: "\x1b[1;2S"                   }
-  - { key: F5,       mods: Shift,         chars: "\x1b[15;2~"                  }
-  - { key: F6,       mods: Shift,         chars: "\x1b[17;2~"                  }
-  - { key: F7,       mods: Shift,         chars: "\x1b[18;2~"                  }
-  - { key: F8,       mods: Shift,         chars: "\x1b[19;2~"                  }
-  - { key: F9,       mods: Shift,         chars: "\x1b[20;2~"                  }
-  - { key: F10,      mods: Shift,         chars: "\x1b[21;2~"                  }
-  - { key: F11,      mods: Shift,         chars: "\x1b[23;2~"                  }
-  - { key: F12,      mods: Shift,         chars: "\x1b[24;2~"                  }
-  - { key: F1,       mods: Control,       chars: "\x1b[1;5P"                   }
-  - { key: F2,       mods: Control,       chars: "\x1b[1;5Q"                   }
-  - { key: F3,       mods: Control,       chars: "\x1b[1;5R"                   }
-  - { key: F4,       mods: Control,       chars: "\x1b[1;5S"                   }
-  - { key: F5,       mods: Control,       chars: "\x1b[15;5~"                  }
-  - { key: F6,       mods: Control,       chars: "\x1b[17;5~"                  }
-  - { key: F7,       mods: Control,       chars: "\x1b[18;5~"                  }
-  - { key: F8,       mods: Control,       chars: "\x1b[19;5~"                  }
-  - { key: F9,       mods: Control,       chars: "\x1b[20;5~"                  }
-  - { key: F10,      mods: Control,       chars: "\x1b[21;5~"                  }
-  - { key: F11,      mods: Control,       chars: "\x1b[23;5~"                  }
-  - { key: F12,      mods: Control,       chars: "\x1b[24;5~"                  }
-  - { key: F1,       mods: Alt,           chars: "\x1b[1;6P"                   }
-  - { key: F2,       mods: Alt,           chars: "\x1b[1;6Q"                   }
-  - { key: F3,       mods: Alt,           chars: "\x1b[1;6R"                   }
-  - { key: F4,       mods: Alt,           chars: "\x1b[1;6S"                   }
-  - { key: F5,       mods: Alt,           chars: "\x1b[15;6~"                  }
-  - { key: F6,       mods: Alt,           chars: "\x1b[17;6~"                  }
-  - { key: F7,       mods: Alt,           chars: "\x1b[18;6~"                  }
-  - { key: F8,       mods: Alt,           chars: "\x1b[19;6~"                  }
-  - { key: F9,       mods: Alt,           chars: "\x1b[20;6~"                  }
-  - { key: F10,      mods: Alt,           chars: "\x1b[21;6~"                  }
-  - { key: F11,      mods: Alt,           chars: "\x1b[23;6~"                  }
-  - { key: F12,      mods: Alt,           chars: "\x1b[24;6~"                  }
-  - { key: F1,       mods: Command,       chars: "\x1b[1;3P"                   }
-  - { key: F2,       mods: Command,       chars: "\x1b[1;3Q"                   }
-  - { key: F3,       mods: Command,       chars: "\x1b[1;3R"                   }
-  - { key: F4,       mods: Command,       chars: "\x1b[1;3S"                   }
-  - { key: F5,       mods: Command,       chars: "\x1b[15;3~"                  }
-  - { key: F6,       mods: Command,       chars: "\x1b[17;3~"                  }
-  - { key: F7,       mods: Command,       chars: "\x1b[18;3~"                  }
-  - { key: F8,       mods: Command,       chars: "\x1b[19;3~"                  }
-  - { key: F9,       mods: Command,       chars: "\x1b[20;3~"                  }
-  - { key: F10,      mods: Command,       chars: "\x1b[21;3~"                  }
-  - { key: F11,      mods: Command,       chars: "\x1b[23;3~"                  }
-  - { key: F12,      mods: Command,       chars: "\x1b[24;3~"                  }
-  - { key: NumpadEnter,                   chars: "\n"                          }
+  - { key: Paste,                   action: Paste                        }
+  - { key: Copy,                    action: Copy                         }
+  - { key: L,        mods: Control, action: ClearLogNotice               }
+  - { key: L,        mods: Control, chars: "\x0c"                        }
+  - { key: Home,                    chars: "\x1bOH",   mode: AppCursor   }
+  - { key: Home,                    chars: "\x1b[H",   mode: ~AppCursor  }
+  - { key: End,                     chars: "\x1bOF",   mode: AppCursor   }
+  - { key: End,                     chars: "\x1b[F",   mode: ~AppCursor  }
+  - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~"                   }
+  - { key: PageUp,   mods: Control, chars: "\x1b[5;5~"                   }
+  - { key: PageUp,                  chars: "\x1b[5~"                     }
+  - { key: PageDown, mods: Shift,   chars: "\x1b[6;2~"                   }
+  - { key: PageDown, mods: Control, chars: "\x1b[6;5~"                   }
+  - { key: PageDown,                chars: "\x1b[6~"                     }
+  - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
+  - { key: Back,                    chars: "\x7f"                        }
+  - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    }
+  - { key: Insert,                  chars: "\x1b[2~"                     }
+  - { key: Delete,                  chars: "\x1b[3~"                     }
+  - { key: Left,     mods: Shift,   chars: "\x1b[1;2D"                   }
+  - { key: Left,     mods: Control, chars: "\x1b[1;5D"                   }
+  - { key: Left,     mods: Alt,     chars: "\x1b[1;3D"                   }
+  - { key: Left,                    chars: "\x1b[D",   mode: ~AppCursor  }
+  - { key: Left,                    chars: "\x1bOD",   mode: AppCursor   }
+  - { key: Right,    mods: Shift,   chars: "\x1b[1;2C"                   }
+  - { key: Right,    mods: Control, chars: "\x1b[1;5C"                   }
+  - { key: Right,    mods: Alt,     chars: "\x1b[1;3C"                   }
+  - { key: Right,                   chars: "\x1b[C",   mode: ~AppCursor  }
+  - { key: Right,                   chars: "\x1bOC",   mode: AppCursor   }
+  - { key: Up,       mods: Shift,   chars: "\x1b[1;2A"                   }
+  - { key: Up,       mods: Control, chars: "\x1b[1;5A"                   }
+  - { key: Up,       mods: Alt,     chars: "\x1b[1;3A"                   }
+  - { key: Up,                      chars: "\x1b[A",   mode: ~AppCursor  }
+  - { key: Up,                      chars: "\x1bOA",   mode: AppCursor   }
+  - { key: Down,     mods: Shift,   chars: "\x1b[1;2B"                   }
+  - { key: Down,     mods: Control, chars: "\x1b[1;5B"                   }
+  - { key: Down,     mods: Alt,     chars: "\x1b[1;3B"                   }
+  - { key: Down,                    chars: "\x1b[B",   mode: ~AppCursor  }
+  - { key: Down,                    chars: "\x1bOB",   mode: AppCursor   }
+  - { key: F1,                      chars: "\x1bOP"                      }
+  - { key: F2,                      chars: "\x1bOQ"                      }
+  - { key: F3,                      chars: "\x1bOR"                      }
+  - { key: F4,                      chars: "\x1bOS"                      }
+  - { key: F5,                      chars: "\x1b[15~"                    }
+  - { key: F6,                      chars: "\x1b[17~"                    }
+  - { key: F7,                      chars: "\x1b[18~"                    }
+  - { key: F8,                      chars: "\x1b[19~"                    }
+  - { key: F9,                      chars: "\x1b[20~"                    }
+  - { key: F10,                     chars: "\x1b[21~"                    }
+  - { key: F11,                     chars: "\x1b[23~"                    }
+  - { key: F12,                     chars: "\x1b[24~"                    }
+  - { key: F1,       mods: Shift,   chars: "\x1b[1;2P"                   }
+  - { key: F2,       mods: Shift,   chars: "\x1b[1;2Q"                   }
+  - { key: F3,       mods: Shift,   chars: "\x1b[1;2R"                   }
+  - { key: F4,       mods: Shift,   chars: "\x1b[1;2S"                   }
+  - { key: F5,       mods: Shift,   chars: "\x1b[15;2~"                  }
+  - { key: F6,       mods: Shift,   chars: "\x1b[17;2~"                  }
+  - { key: F7,       mods: Shift,   chars: "\x1b[18;2~"                  }
+  - { key: F8,       mods: Shift,   chars: "\x1b[19;2~"                  }
+  - { key: F9,       mods: Shift,   chars: "\x1b[20;2~"                  }
+  - { key: F10,      mods: Shift,   chars: "\x1b[21;2~"                  }
+  - { key: F11,      mods: Shift,   chars: "\x1b[23;2~"                  }
+  - { key: F12,      mods: Shift,   chars: "\x1b[24;2~"                  }
+  - { key: F1,       mods: Control, chars: "\x1b[1;5P"                   }
+  - { key: F2,       mods: Control, chars: "\x1b[1;5Q"                   }
+  - { key: F3,       mods: Control, chars: "\x1b[1;5R"                   }
+  - { key: F4,       mods: Control, chars: "\x1b[1;5S"                   }
+  - { key: F5,       mods: Control, chars: "\x1b[15;5~"                  }
+  - { key: F6,       mods: Control, chars: "\x1b[17;5~"                  }
+  - { key: F7,       mods: Control, chars: "\x1b[18;5~"                  }
+  - { key: F8,       mods: Control, chars: "\x1b[19;5~"                  }
+  - { key: F9,       mods: Control, chars: "\x1b[20;5~"                  }
+  - { key: F10,      mods: Control, chars: "\x1b[21;5~"                  }
+  - { key: F11,      mods: Control, chars: "\x1b[23;5~"                  }
+  - { key: F12,      mods: Control, chars: "\x1b[24;5~"                  }
+  - { key: F1,       mods: Alt,     chars: "\x1b[1;6P"                   }
+  - { key: F2,       mods: Alt,     chars: "\x1b[1;6Q"                   }
+  - { key: F3,       mods: Alt,     chars: "\x1b[1;6R"                   }
+  - { key: F4,       mods: Alt,     chars: "\x1b[1;6S"                   }
+  - { key: F5,       mods: Alt,     chars: "\x1b[15;6~"                  }
+  - { key: F6,       mods: Alt,     chars: "\x1b[17;6~"                  }
+  - { key: F7,       mods: Alt,     chars: "\x1b[18;6~"                  }
+  - { key: F8,       mods: Alt,     chars: "\x1b[19;6~"                  }
+  - { key: F9,       mods: Alt,     chars: "\x1b[20;6~"                  }
+  - { key: F10,      mods: Alt,     chars: "\x1b[21;6~"                  }
+  - { key: F11,      mods: Alt,     chars: "\x1b[23;6~"                  }
+  - { key: F12,      mods: Alt,     chars: "\x1b[24;6~"                  }
+  - { key: F1,       mods: Super,   chars: "\x1b[1;3P"                   }
+  - { key: F2,       mods: Super,   chars: "\x1b[1;3Q"                   }
+  - { key: F3,       mods: Super,   chars: "\x1b[1;3R"                   }
+  - { key: F4,       mods: Super,   chars: "\x1b[1;3S"                   }
+  - { key: F5,       mods: Super,   chars: "\x1b[15;3~"                  }
+  - { key: F6,       mods: Super,   chars: "\x1b[17;3~"                  }
+  - { key: F7,       mods: Super,   chars: "\x1b[18;3~"                  }
+  - { key: F8,       mods: Super,   chars: "\x1b[19;3~"                  }
+  - { key: F9,       mods: Super,   chars: "\x1b[20;3~"                  }
+  - { key: F10,      mods: Super,   chars: "\x1b[21;3~"                  }
+  - { key: F11,      mods: Super,   chars: "\x1b[23;3~"                  }
+  - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                  }
+  - { key: NumpadEnter,             chars: "\n"                          }

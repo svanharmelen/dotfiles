@@ -59,16 +59,15 @@ let g:mapleader = ' '
 set autoread                         " Automatically reload files when changed outside vim
 set breakat=,)                       " Break lines at specific characters only
 set clipboard^=unnamed               " Copy selected text to the system clipboard
-set clipboard^=unnamedplus           " Copy selected text to the system clipboard
 set cmdheight=1                      " Force the command height to 1
 set colorcolumn=100                  " Highlight 100 character limits
-set completeopt-=preview             " Do not show completion options in the preview window
+"set completeopt-=preview             " Do not show completion options in the preview window
 set diffopt+=vertical                " Make diffs split vertically
 set hidden                           " Allow buffers to be backgrounded without being saved
 set inccommand=nosplit               " Live update (preview) substitutions
 set linebreak                        " Break lines at `breakat` characters only
 set list                             " Show invisible characters
-set listchars=tab:▸\ ,eol:¬          " Set the characters for the invisibles
+set listchars=tab:▸\                 " Set the characters for the invisibles
 set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
 set mouse-=a                         " Disable mouse clicks to go to a position
@@ -140,9 +139,12 @@ set wildignore+=*.orig                           " Merge resolution files
 let g:molokai_original = 1
 colorscheme molokai
 
-" Config python used by Neovim
+" Config Python used by Neovim
 let g:loaded_python_provider = 1
 let g:python3_host_prog = '/usr/local/bin/python3'
+
+" Config Node used by Neovim
+let g:loaded_node_provider = 1
 
 " ----------------------------------------- "
 " Plugin configs                            "
@@ -198,6 +200,7 @@ call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
 call deoplete#custom#source('_', 'sorters', ['sorter_word'])
 call deoplete#custom#source('neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+autocmd CompleteDone * silent! pclose!
 
 " ====================== fugitive ======================
 nnoremap <leader>fb :Gblame<CR>
@@ -273,7 +276,7 @@ let g:LanguageClient_rootMarkers = {
 let g:LanguageClient_serverCommands = {
   \ 'rust': ['rustup', 'run', 'stable', 'rls'],
   \ }
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <silent> <F5> :call LanguageClient_contextMenu()<CR>
 
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
@@ -309,12 +312,12 @@ let g:rustfmt_autosave = 1
 let g:rustfmt_fail_silently = 1
 let g:rust_clip_command = 'pbcopy'
 " Bindings
-autocmd FileType rust nmap <leader>t  :RustTest<CR>
-autocmd FileType rust nmap <leader>tf :RustTest!<CR>
-autocmd FileType rust nmap <leader>d  :call LanguageClient#textDocument_definition()<CR>
-autocmd FileType rust nmap <leader>rd <Plug>(rust-doc)
-autocmd FileType rust nmap <leader>rr :call LanguageClient#textDocument_rename()<CR>:update<CR>
-autocmd FileType rust nmap <leader>r  :call LanguageClient#textDocument_references()<CR>
+autocmd FileType rust nmap <silent> <leader>t  :RustTest<CR>
+autocmd FileType rust nmap <silent> <leader>tf :RustTest!<CR>
+autocmd FileType rust nmap <silent> <leader>d  :call LanguageClient#textDocument_definition()<CR>
+autocmd FileType rust nmap <silent> <leader>i  :call LanguageClient#textDocument_hover()<CR>
+autocmd FileType rust nmap <silent> <leader>rn :call LanguageClient#textDocument_rename()<CR>:update<CR>
+autocmd FileType rust nmap <silent> <leader>rf :call LanguageClient#textDocument_references()<CR>
 
 " ===================== vim-airline ====================
 let g:airline_focuslost_inactive=1
@@ -352,21 +355,17 @@ let g:go_metalinter_enabled = [
   \ ]
 " Bindings
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>i  <Plug>(go-install)
+autocmd FileType go nmap <leader>gi  <Plug>(go-install)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <leader>tc <Plug>(go-test-compile)
 autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
 autocmd FileType go nmap <Leader>c  <Plug>(go-coverage-toggle)
-autocmd FileType go nmap <leader>gm <Plug>(go-metalinter)
 autocmd FileType go nmap <leader>d  <Plug>(go-def)
 autocmd FileType go nmap <leader>ga :GoAlternate!<CR>
-autocmd FileType go nmap <leader>gd <Plug>(go-doc)
 autocmd FileType go nmap <leader>gg <Plug>(go-generate)
-autocmd FileType go nmap <leader>gi <Plug>(go-info)
-autocmd FileType go nmap <leader>gr <Plug>(go-rename)
-autocmd FileType go nmap <leader>r  <Plug>(go-referrers)
-autocmd FileType go nmap <leader>gs :GoSameIdsAutoToggle<CR>
-autocmd FileType go imap <C-e> <ESC>:GoIfErr<CR>i
+autocmd FileType go nmap <leader>i  <Plug>(go-info)
+autocmd FileType go nmap <leader>rn <Plug>(go-rename)
+autocmd FileType go nmap <leader>rf <Plug>(go-referrers)
 autocmd FileType go nmap <C-g> :GoDecls<CR>
 autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
 autocmd FileType go nmap © :GoDeclsDir<CR>
@@ -435,9 +434,6 @@ command! -bang W w<bang>
 
 " ============== overwrite read only files =============
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <Bar> edit!
-
-" ================ toggle spell checking ===============
-nmap <silent> <leader>s :set spell!<CR>
 
 " ================= quickfix settings ==================
 autocmd FileType qf wincmd J
@@ -539,7 +535,7 @@ nnoremap <silent> <leader>a :call <SID>LocationToggle('Quickfix List', 'c')<CR>
 nnoremap <silent> <leader>l :call <SID>LocationToggle('Location List', 'l')<CR>
 
 " ================ remove search highlight =============
-nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <silent> <leader><space> :nohlsearch<Bar>pclose!<CR>
 
 " ================= trailing whitespace ================
 function! s:StripTrailingWhitespaces()
@@ -564,6 +560,9 @@ vnoremap <C-h> <ESC><C-w>h
 vnoremap <C-j> <ESC><C-w>j
 vnoremap <C-k> <ESC><C-w>k
 vnoremap <C-l> <ESC><C-w>l
+
+" ================ toggle spell checking ===============
+nmap <silent> <leader>s :set spell!<CR>
 
 " ============== window switching by number ============
 let i = 1
