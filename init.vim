@@ -14,7 +14,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': './install.sh'}
 Plug 'google/vim-searchindex'
-Plug 'fatih/vim-go', {'tag': '*'}
+Plug 'fatih/vim-go'
 Plug 'junegunn/fzf.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
@@ -61,7 +61,7 @@ set breakat=,)                       " Break lines at specific characters only
 set clipboard^=unnamed               " Copy selected text to the system clipboard
 set cmdheight=1                      " Force the command height to 1
 set colorcolumn=100                  " Highlight 100 character limits
-"set completeopt-=preview             " Do not show completion options in the preview window
+set completeopt-=preview             " Do not show completion options in the preview window
 set diffopt+=vertical                " Make diffs split vertically
 set hidden                           " Allow buffers to be backgrounded without being saved
 set inccommand=nosplit               " Live update (preview) substitutions
@@ -152,22 +152,20 @@ let g:loaded_node_provider = 1
 
 " ======================== ale ========================
 let g:ale_linters = {
-  \ 'go': ['gometalinter'],
+  \ 'go': ['golangci-lint'],
   \ 'html': [],
   \ 'javascript': ['eslint'],
   \ 'python': ['flake8'],
   \ 'ruby': ['brakeman', 'rails_best_pratices', 'rubocop']
   \ }
-let g:ale_go_gometalinter_options = '
-  \ --aggregate
-  \ --disable=gas
-  \ --disable=goconst
-  \ --disable=vetshadow
+let g:ale_go_golangci_lint_options = '
+  \ --config=/Users/sander/dotfiles/golangci.yml
   \ --fast
-  \ --sort=line
-  \ --tests
-  \ --vendor
-  \ '
+  \ --enable=golint
+  \ --enable=misspell
+  \ --disable=errcheck
+  \'
+let g:ale_go_golangci_lint_package = 1
 let g:ale_python_flake8_options = '
   \ --ignore=E226,E501
   \ '
@@ -213,6 +211,8 @@ if &diff
   nnoremap <silent> db :diffget BASE<Bar>diffupdate<CR>
   nnoremap <silent> dl :diffget LOCAL<Bar>diffupdate<CR>
   nnoremap <silent> dr :diffget REMOTE<Bar>diffupdate<CR>
+  nnoremap <silent> dg :diffget<Bar>diffupdate<CR>
+  nnoremap <silent> dr :diffput<Bar>diffupdate<CR>
 endif
 
 " ======================== fzf =========================
@@ -233,7 +233,7 @@ nnoremap <leader>ff :Ag<Space>
 
 " ===================== neosnippet =====================
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}
-" let g:neosnippet#enable_completed_snippet = 1
+let g:neosnippet#enable_completed_snippet = 1
 let g:neosnippet#enable_optional_arguments = 0
 function! s:NeosnippetExpand()
   if pumvisible()
@@ -334,6 +334,9 @@ let g:airline_section_x = airline#section#create(['go'])
 
 " ==================== vim-gitgutter ===================
 let g:gitgutter_max_signs = 1000
+highlight GitGutterAdd    ctermfg=2 ctermbg=236
+highlight GitGutterChange ctermfg=3 ctermbg=236
+highlight GitGutterDelete ctermfg=1 ctermbg=236
 
 " ======================= vim-go =======================
 " Settings
@@ -348,11 +351,6 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 let g:go_snippet_engine = 'neosnippet'
 let g:go_statusline_duration = 10000
-let g:go_metalinter_enabled = [
-  \ 'deadcode', 'errcheck', 'gas', 'goconst', 'golint', 'gosimple',
-  \ 'gotype', 'ineffassign', 'interfacer', 'staticcheck', 'structcheck',
-  \ 'unconvert', 'varcheck', 'vet', 'vetshadow',
-  \ ]
 " Bindings
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>gi  <Plug>(go-install)

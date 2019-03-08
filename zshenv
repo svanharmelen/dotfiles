@@ -9,7 +9,7 @@ export PATH="$GOPATH/bin:$HOME/.cargo/bin:$HOME/.google-cloud-sdk/bin:$HOME/.rbe
 
 # Set Go related variables.
 export GOBIN="$GOPATH/bin"
-# export GO111MODULE=on
+export GO111MODULE=on
 
 # Set the Github username and token variables.
 export $(/usr/local/bin/envchain -l github -v)
