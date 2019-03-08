@@ -39,7 +39,6 @@ setopt rmstarsilent
 unsetopt share_history
 
 # Set usefull aliasses
-alias atlas="envchain atlas ./run_compose.sh"
 alias bu="brew update && brew upgrade && brew cask upgrade && brew cleanup -s && brew cask outdated"
 alias c="cargo"
 alias grep="ag --nogroup --color-match='1;31'"
