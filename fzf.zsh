@@ -1,12 +1,12 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */Users/sander/.fzf/bin* ]]; then
-  export PATH="$PATH:/Users/sander/.fzf/bin"
+if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
+  export PATH="$PATH:/usr/local/opt/fzf/bin"
 fi
 
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "/Users/sander/.fzf/shell/completion.zsh" 2> /dev/null
+[[ $- == *i* ]] && source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
 
 # Fuzzy z completions
 # ------------
@@ -14,4 +14,4 @@ source "/Users/sander/dotfiles/plugins/fz.plugin.zsh"
 
 # Key bindings
 # ------------
-source "/Users/sander/.fzf/shell/key-bindings.zsh"
+source "/usr/local/opt/fzf/shell/key-bindings.zsh"

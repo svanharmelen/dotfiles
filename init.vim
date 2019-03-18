@@ -13,6 +13,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': './install.sh'}
+Plug 'deoplete-plugins/deoplete-go', {'do': 'make'}
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go'
 Plug 'junegunn/fzf.vim'
@@ -33,10 +34,9 @@ Plug 'tpope/vim-surround'
 Plug 'tweekmonster/fzf-filemru'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale', {'tag': '*'}
+Plug 'w0rp/ale'
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
-Plug 'zchee/deoplete-go', {'do': 'make'}
 
 " Syntax related plugins
 Plug 'elzr/vim-json', {'for': 'json'}
@@ -121,14 +121,12 @@ set ttimeoutlen=10
 set wildmenu
 set wildmode=list:full                           " Wildcard matches the longest and shows a list
 set wildignore+=.hg,.git,.svn                    " Version control
-set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
 set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 set wildignore+=*.luac                           " Lua byte code
-set wildignore+=migrations                       " Django migrations
 set wildignore+=go/pkg                           " Go static files
 set wildignore+=go/bin                           " Go bin files
 set wildignore+=go/bin-vagrant                   " Go bin-vagrant files
@@ -153,11 +151,11 @@ let g:loaded_node_provider = 1
 " ======================== ale ========================
 let g:ale_linters = {
   \ 'go': ['golangci-lint'],
-  \ 'html': [],
   \ 'javascript': ['eslint'],
   \ 'python': ['flake8'],
   \ 'ruby': ['brakeman', 'rails_best_pratices', 'rubocop']
   \ }
+let g:ale_linters_explicit = 1
 let g:ale_go_golangci_lint_options = '
   \ --config=/Users/sander/dotfiles/golangci.yml
   \ --fast
@@ -190,7 +188,8 @@ let g:delimitMate_insert_eol_marker = 0
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#auto_goos = 1
-let g:deoplete#sources#go#gocode_binary = '/Users/sander/GoCode/bin/gocode'
+let g:deoplete#sources#go#builtin_objects = 1
+let g:deoplete#sources#go#gocode_binary = '/Users/sander/GoCode/bin/gocode-gomod'
 let g:deoplete#sources#go#unimported_packages = 1
 call deoplete#custom#option('ignore_sources', {'_': ['around', 'dictionary', 'member', 'tag']})
 call deoplete#custom#option('refresh_always', v:false)
@@ -340,7 +339,9 @@ highlight GitGutterDelete ctermfg=1 ctermbg=236
 
 " ======================= vim-go =======================
 " Settings
+let g:go_decls_mode = 'fzf'
 let g:go_def_mapping_enabled = 0
+let g:go_def_mode = 'gopls'
 let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
 let g:go_list_type = 'quickfix'
