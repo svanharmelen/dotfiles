@@ -39,7 +39,7 @@ setopt rmstarsilent
 unsetopt share_history
 
 # Set usefull aliasses
-alias bu="brew update && brew upgrade && brew cask upgrade && brew cleanup -s && brew cask outdated"
+alias bu="brew update && brew upgrade && brew cask upgrade && brew cleanup -s"
 alias c="cargo"
 alias grep="ag --nogroup --color-match='1;31'"
 alias ll="ls -la"

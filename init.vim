@@ -13,7 +13,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': './install.sh'}
-Plug 'deoplete-plugins/deoplete-go', {'do': 'make'}
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go'
 Plug 'junegunn/fzf.vim'
@@ -26,6 +25,7 @@ Plug 'shougo/neosnippet.vim'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
+Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -67,7 +67,7 @@ set hidden                           " Allow buffers to be backgrounded without 
 set inccommand=nosplit               " Live update (preview) substitutions
 set linebreak                        " Break lines at `breakat` characters only
 set list                             " Show invisible characters
-set listchars=tab:▸\                 " Set the characters for the invisibles
+set listchars=tab:┊\                 " Set the characters for the invisibles
 set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
 set mouse-=a                         " Disable mouse clicks to go to a position
@@ -187,10 +187,6 @@ let g:delimitMate_insert_eol_marker = 0
 
 " ====================== deoplete ======================
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#auto_goos = 1
-let g:deoplete#sources#go#builtin_objects = 1
-let g:deoplete#sources#go#gocode_binary = '/Users/sander/GoCode/bin/gocode-gomod'
-let g:deoplete#sources#go#unimported_packages = 1
 call deoplete#custom#option('ignore_sources', {'_': ['around', 'dictionary', 'member', 'tag']})
 call deoplete#custom#option('refresh_always', v:false)
 call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
@@ -221,13 +217,14 @@ let g:fzf_action = {
   \ }
 let g:fzf_layout = { 'down': '~30%' }
 let $FZF_DEFAULT_COMMAND='ag --hidden --ignore=.git -g ""'
-let $FZF_DEFAULT_OPTS='--bind ctrl-a:select-all'
+let $FZF_DEFAULT_OPTS='-e --bind ctrl-a:select-all'
 
 command! -bang -nargs=* Ag
   \ call fzf#vim#ag(<q-args>, '--color-match="1;31"',
   \ fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
-nnoremap <silent><C-P> :FilesMru --no-sort<CR>
+nnoremap <silent><C-P> :FilesMru<CR>
+nnoremap <silent>π :Lines<CR>
 nnoremap <leader>ff :Ag<Space>
 
 " ===================== neosnippet =====================
@@ -270,12 +267,18 @@ endif
 let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_hasSnippetSupport = 0
 let g:LanguageClient_rootMarkers = {
+  \ 'go': ['.git', 'go.mod'],
   \ 'rust': ['Cargo.toml'],
   \ }
 let g:LanguageClient_serverCommands = {
+  \ 'go': ['bingo'],
   \ 'rust': ['rustup', 'run', 'stable', 'rls'],
   \ }
 nnoremap <silent> <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <silent> <leader>d  :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <leader>i  :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <leader>rn :call LanguageClient#textDocument_rename()<CR>
+nnoremap <silent> <leader>rf :call LanguageClient#textDocument_references()<CR>
 
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
@@ -313,10 +316,6 @@ let g:rust_clip_command = 'pbcopy'
 " Bindings
 autocmd FileType rust nmap <silent> <leader>t  :RustTest<CR>
 autocmd FileType rust nmap <silent> <leader>tf :RustTest!<CR>
-autocmd FileType rust nmap <silent> <leader>d  :call LanguageClient#textDocument_definition()<CR>
-autocmd FileType rust nmap <silent> <leader>i  :call LanguageClient#textDocument_hover()<CR>
-autocmd FileType rust nmap <silent> <leader>rn :call LanguageClient#textDocument_rename()<CR>:update<CR>
-autocmd FileType rust nmap <silent> <leader>rf :call LanguageClient#textDocument_references()<CR>
 
 " ===================== vim-airline ====================
 let g:airline_focuslost_inactive=1
@@ -344,6 +343,7 @@ let g:go_def_mapping_enabled = 0
 let g:go_def_mode = 'gopls'
 let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
+let g:go_info_mode = 'gopls'
 let g:go_list_type = 'quickfix'
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
@@ -354,21 +354,24 @@ let g:go_snippet_engine = 'neosnippet'
 let g:go_statusline_duration = 10000
 " Bindings
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>gi  <Plug>(go-install)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <leader>tc <Plug>(go-test-compile)
 autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
 autocmd FileType go nmap <Leader>c  <Plug>(go-coverage-toggle)
-autocmd FileType go nmap <leader>d  <Plug>(go-def)
 autocmd FileType go nmap <leader>ga :GoAlternate!<CR>
 autocmd FileType go nmap <leader>gg <Plug>(go-generate)
-autocmd FileType go nmap <leader>i  <Plug>(go-info)
-autocmd FileType go nmap <leader>rn <Plug>(go-rename)
-autocmd FileType go nmap <leader>rf <Plug>(go-referrers)
 autocmd FileType go nmap <C-g> :GoDecls<CR>
 autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
 autocmd FileType go nmap © :GoDeclsDir<CR>
 autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
+
+" ==================== vim-hardtime ====================
+let g:hardtime_allow_different_key = 1
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_maxcount = 3
+let g:hardtime_showmsg = 1
 
 " ====================== vim-json ======================
 let g:vim_json_syntax_conceal = 0

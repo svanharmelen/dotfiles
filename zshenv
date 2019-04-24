@@ -17,6 +17,12 @@ export $(/usr/local/bin/envchain -l github -v)
 # Set the required tfe:local variables.
 export $(/usr/local/bin/envchain -l tfelocal -v)
 
+# Use .. as the trigger sequence instead of the default **
+export FZF_COMPLETION_TRIGGER='..'
+
+# Options to fzf command
+export FZF_DEFAULT_OPTS='-e'
+
 # Only set EDITOR if it doesn't exist. This check is needed
 # because in an nvim terminal we overwrite this variable
 if [[ -z $EDITOR ]]; then
