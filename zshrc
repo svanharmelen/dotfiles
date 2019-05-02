@@ -40,11 +40,9 @@ unsetopt share_history
 
 # Set usefull aliasses
 alias bu="brew update && brew upgrade && brew cask upgrade && brew cleanup -s"
-alias c="cargo"
 alias grep="ag --nogroup --color-match='1;31'"
 alias ll="ls -la"
 alias nu="nvim +PlugUpdate +PlugUpgrade +UpdateRemotePlugins"
-alias sn="export NVM_DIR=$HOME/.nvm && source /usr/local/opt/nvm/nvm.sh && nvm use"
 alias ssh="ssh -A"
 alias tf="terraform"
 alias vi="nvim"
@@ -63,9 +61,6 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 # Tweak the way completions work
 zstyle ':completion:*' insert-unambiguous true
 
-# Enable shell command completion for gcloud
-[ -f "$HOME/.google-cloud-sdk/completion.zsh.inc" ] && source "$HOME/.google-cloud-sdk/completion.zsh.inc"
-
 # Enable support for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey '^P' fzf-file-widget
@@ -75,9 +70,6 @@ _Z_CMD=j
 FZ_CMD=j
 FZ_SUBDIR_CMD=jj
 [ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
-
-# Enable rbenv
-eval "$(rbenv init -)"
 
 # Custom function to prevent nvim in nvim sessions
 function nvim () {

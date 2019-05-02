@@ -157,7 +157,7 @@ let g:ale_linters = {
   \ }
 let g:ale_linters_explicit = 1
 let g:ale_go_golangci_lint_options = '
-  \ --config=/Users/sander/dotfiles/golangci.yml
+  \ --config=/Users/svanharmelen/dotfiles/golangci.yml
   \ --fast
   \ --enable=golint
   \ --enable=misspell

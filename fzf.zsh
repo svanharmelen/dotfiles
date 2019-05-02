@@ -10,7 +10,7 @@ fi
 
 # Fuzzy z completions
 # ------------
-source "/Users/sander/dotfiles/plugins/fz.plugin.zsh"
+source "/Users/svanharmelen/dotfiles/plugins/fz.plugin.zsh"
 
 # Key bindings
 # ------------
