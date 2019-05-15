@@ -38,25 +38,6 @@ setopt nonomatch
 setopt rmstarsilent
 unsetopt share_history
 
-# Enable auto completions
-fpath=(/usr/local/share/zsh-completions $fpath)
-
-# Enable aws-okta completions
-source <(aws-okta completion zsh)
-
-# Tweak the way completions work
-zstyle ':completion:*' insert-unambiguous true
-
-# Enable support for fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-bindkey '^P' fzf-file-widget
-
-# Enable support for z (and use j as z cmd)
-_Z_CMD=j
-FZ_CMD=j
-FZ_SUBDIR_CMD=jj
-[ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
-
 # Set usefull aliasses
 alias bu="brew update && brew upgrade && brew cask upgrade && brew cleanup -s"
 alias grep="ag --nogroup --color-match='1;31'"
@@ -74,6 +55,39 @@ alias gpsupr="gpsup && hub pull-request"
 alias gpr="hub pull-request"
 alias gt="git tag"
 alias gdt="git difftool"
+
+# Enable auto completions
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+# Tweak the way completions work
+zstyle ':completion:*' insert-unambiguous true
+
+# Enable support for fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+bindkey '^P' fzf-file-widget
+
+# Enable support for z (and use j as z cmd)
+_Z_CMD=j
+FZ_CMD=j
+FZ_SUBDIR_CMD=jj
+[ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
+
+PROMPT='${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(aws_prompt_info)$(git_prompt_info)'
+eval orange='$FG[214]'
+
+# Show which AWS profile is used
+aws_prompt_info() {
+  if [[ -n $AWS_OKTA_PROFILE ]]; then
+    echo "%{$fg_bold[blue]%}aws:(%{$orange%}$AWS_OKTA_PROFILE%{$fg[blue]%})%{$reset_color%} "
+  fi
+}
+
+# Easily switch between AWS roles
+ao() {
+  local cmd="aws-okta list | awk 'FNR==1 {next} {print \$1}'"
+  local profile="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height 40% --reverse" $(__fzfcmd))"
+  source <(aws-okta env "$profile")
+}
 
 # Some logic to show execution times
 _command_time_preexec() {
@@ -101,7 +115,5 @@ reset-prompt-and-accept-line() {
   zle accept-line
   RPROMPT="%F{cyan}%* %{$reset_color%}"
 }
-
 zle -N reset-prompt-and-accept-line
-
 bindkey '^m' reset-prompt-and-accept-line

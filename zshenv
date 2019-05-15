@@ -18,7 +18,8 @@ export $(/usr/local/bin/envchain -l github -v)
 export FZF_COMPLETION_TRIGGER='..'
 
 # Options to fzf command
-export FZF_DEFAULT_OPTS='-e'
+export FZF_DEFAULT_OPTS='--height=40% --reverse -e'
+export FZF_CTRL_R_OPTS='--layout=default'
 
 # Only set EDITOR if it doesn't exist. This check is needed
 # because in an nvim terminal we overwrite this variable

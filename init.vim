@@ -271,7 +271,7 @@ let g:LanguageClient_rootMarkers = {
   \ 'rust': ['Cargo.toml'],
   \ }
 let g:LanguageClient_serverCommands = {
-  \ 'go': ['bingo'],
+  \ 'go': ['gopls'],
   \ 'rust': ['rustup', 'run', 'stable', 'rls'],
   \ }
 nnoremap <silent> <F5> :call LanguageClient_contextMenu()<CR>
