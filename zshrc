@@ -38,25 +38,11 @@ setopt nonomatch
 setopt rmstarsilent
 unsetopt share_history
 
-# Set usefull aliasses
-alias bu="brew update && brew upgrade && brew cask upgrade && brew cleanup -s"
-alias grep="ag --nogroup --color-match='1;31'"
-alias ll="ls -la"
-alias nu="nvim +PlugUpdate +PlugUpgrade +UpdateRemotePlugins"
-alias ssh="ssh -A"
-alias tf="terraform"
-alias vi="nvim"
-alias vim="nvim"
-
-# Some additional git aliasses
-alias git="hub"
-alias gpsupr="gpsup && hub pull-request"
-alias gpr="hub pull-request"
-alias gt="git tag"
-alias gdt="git difftool"
-
 # Enable auto completions
 fpath=(/usr/local/share/zsh-completions $fpath)
+
+# Enable aws-okta completions
+source <(aws-okta completion zsh)
 
 # Tweak the way completions work
 zstyle ':completion:*' insert-unambiguous true
@@ -71,18 +57,23 @@ FZ_CMD=j
 FZ_SUBDIR_CMD=jj
 [ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
 
-# Custom function to prevent nvim in nvim sessions
-function nvim () {
-  if [[ -z $NVIM_LISTEN_ADDRESS ]]; then
-    command nvim $argv
-  else
-    if [[ -z $argv ]]; then
-      nvr --remote-wait
-    else
-      nvr $argv
-    fi
-  fi
-}
+# Set usefull aliasses
+alias bu="brew update && brew upgrade && brew cask upgrade && brew cleanup -s"
+alias grep="ag --nogroup --color-match='1;31'"
+alias ll="ls -la"
+alias nu="nvim +PlugUpdate +PlugUpgrade +UpdateRemotePlugins"
+alias pip="pip3"
+alias ssh="ssh -A"
+alias tf="terraform"
+alias vi="nvim"
+alias vim="nvim"
+
+# Some additional git aliasses
+alias git="hub"
+alias gpsupr="gpsup && hub pull-request"
+alias gpr="hub pull-request"
+alias gt="git tag"
+alias gdt="git difftool"
 
 # Some logic to show execution times
 _command_time_preexec() {

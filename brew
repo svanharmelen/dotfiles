@@ -1,7 +1,10 @@
 Brew:
 =====
+aws-okta
+awscli
 bat
 cmake
+dockutil
 envchain
 fswatch
 fzf
@@ -26,5 +29,8 @@ zsh-completions
 Cask:
 =====
 alacritty
+authy
 flux
+kap
 slack
+vlc

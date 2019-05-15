@@ -1,23 +1,36 @@
 [user]
 	name = Sander van Harmelen
-	email = sander@xanzy.io
+	email = sander@vanharmelen.nl
+
 [core]
 	excludesfile = ~/.gitignore_global
+
 [credential]
 	helper = osxkeychain
+
+[credential "https://git-codecommit.eu-west-1.amazonaws.com"]
+  helper = !aws codecommit credential-helper $@
+  UseHttpPath = true
+
 [diff]
 	tool = vimdiff
+
 [difftool "vimdiff"]
 	path = nvim
+
 [merge]
 	tool = vimdiff
 	conflictstyle = diff3
+
 [mergetool]
 	prompt = false
 	keepBackup = false
+
 [mergetool "vimdiff"]
   path = nvim
+
 [push]
 	default = simple
+
 #[rebase]
 #  instructionFormat = %s (%an <%ae>)
