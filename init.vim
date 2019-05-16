@@ -227,6 +227,9 @@ nnoremap <silent><C-P> :FilesMru<CR>
 nnoremap <silent>π :Lines<CR>
 nnoremap <leader>ff :Ag<Space>
 
+" ====================== hashivim ======================
+let g:terraform_fmt_on_save = 1
+
 " ===================== neosnippet =====================
 let g:neosnippet#disable_runtime_snippets = {'_' : 1}
 let g:neosnippet#enable_completed_snippet = 1
