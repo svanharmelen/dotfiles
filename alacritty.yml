@@ -39,12 +39,26 @@ window:
   #     - none: Neither borders nor title bar
   #
   # Values for `decorations` (macOS only):
-  #     - buttonless: Title bar, transparent background and title bar buttons
-  #     - transparent: Title bar, transparent background, but no title bar buttons
+  #     - transparent: Title bar, transparent background and title bar buttons
+  #     - buttonless: Title bar, transparent background, but no title bar buttons
   decorations: full
 
-  # When true, alacritty starts maximized.
-  start_maximized: false
+  # Startup Mode (changes require restart)
+  #
+  # Values for `startup_mode`:
+  #   - Windowed
+  #   - Maximized
+  #   - Fullscreen
+  #
+  # Values for `startup_mode` (macOS only):
+  #   - SimpleFullscreen
+  startup_mode: Windowed
+
+  # Window title
+  #title: Alacritty
+
+  # Window class (Linux only):
+  #class: Alacritty
 
 scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -78,7 +92,7 @@ tabspaces: 8
 
 # Font configuration (changes require restart)
 font:
-  # Normal font face
+  # Normal (roman) font face
   normal:
     # Font family
     #
@@ -86,40 +100,26 @@ font:
     #   - (macOS) Menlo
     #   - (Linux) monospace
     #   - (Windows) Consolas
-    family: Monaco for Powerline
+    family: DejaVuSansMono Nerd Font
 
     # The `style` can be specified to pick a specific face.
-    #style: Regular
+    style: Book
 
-  # Bold font face
+  # Bold font style
   bold:
-    # Font family
-    #
-    # If the bold family is not specified, it will fall back to the
-    # value specified for the normal font.
-    family: Monaco for Powerline
+    style: Book
 
-    # The `style` can be specified to pick a specific face.
-    #style: Bold
-
-  # Italic font face
+  # Italic font style
   italic:
-    # Font family
-    #
-    # If the italic family is not specified, it will fall back to the
-    # value specified for the normal font.
-    family: Monaco for Powerline
-
-    # The `style` can be specified to pick a specific face.
-    #style: Italic
+    style: Book
 
   # Point size
-  size: 11.0
+  size: 12.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
-    x: 1
+    x: 0
     y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
@@ -143,13 +143,7 @@ font:
   #
   # This is a global setting and will require a log out or restart to take
   # effect.
-  use_thin_strokes: false
-
-# Display the time it takes to redraw each frame.
-render_timer: false
-
-# Keep the log file after quitting Alacritty.
-persistent_logging: false
+  use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
@@ -283,11 +277,15 @@ mouse:
     # This program is executed when clicking on a text which is recognized as a URL.
     # The URL is always added to the command as the last parameter.
     #
+    # When set to `None`, URL launching will be disabled completely.
+    #
     # Default:
     #   - (macOS) open
     #   - (Linux) xdg-open
     #   - (Windows) explorer
-    #launcher: xdg-open
+    #launcher:
+    #  program: xdg-open
+    #  args: []
 
     # URL modifiers
     #
@@ -296,7 +294,7 @@ mouse:
     modifiers: None
 
 selection:
-  semantic_escape_chars: ",│`|\"' ()[]{}<>¬"
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>¬"
 
   # When set to `true`, selected text will be copied to the primary clipboard.
   save_to_clipboard: true
@@ -348,6 +346,30 @@ enable_experimental_conpty_backend: false
 # Send ESC (\x1b) before characters when alt is pressed.
 alt_send_esc: true
 
+debug:
+  # Display the time it takes to redraw each frame.
+  render_timer: false
+
+  # Keep the log file after quitting Alacritty.
+  persistent_logging: false
+
+  # Log level
+  #
+  # Values for `log_level`:
+  #   - None
+  #   - Error
+  #   - Warn
+  #   - Info
+  #   - Debug
+  #   - Trace
+  log_level: Warn
+
+  # Print all received window events.
+  print_events: false
+
+  # Record all characters and escape sequences as test data.
+  ref_test: false
+
 # Key bindings
 #
 # Key bindings are specified as a list of objects. Each binding will specify a
@@ -387,6 +409,7 @@ alt_send_esc: true
 # Values for `mods`:
 #   - Command
 #   - Control
+#   - Option
 #   - Super
 #   - Shift
 #   - Alt
@@ -412,6 +435,8 @@ alt_send_esc: true
 #   - ResetFontSize
 #   - ScrollPageUp
 #   - ScrollPageDown
+#   - ScrollLineUp
+#   - ScrollLineDown
 #   - ScrollToTop
 #   - ScrollToBottom
 #   - ClearHistory
@@ -419,7 +444,11 @@ alt_send_esc: true
 #   - Quit
 #   - ClearLogNotice
 #   - SpawnNewInstance
+#   - ToggleFullscreen
 #   - None
+#
+# Values for `action` (macOS only):
+#   - ToggleSimpleFullscreen: Enters fullscreen without occupying another space
 #
 # Values for `command`:
 #   The `command` field must be a map containing a `program` string and

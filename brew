@@ -1,6 +1,7 @@
 Brew:
 =====
 aws-okta
+aws-sam-cli
 awscli
 bat
 cmake
@@ -16,7 +17,10 @@ jq
 neovim
 openssl
 python
+rbenv
+ruby-install
 telnet
+terraform
 the_silver_searcher
 tmux
 tree

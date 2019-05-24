@@ -41,7 +41,8 @@ Plug 'xuyuanp/nerdtree-git-plugin'
 " Syntax related plugins
 Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
-Plug 'hashivim/vim-hashicorp-tools'
+Plug 'hashivim/vim-terraform'
+Plug 'leafgarland/typescript-vim'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown'

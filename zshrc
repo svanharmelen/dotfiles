@@ -40,10 +40,11 @@ unsetopt share_history
 
 # Set usefull aliasses
 alias bu="brew update && brew upgrade && brew cask upgrade && brew cleanup -s"
+alias c="cargo"
 alias grep="ag --nogroup --color-match='1;31'"
-alias ll="ls -la"
 alias nu="nvim +PlugUpdate +PlugUpgrade +UpdateRemotePlugins"
 alias pip="pip3"
+alias python=python3
 alias ssh="ssh -A"
 alias tf="terraform"
 alias vi="nvim"
@@ -56,6 +57,10 @@ alias gpr="hub pull-request"
 alias gt="git tag"
 alias gdt="git difftool"
 
+# Aliases to activate virual environments
+# python -m venv --copies ~/Python/xxxxxx
+alias ss="source ~/Python/scrapy/bin/activate"
+
 # Enable auto completions
 fpath=(/usr/local/share/zsh-completions $fpath)
 
@@ -65,6 +70,9 @@ zstyle ':completion:*' insert-unambiguous true
 # Enable support for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey '^P' fzf-file-widget
+
+# Enable rbenv
+eval "$(rbenv init -)"
 
 # Enable support for z (and use j as z cmd)
 _Z_CMD=j
@@ -85,8 +93,10 @@ aws_prompt_info() {
 # Easily switch between AWS roles
 ao() {
   local cmd="aws-okta list | awk 'FNR==1 {next} {print \$1}'"
-  local profile="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height 40% --reverse" $(__fzfcmd))"
-  source <(aws-okta env "$profile")
+  local profile="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)"
+  if [[ -n $profile ]]; then
+    source <(aws-okta env "$profile")
+  fi
 }
 
 # Some logic to show execution times
