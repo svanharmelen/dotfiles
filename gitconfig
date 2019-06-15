@@ -6,7 +6,7 @@
 	excludesfile = ~/.gitignore_global
 
 [credential]
-	helper = osxkeychain
+#	helper = osxkeychain
 
 [credential "https://git-codecommit.eu-west-1.amazonaws.com"]
   helper = !aws codecommit credential-helper $@
@@ -17,6 +17,9 @@
 
 [difftool "vimdiff"]
 	path = nvim
+
+[fetch]
+  prune = true
 
 [merge]
 	tool = vimdiff
