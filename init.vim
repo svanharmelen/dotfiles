@@ -12,16 +12,13 @@ call plug#begin('~/.config/nvim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
-Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': './install.sh'}
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go'
 Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
-Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree'
-Plug 'shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-Plug 'shougo/neosnippet.vim'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
@@ -34,7 +31,7 @@ Plug 'tpope/vim-surround'
 Plug 'tweekmonster/fzf-filemru'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 
@@ -46,6 +43,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown'
+Plug 'rust-lang/rust.vim'
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
@@ -142,6 +140,9 @@ colorscheme molokai
 let g:loaded_python_provider = 1
 let g:python3_host_prog = '/usr/local/bin/python3'
 
+" Config Ruby used by Neovim
+let g:loaded_ruby_provider = 1
+
 " Config Node used by Neovim
 let g:loaded_node_provider = 1
 
@@ -179,22 +180,71 @@ hi ALEErrorSign   ctermfg=15 ctermbg=236
 hi ALEInfoSign    ctermfg=15 ctermbg=236
 hi ALEWarningSign ctermfg=15 ctermbg=236
 
+" ====================== coc.nvim ======================
+" Settings
+let g:coc_global_extensions = [
+  \ 'coc-json',
+  \ 'coc-rls',
+  \ 'coc-snippets',
+  \ 'coc-tsserver',
+  \ 'coc-tslint-plugin'
+  \]
+let g:coc_selectmode_mapping = 0
+hi CocErrorSign   ctermfg=15 ctermbg=236
+hi CocHintSign    ctermfg=15 ctermbg=236
+hi CocInfoSign    ctermfg=15 ctermbg=236
+hi CocWarningSign ctermfg=15 ctermbg=236
+" Bindings
+nmap <silent> <leader>df <Plug>(coc-definition)
+nmap <silent> <leader>dc <Plug>(coc-declaration)
+nmap <silent> <leader>td <Plug>(coc-type-definition)
+nmap <silent> <leader>im <Plug>(coc-implementation)
+nmap <silent> <leader>rf <Plug>(coc-references)
+nmap <silent> <leader>rn <Plug>(coc-rename)
+
+function! s:CocExpand()
+  if pumvisible()
+    if coc#expandableOrJumpable()
+      return "\<Plug>(coc-snippets-expand-jump)"
+    else
+      return "\<C-y>"
+    endif
+  else
+    return "\<Plug>delimitMateCR"
+  endif
+endfunction
+imap <expr><CR> <SID>CocExpand()
+
+function! s:CocJump()
+  if pumvisible()
+    return "\<C-n>"
+  elseif coc#jumpable()
+    return coc#rpc#request('snippetNext', [])
+  else
+    return "\<TAB>"
+  endif
+endfunction
+imap <expr><TAB> <SID>CocJump()
+smap <expr><TAB> <SID>CocJump()
+
+function! s:CocJumpBack()
+  if pumvisible()
+    return "\<C-p>"
+  elseif coc#jumpable()
+    return coc#rpc#request('snippetPrev', [])
+  else
+    return "\<S-TAB>"
+  endif
+endfunction
+imap <expr><S-TAB> <SID>CocJumpBack()
+smap <expr><S-TAB> <SID>CocJumpBack()
+
 " ===================== delimitmate ====================
 let g:delimitMate_balance_matchpairs = 1
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_insert_eol_marker = 0
-
-" ====================== deoplete ======================
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('ignore_sources', {'_': ['around', 'dictionary', 'member', 'tag']})
-call deoplete#custom#option('refresh_always', v:false)
-call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
-call deoplete#custom#source('_', 'sorters', ['sorter_word'])
-call deoplete#custom#source('neosnippet', 'disabled_syntaxes', ['Comment', 'String'])
-imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-autocmd CompleteDone * silent! pclose!
 
 " ====================== fugitive ======================
 nnoremap <leader>fb :Gblame<CR>
@@ -227,62 +277,6 @@ command! -bang -nargs=* Ag
 nnoremap <silent><C-P> :FilesMru<CR>
 nnoremap <silent>π :Lines<CR>
 nnoremap <leader>ff :Ag<Space>
-
-" ====================== hashivim ======================
-let g:terraform_fmt_on_save = 1
-
-" ===================== neosnippet =====================
-let g:neosnippet#disable_runtime_snippets = {'_' : 1}
-let g:neosnippet#enable_completed_snippet = 1
-let g:neosnippet#enable_optional_arguments = 0
-function! s:NeosnippetExpand()
-  if pumvisible()
-    if neosnippet#expandable()
-      return "\<Plug>(neosnippet_expand)"
-    elseif neosnippet#jumpable()
-      return "\<Plug>(neosnippet_jump)"
-    else
-      return deoplete#close_popup()
-    endif
-  else
-    return "\<Plug>delimitMateCR"
-  endif
-endfunction
-imap <expr><CR> <SID>NeosnippetExpand()
-
-function! s:NeosnippetJump()
-  if pumvisible()
-    return "\<C-n>"
-  elseif neosnippet#jumpable()
-    return "\<Plug>(neosnippet_jump)"
-  else
-    return "\<TAB>"
-  endif
-endfunction
-imap <expr><TAB> <SID>NeosnippetJump()
-smap <expr><TAB> <SID>NeosnippetJump()
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-
-" ================== language-client ===================
-let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_hasSnippetSupport = 0
-let g:LanguageClient_rootMarkers = {
-  \ 'go': ['.git', 'go.mod'],
-  \ 'rust': ['Cargo.toml'],
-  \ }
-let g:LanguageClient_serverCommands = {
-  \ 'go': ['gopls'],
-  \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-  \ }
-nnoremap <silent> <F5> :call LanguageClient_contextMenu()<CR>
-nnoremap <silent> <leader>d  :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <leader>i  :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> <leader>rn :call LanguageClient#textDocument_rename()<CR>
-nnoremap <silent> <leader>rf :call LanguageClient#textDocument_references()<CR>
 
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
@@ -325,6 +319,7 @@ autocmd FileType rust nmap <silent> <leader>tf :RustTest!<CR>
 let g:airline_focuslost_inactive=1
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
+let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#default#layout = [
   \ [ 'a', 'b', 'c' ],
@@ -334,27 +329,24 @@ call airline#parts#define_raw('go', '%#goStatuslineColor#%{go#statusline#Show()}
 call airline#parts#define_condition('go', '&filetype=="go"')
 let g:airline_section_x = airline#section#create(['go'])
 
-" ==================== vim-gitgutter ===================
+" =================== vim-gitgutter ====================
 let g:gitgutter_max_signs = 1000
-highlight GitGutterAdd    ctermfg=2 ctermbg=236
-highlight GitGutterChange ctermfg=3 ctermbg=236
-highlight GitGutterDelete ctermfg=1 ctermbg=236
+hi GitGutterAdd    ctermfg=2 ctermbg=236
+hi GitGutterChange ctermfg=3 ctermbg=236
+hi GitGutterDelete ctermfg=1 ctermbg=236
 
-" ======================= vim-go =======================
+" ====================== vim-go ========================
 " Settings
 let g:go_decls_mode = 'fzf'
 let g:go_def_mapping_enabled = 0
-let g:go_def_mode = 'gopls'
 let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
-let g:go_info_mode = 'gopls'
 let g:go_list_type = 'quickfix'
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
-let g:go_snippet_engine = 'neosnippet'
 let g:go_statusline_duration = 10000
 " Bindings
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
@@ -364,8 +356,8 @@ autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
 autocmd FileType go nmap <Leader>c  <Plug>(go-coverage-toggle)
 autocmd FileType go nmap <leader>ga :GoAlternate!<CR>
 autocmd FileType go nmap <leader>gg <Plug>(go-generate)
-autocmd FileType go nmap <C-g> :GoDecls<CR>
-autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
+" autocmd FileType go nmap <C-g> :GoDecls<CR>
+" autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
 autocmd FileType go nmap © :GoDeclsDir<CR>
 autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
 
@@ -377,7 +369,7 @@ let g:hardtime_ignore_quickfix = 1
 let g:hardtime_maxcount = 3
 let g:hardtime_showmsg = 1
 
-" ====================== vim-json ======================
+" ===================== vim-json =======================
 let g:vim_json_syntax_conceal = 0
 " Prettify JSON, install: brew install yajl
 command! JSONFormat %!json_reformat
@@ -388,12 +380,12 @@ let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_folding_disabled = 1
 
-" ===================== vim-rooter =====================
+" ==================== vim-rooter ======================
 let g:rooter_change_directory_for_non_project_files = 'current'
 let g:rooter_silent_chdir = 1
 let g:rooter_use_lcd = 1
 
-" ===================== vim-session ====================
+" ==================== vim-session =====================
 let g:session_directory = '~/.config/nvim/sessions'
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
@@ -402,8 +394,11 @@ nnoremap so :OpenSession
 nnoremap ss :SaveSession
 nnoremap sc :CloseSession<CR>
 
-" ===================== vim-surround ===================
+" =================== vim-surround =====================
 let g:surround_no_insert_mappings = 1
+
+" =================== vim-terraform ====================
+let g:terraform_fmt_on_save = 1
 
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "
@@ -464,12 +459,7 @@ function! s:LocationPrevious()
       return
     endif
   endfor
-  try
-    lprev
-  catch /^Vim\%((\a\+)\)\=:E553/
-    llast
-  catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-  endtry
+  call CocActionAsync('diagnosticPrevious')
 endfunction
 
 function! s:LocationNext()
@@ -485,12 +475,7 @@ function! s:LocationNext()
       return
     endif
   endfor
-  try
-    lnext
-  catch /^Vim\%((\a\+)\)\=:E553/
-    lfirst
-  catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-  endtry
+  call CocActionAsync('diagnosticNext')
 endfunction
 
 function! s:Height(height)

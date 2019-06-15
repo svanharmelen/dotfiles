@@ -24,7 +24,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(colorize docker docker-compose git terraform)
+plugins=(colorize docker docker-compose git kubectl terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -70,9 +70,6 @@ zstyle ':completion:*' insert-unambiguous true
 # Enable support for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey '^P' fzf-file-widget
-
-# Enable rbenv
-eval "$(rbenv init -)"
 
 # Enable support for z (and use j as z cmd)
 _Z_CMD=j

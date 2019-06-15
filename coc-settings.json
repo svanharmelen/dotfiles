@@ -1,0 +1,24 @@
+{
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.errorSign": "ⓧ",
+  "diagnostic.hintSign": "ⓘ",
+  "diagnostic.infoSign": "ⓘ",
+  "diagnostic.warningSign": "ⓦ",
+
+  "rust-client.updateOnStartup": true,
+  "rust.cfg_test": true,
+
+  "snippets.extends": {
+    "typescript": ["javascript"]
+  },
+  "snippets.ultisnips.directories": [ "gosnippets/UltiSnips" ],
+  "suggest.minTriggerInputLength": 2,
+
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".git/"],
+      "filetypes": ["go"]
+    }
+  }
+}
