@@ -4,6 +4,7 @@ aws-okta
 aws-sam-cli
 awscli
 bat
+bazaar
 cmake
 dockutil
 envchain
@@ -15,10 +16,8 @@ golangci-lint
 hub
 jq
 neovim
-openssl
+node
 python
-rbenv
-ruby-install
 telnet
 terraform
 the_silver_searcher
@@ -26,6 +25,7 @@ tmux
 tree
 watch
 wget
+yarn
 z
 zsh
 zsh-completions
@@ -36,5 +36,6 @@ alacritty
 authy
 flux
 kap
+skype-for-business
 slack
 vlc
