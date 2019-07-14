@@ -1,0 +1,33 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* Use the full titlebar for tabs */
+.titlebar-spacer[type="pre-tabs"] {
+  width: 13px !important;
+  max-width: 13px !important;
+}
+.titlebar-spacer[type="post-tabs"] {
+  width: 0px !important;
+  max-width: 0px !important;
+}
+.tabs-newtab-button {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
+
+/* Always show the close button when hovering over a tab */
+.tabbrowser-tab:not([pinned="true"]):hover .tab-close-button:not([selected="true"]) {
+  display: -moz-box !important;
+}
+
+/* Do not show the blue tab line */
+.tabbrowser-tab .tab-line {
+  display: none !important;
+}
+
+/* Prevent tab overflow */
+.tabbrowser-tab {
+  min-width: initial !important;
+}
+.tab-content {
+  overflow: hidden !important;
+}
