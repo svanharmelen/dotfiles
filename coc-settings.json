@@ -1,17 +1,17 @@
 {
-  "diagnostic.checkCurrentLine": true,
   "diagnostic.errorSign": "ⓧ",
   "diagnostic.hintSign": "ⓘ",
   "diagnostic.infoSign": "ⓘ",
   "diagnostic.warningSign": "ⓦ",
 
-  "rust-client.updateOnStartup": true,
-  "rust.cfg_test": true,
-
+  "signature.preferShownAbove":false,
   "snippets.extends": {
     "typescript": ["javascript"]
   },
-  "snippets.ultisnips.directories": [ "gosnippets/UltiSnips" ],
+  "snippets.ultisnips.directories": ["gosnippets/UltiSnips"],
+
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.enablePreselect": false,
   "suggest.minTriggerInputLength": 2,
 
   "languageserver": {
@@ -19,6 +19,16 @@
       "command": "gopls",
       "rootPatterns": ["go.mod", ".git/"],
       "filetypes": ["go"]
+    },
+    "rust": {
+      "command": "ra_lsp_server",
+      "filetypes": ["rust"],
+      "rootPatterns": ["Cargo.toml"]
+    },
+    "terraform": {
+      "command": "terraform-lsp",
+      "rootPatterns": [".git/"],
+      "filetypes": ["terraform"]
     }
   }
 }

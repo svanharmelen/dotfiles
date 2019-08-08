@@ -13,9 +13,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'google/vim-searchindex'
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', {'frozen': 1}
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
@@ -31,7 +31,6 @@ Plug 'tpope/vim-surround'
 Plug 'tweekmonster/fzf-filemru'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'w0rp/ale'
 Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 
@@ -150,57 +149,39 @@ let g:loaded_node_provider = 1
 " Plugin configs                            "
 " ----------------------------------------- "
 
-" ======================== ale ========================
-let g:ale_linters = {
-  \ 'go': ['golangci-lint'],
-  \ 'javascript': ['eslint'],
-  \ 'python': ['flake8'],
-  \ 'ruby': ['brakeman', 'rails_best_pratices', 'rubocop']
-  \ }
-let g:ale_linters_explicit = 1
-let g:ale_go_golangci_lint_options = '
-  \ --config=/Users/svanharmelen/dotfiles/golangci.yml
-  \ --fast
-  \ --enable=golint
-  \ --enable=misspell
-  \ --disable=errcheck
-  \'
-let g:ale_go_golangci_lint_package = 1
-let g:ale_python_flake8_options = '
-  \ --ignore=E226,E501
-  \ '
-let g:ale_rust_cargo_use_clippy = 1
-let g:ale_set_highlights = 0
-let g:ale_set_signs = 1
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '⚠'
-let g:ale_warn_about_trailing_whitespace = 0
-hi ALEErrorSign   ctermfg=15 ctermbg=236
-hi ALEInfoSign    ctermfg=15 ctermbg=236
-hi ALEWarningSign ctermfg=15 ctermbg=236
-
 " ====================== coc.nvim ======================
 " Settings
 let g:coc_global_extensions = [
   \ 'coc-json',
-  \ 'coc-rls',
   \ 'coc-snippets',
-  \ 'coc-tsserver',
-  \ 'coc-tslint-plugin'
+  \ 'coc-tslint-plugin',
+  \ 'coc-tsserver'
   \]
 let g:coc_selectmode_mapping = 0
 hi CocErrorSign   ctermfg=15 ctermbg=236
 hi CocHintSign    ctermfg=15 ctermbg=236
 hi CocInfoSign    ctermfg=15 ctermbg=236
 hi CocWarningSign ctermfg=15 ctermbg=236
+hi default link CocHintFloat Pmenu
+hi default link CocInfoFloat Pmenu
+hi default link CocErrorFloat Pmenu
+hi default link CocWarningFloat Pmenu
 " Bindings
 nmap <silent> <leader>df <Plug>(coc-definition)
 nmap <silent> <leader>dc <Plug>(coc-declaration)
-nmap <silent> <leader>td <Plug>(coc-type-definition)
 nmap <silent> <leader>im <Plug>(coc-implementation)
+nmap <silent> <leader>td <Plug>(coc-type-definition)
 nmap <silent> <leader>rf <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:CocExpand()
   if pumvisible()
@@ -248,11 +229,10 @@ let g:delimitMate_insert_eol_marker = 0
 
 " ====================== fugitive ======================
 nnoremap <leader>fb :Gblame<CR>
-nnoremap <leader>fs :Gbrowse<CR>
-nnoremap <leader>fc :Gcommit -a<CR>
+nnoremap <leader>fo :Gbrowse<CR>
+nnoremap <leader>fu :Gbrowse!<CR>
 nnoremap <leader>fd :Gdiff<CR>
-nnoremap <leader>fl :Glog -- %<CR>
-nnoremap <leader>fp :Gpush<CR>
+nnoremap <leader>fl :Glog! -- %<CR>
 if &diff
   nnoremap <silent> db :diffget BASE<Bar>diffupdate<CR>
   nnoremap <silent> dl :diffget LOCAL<Bar>diffupdate<CR>
@@ -275,7 +255,6 @@ command! -bang -nargs=* Ag
   \ fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
 nnoremap <silent><C-P> :FilesMru<CR>
-nnoremap <silent>π :Lines<CR>
 nnoremap <leader>ff :Ag<Space>
 
 " ====================== nerdtree ======================
@@ -325,9 +304,6 @@ let g:airline#extensions#default#layout = [
   \ [ 'a', 'b', 'c' ],
   \ [ 'x', 'y', 'z', 'error', 'warning' ]
   \ ]
-call airline#parts#define_raw('go', '%#goStatuslineColor#%{go#statusline#Show()}%')
-call airline#parts#define_condition('go', '&filetype=="go"')
-let g:airline_section_x = airline#section#create(['go'])
 
 " =================== vim-gitgutter ====================
 let g:gitgutter_max_signs = 1000
@@ -339,8 +315,10 @@ hi GitGutterDelete ctermfg=1 ctermbg=236
 " Settings
 let g:go_decls_mode = 'fzf'
 let g:go_def_mapping_enabled = 0
+let g:go_doc_keywordprg_enabled = 0
 let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
+let g:go_code_completion_enabled = 0
 let g:go_list_type = 'quickfix'
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
@@ -356,10 +334,12 @@ autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
 autocmd FileType go nmap <Leader>c  <Plug>(go-coverage-toggle)
 autocmd FileType go nmap <leader>ga :GoAlternate!<CR>
 autocmd FileType go nmap <leader>gg <Plug>(go-generate)
-" autocmd FileType go nmap <C-g> :GoDecls<CR>
-" autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
+autocmd FileType go nmap <C-g> :GoDecls<CR>
+autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
 autocmd FileType go nmap © :GoDeclsDir<CR>
 autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
+autocmd FileType go nmap <leader>fs :GoFillStruct<CR>
+" autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " ==================== vim-hardtime ====================
 let g:hardtime_allow_different_key = 1
@@ -423,9 +403,9 @@ nmap <silent> ]n :call <SID>NextMergeConflict(0)<CR>
 nmap <silent> [n :call <SID>NextMergeConflict(1)<CR>
 
 " ================== fix generic typos =================
-command! -bang WQA wq<bang>
-command! -bang WQa wq<bang>
-command! -bang Wqa wq<bang>
+command! -bang WQA wqa<bang>
+command! -bang WQa wqa<bang>
+command! -bang Wqa wqa<bang>
 command! -bang QA qa<bang>
 command! -bang Qa qa<bang>
 command! -bang WQ wq<bang>
@@ -435,6 +415,9 @@ command! -bang W w<bang>
 
 " ============== overwrite read only files =============
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <Bar> edit!
+
+" ============== paste over selected test ==============
+xnoremap p "_dP
 
 " ================= quickfix settings ==================
 autocmd FileType qf wincmd J

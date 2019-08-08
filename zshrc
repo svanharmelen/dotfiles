@@ -71,6 +71,9 @@ zstyle ':completion:*' insert-unambiguous true
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey '^P' fzf-file-widget
 
+# Enable rbenv
+eval "$(rbenv init -)"
+
 # Enable support for z (and use j as z cmd)
 _Z_CMD=j
 FZ_CMD=j
