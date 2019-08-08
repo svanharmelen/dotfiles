@@ -1,5 +1,4 @@
 {
-  "diagnostic.checkCurrentLine": true,
   "diagnostic.errorSign": "ⓧ",
   "diagnostic.hintSign": "ⓘ",
   "diagnostic.infoSign": "ⓘ",
@@ -8,10 +7,11 @@
   "rust-client.updateOnStartup": true,
   "rust.cfg_test": true,
 
+  "signature.preferShownAbove":false,
   "snippets.extends": {
     "typescript": ["javascript"]
   },
-  "snippets.ultisnips.directories": [ "gosnippets/UltiSnips" ],
+  "snippets.ultisnips.directories": ["gosnippets/UltiSnips"],
   "suggest.minTriggerInputLength": 2,
 
   "languageserver": {
@@ -19,6 +19,11 @@
       "command": "gopls",
       "rootPatterns": ["go.mod", ".git/"],
       "filetypes": ["go"]
+    },
+    "terraform": {
+      "command": "terraform-lsp",
+      "rootPatterns": [".git/"],
+      "filetypes": ["terraform"]
     }
   }
 }

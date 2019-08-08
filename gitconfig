@@ -6,11 +6,7 @@
 	excludesfile = ~/.gitignore_global
 
 [credential]
-#	helper = osxkeychain
-
-[credential "https://git-codecommit.eu-west-1.amazonaws.com"]
-  helper = !aws codecommit credential-helper $@
-  UseHttpPath = true
+	helper = osxkeychain
 
 [diff]
 	tool = vimdiff
@@ -20,6 +16,9 @@
 
 [fetch]
   prune = true
+
+[http]
+	cookiefile = ~/.gitcookies
 
 [merge]
 	tool = vimdiff
