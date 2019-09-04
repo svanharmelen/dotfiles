@@ -1,6 +1,7 @@
 [user]
 	name = Sander van Harmelen
 	email = sander@vanharmelen.nl
+	#signingkey=KEYID
 
 [core]
 	excludesfile = ~/.gitignore_global
@@ -34,5 +35,10 @@
 [push]
 	default = simple
 
+[gpg]
+	program = gpg2
+[commit]
+	gpgsign = true
+ 
 #[rebase]
 #  instructionFormat = %s (%an <%ae>)
