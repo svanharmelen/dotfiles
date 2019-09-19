@@ -1,7 +1,6 @@
 Brew:
 =====
 aws-okta
-aws-sam-cli
 awscli
 bat
 bazaar
@@ -18,6 +17,7 @@ jq
 neovim
 node
 python
+rbenv
 telnet
 terraform
 the_silver_searcher
@@ -34,8 +34,13 @@ Cask:
 =====
 alacritty
 authy
+discord
 flux
+font-dejavusansmono-nerd-font
 kap
-skype-for-business
+ngrok
+postman
+sequel-pro
 slack
+viscosity
 vlc

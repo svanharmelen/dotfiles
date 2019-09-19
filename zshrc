@@ -59,6 +59,7 @@ alias gdt="git difftool"
 
 # Aliases to activate virual environments
 # python -m venv --copies ~/Python/xxxxxx
+alias pp="source ~/Python/preprocess/bin/activate"
 alias ss="source ~/Python/scrapy/bin/activate"
 
 # Enable auto completions
@@ -80,7 +81,9 @@ FZ_CMD=j
 FZ_SUBDIR_CMD=jj
 [ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
 
-PROMPT='${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(aws_prompt_info)$(git_prompt_info)'
+newline=$'\n'
+ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+PROMPT='${ret_status}%{$fg[cyan]%}%~%{$reset_color%} $(aws_prompt_info)$(git_prompt_info)${newline}${ret_status}%{$reset_color%}'
 eval orange='$FG[214]'
 
 # Show which AWS profile is used
