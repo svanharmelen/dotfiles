@@ -3,6 +3,8 @@
   "diagnostic.hintSign": "ⓘ",
   "diagnostic.infoSign": "ⓘ",
   "diagnostic.warningSign": "ⓦ",
+  "diagnostic.maxWindowHeight": 30,
+  "diagnostic.maxWindowWidth": 200,
 
   "signature.preferShownAbove":false,
   "snippets.extends": {
@@ -10,7 +12,6 @@
   },
   "snippets.ultisnips.directories": ["gosnippets/UltiSnips"],
 
-  "suggest.acceptSuggestionOnCommitCharacter": true,
   "suggest.enablePreselect": false,
   "suggest.minTriggerInputLength": 2,
 
@@ -18,12 +19,13 @@
     "golang": {
       "command": "gopls",
       "rootPatterns": ["go.mod", ".git/"],
-      "filetypes": ["go"]
-    },
-    "rust": {
-      "command": "ra_lsp_server",
-      "filetypes": ["rust"],
-      "rootPatterns": ["Cargo.toml"]
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "usePlaceholders": true,
+        "completeUnimported": true,
+        "completionDocumentation": false,
+        "staticcheck": true
+      }
     },
     "terraform": {
       "command": "terraform-lsp",
