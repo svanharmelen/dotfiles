@@ -13,13 +13,13 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'google/vim-searchindex'
-Plug 'fatih/vim-go', {'frozen': 1}
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
 Plug 'svanharmelen/molokai'
+Plug 'svanharmelen/vim-go', {'branch': 'svh/f-custom'}
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
 Plug 'takac/vim-hardtime'
@@ -288,7 +288,7 @@ hi def link NERDTreeClosable Title
 
 " ====================== rust.vim ======================
 " Settings
-let g:rustfmt_autosave = 1
+let g:rustfmt_autosave = 0
 let g:rustfmt_fail_silently = 1
 let g:rust_clip_command = 'pbcopy'
 " Bindings

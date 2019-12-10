@@ -1,4 +1,6 @@
 {
+  "coc.preferences.formatOnSaveFiletypes": ["rust"],
+
   "diagnostic.errorSign": "ⓧ",
   "diagnostic.hintSign": "ⓘ",
   "diagnostic.infoSign": "ⓘ",
@@ -24,6 +26,7 @@
         "usePlaceholders": true,
         "completeUnimported": true,
         "completionDocumentation": false,
+        "experimentalDisabledAnalyses": ["ST1000", "ST1005"],
         "staticcheck": true
       }
     },
