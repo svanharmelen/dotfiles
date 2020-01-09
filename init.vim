@@ -153,7 +153,7 @@ let g:loaded_node_provider = 1
 " Settings
 let g:coc_global_extensions = [
   \ 'coc-json',
-  \ 'coc-rls',
+  \ 'coc-rust-analyzer',
   \ 'coc-snippets',
   \ 'coc-tslint-plugin',
   \ 'coc-tsserver'

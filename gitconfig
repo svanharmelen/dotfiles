@@ -36,3 +36,6 @@
 
 #[rebase]
 #  instructionFormat = %s (%an <%ae>)
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/

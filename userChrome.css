@@ -9,10 +9,6 @@
   width: 0px !important;
   max-width: 0px !important;
 }
-.tabs-newtab-button {
-  padding-right: 5px !important;
-  padding-left: 5px !important;
-}
 
 /* Always show the close button when hovering over a tab */
 .tabbrowser-tab:not([pinned="true"]):hover .tab-close-button:not([selected="true"]) {
@@ -28,6 +24,6 @@
 .tabbrowser-tab {
   min-width: initial !important;
 }
-.tab-content {
+.tab-content:not([pinned="true"]) {
   overflow: hidden !important;
 }
