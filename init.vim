@@ -229,17 +229,16 @@ let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_insert_eol_marker = 0
 
 " ====================== fugitive ======================
-nnoremap <leader>fb :Gblame<CR>
-nnoremap <leader>fo :Gbrowse<CR>
-nnoremap <leader>fu :Gbrowse!<CR>
-nnoremap <leader>fd :Gdiff<CR>
-nnoremap <leader>fl :Glog! -- %<CR>
+nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>go :Gbrowse<CR>
+nnoremap <leader>gl :Gbrowse!<CR>
+nnoremap <leader>gd :Gdiff<CR>
 if &diff
   nnoremap <silent> db :diffget BASE<Bar>diffupdate<CR>
   nnoremap <silent> dl :diffget LOCAL<Bar>diffupdate<CR>
   nnoremap <silent> dr :diffget REMOTE<Bar>diffupdate<CR>
   nnoremap <silent> dg :diffget<Bar>diffupdate<CR>
-  nnoremap <silent> dr :diffput<Bar>diffupdate<CR>
+  nnoremap <silent> dp :diffput<Bar>diffupdate<CR>
 endif
 
 " ======================== fzf =========================
@@ -248,7 +247,7 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit'
   \ }
 let g:fzf_layout = { 'down': '~30%' }
-let $FZF_DEFAULT_COMMAND='ag --hidden --ignore=.git -g ""'
+let $FZF_DEFAULT_COMMAND='ag --ignore=.git -g ""'
 let $FZF_DEFAULT_OPTS='-e --bind ctrl-a:select-all'
 
 command! -bang -nargs=* Ag

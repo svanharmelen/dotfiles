@@ -1,6 +1,7 @@
 {
   "coc.preferences.formatOnSaveFiletypes": ["rust"],
 
+  "diagnostic.enableHighlightLineNumber": false,
   "diagnostic.errorSign": "ⓧ",
   "diagnostic.hintSign": "ⓘ",
   "diagnostic.infoSign": "ⓘ",

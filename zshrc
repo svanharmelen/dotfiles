@@ -56,6 +56,7 @@ alias gpsupr="gpsup && hub pull-request"
 alias gpr="hub pull-request"
 alias gt="git tag"
 alias gdt="git difftool"
+alias gfal="gfa && gl"
 
 # Aliases to activate virual environments
 # python -m venv --copies ~/Python/xxxxxx
