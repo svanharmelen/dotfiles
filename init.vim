@@ -287,8 +287,6 @@ hi def link NERDTreeClosable Title
 
 " ====================== rust.vim ======================
 " Settings
-let g:rustfmt_autosave = 0
-let g:rustfmt_fail_silently = 1
 let g:rust_clip_command = 'pbcopy'
 " Bindings
 autocmd FileType rust nmap <silent> <leader>t  :RustTest<CR>

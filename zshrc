@@ -24,7 +24,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(colorize docker docker-compose git kubectl terraform)
+plugins=(git docker terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -42,6 +42,7 @@ unsetopt share_history
 alias bu="brew update && brew upgrade && brew cask upgrade && brew cleanup -s"
 alias c="cargo"
 alias grep="ag --nogroup --color-match='1;31'"
+alias lssm='aws ssm get-inventory --query "Entities[].[Id, Data.*.Content[].ComputerName, Data.*.Content[].IpAddress]" --output text'
 alias nu="nvim +PlugUpdate +PlugUpgrade +UpdateRemotePlugins"
 alias pip="pip3"
 alias python=python3
@@ -73,9 +74,6 @@ zstyle ':completion:*' insert-unambiguous true
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey '^P' fzf-file-widget
 
-# Enable rbenv
-eval "$(rbenv init -)"
-
 # Enable support for z (and use j as z cmd)
 _Z_CMD=j
 FZ_CMD=j
@@ -102,6 +100,14 @@ ao() {
     source <(aws-okta env "$profile")
   fi
 }
+
+# rdp()
+# {
+#   HOST=$1
+#   aws ssm start-session --target $HOST \
+#   --document-name AWS-StartPortForwardingSession \
+#   --parameters '{"portNumber":["3389"],"localPortNumber":["3389"]}'
+# }
 
 # Some logic to show execution times
 _command_time_preexec() {

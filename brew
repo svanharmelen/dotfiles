@@ -1,5 +1,5 @@
-Brew:
-=====
+# Brew
+automake
 aws-okta
 awscli
 bat
@@ -7,15 +7,23 @@ bazaar
 cmake
 dockutil
 envchain
+exercism
 fswatch
 fzf
 git
 go
+graphviz
 hub
+influxdb
+jemalloc
 jq
+llvm
+lua@5.1
+luarocks
 neovim
 node
 python
+python@3.8
 rbenv
 telnet
 terraform
@@ -24,13 +32,14 @@ tmux
 tree
 watch
 wget
+sergiobenitez/osxct/x86_64-unknown-linux-gnu
+yajl
 yarn
 z
 zsh
 zsh-completions
 
-Cask:
-=====
+# Cask
 alacritty
 authy
 discord
