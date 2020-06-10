@@ -14,6 +14,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'google/vim-searchindex'
 Plug 'junegunn/fzf.vim'
+Plug 'justinmk/vim-sneak'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
@@ -25,7 +26,6 @@ Plug 'svanharmelen/vim-tmux-navigator'
 Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tweekmonster/fzf-filemru'
@@ -153,6 +153,7 @@ let g:loaded_node_provider = 1
 " Settings
 let g:coc_global_extensions = [
   \ 'coc-json',
+  \ 'coc-python',
   \ 'coc-rust-analyzer',
   \ 'coc-snippets',
   \ 'coc-tslint-plugin',
@@ -167,6 +168,7 @@ hi default link CocHintFloat Pmenu
 hi default link CocInfoFloat Pmenu
 hi default link CocErrorFloat Pmenu
 hi default link CocWarningFloat Pmenu
+hi default link CocRustChainingHint Comment
 " Bindings
 nmap <silent> <leader>df <Plug>(coc-definition)
 nmap <silent> <leader>dc <Plug>(coc-declaration)
@@ -174,6 +176,11 @@ nmap <silent> <leader>im <Plug>(coc-implementation)
 nmap <silent> <leader>td <Plug>(coc-type-definition)
 nmap <silent> <leader>rf <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
+" Function objects
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -222,10 +229,8 @@ imap <expr><S-TAB> <SID>CocJumpBack()
 smap <expr><S-TAB> <SID>CocJumpBack()
 
 " ===================== delimitmate ====================
-let g:delimitMate_balance_matchpairs = 1
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
-let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_insert_eol_marker = 0
 
 " ====================== fugitive ======================
@@ -368,9 +373,9 @@ let g:session_directory = '~/.config/nvim/sessions'
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
 let g:session_lock_enabled = 0
-nnoremap so :OpenSession
-nnoremap ss :SaveSession
-nnoremap sc :CloseSession<CR>
+
+" ==================== vim-sneak =======================
+let g:sneak#label = 1
 
 " =================== vim-surround =====================
 let g:surround_no_insert_mappings = 1

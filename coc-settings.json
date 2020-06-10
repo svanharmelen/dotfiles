@@ -27,7 +27,7 @@
         "usePlaceholders": true,
         "completeUnimported": true,
         "completionDocumentation": false,
-        "experimentalDisabledAnalyses": ["ST1000", "ST1005"],
+        "analyses": {"ST1000": false, "ST1005": false},
         "staticcheck": true
       }
     },

@@ -5,7 +5,7 @@ export LANG=en_US.UTF-8
 
 # Set some default paths
 export GOPATH="$HOME/GoCode"
-export PATH="$GOPATH/bin:$PATH"
+export PATH="/usr/local/sbin:$GOPATH/bin:$PATH"
 
 # Set Go related variables.
 export GOBIN="$GOPATH/bin"
