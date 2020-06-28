@@ -1,0 +1,4 @@
+# Add fish packages
+jethrokuan/fzf
+jethrokuan/z
+evanlucas/fish-kubectl-completions

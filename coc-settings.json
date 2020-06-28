@@ -9,15 +9,6 @@
   "diagnostic.maxWindowHeight": 30,
   "diagnostic.maxWindowWidth": 200,
 
-  "signature.preferShownAbove":false,
-  "snippets.extends": {
-    "typescript": ["javascript"]
-  },
-  "snippets.ultisnips.directories": ["gosnippets/UltiSnips"],
-
-  "suggest.enablePreselect": false,
-  "suggest.minTriggerInputLength": 2,
-
   "languageserver": {
     "golang": {
       "command": "gopls",
@@ -26,15 +17,57 @@
       "initializationOptions": {
         "usePlaceholders": true,
         "completeUnimported": true,
-        "completionDocumentation": false,
         "analyses": {"ST1000": false, "ST1005": false},
         "staticcheck": true
       }
     },
     "terraform": {
-      "command": "terraform-lsp",
-      "rootPatterns": [".git/"],
-      "filetypes": ["terraform"]
+      "command": "terraform-ls",
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf"],
+      "initializationOptions": {},
+      "settings": {}
     }
-  }
+  },
+
+  "rust-analyzer.serverPath": "/usr/local/bin/rust-analyzer",
+
+  "signature.preferShownAbove":false,
+  "snippets.extends": {
+    "typescript": ["javascript"]
+  },
+  "snippets.ultisnips.directories": ["gosnippets/UltiSnips"],
+
+  "suggest.completionItemKindLabels": {
+    "class": "\uf0e8",
+    "color": "\uf8d7",
+    "constant": "\uf8fe",
+    "enum": "\uf435",
+    "enumMember": "\uf02b",
+    "event": "\ufacd",
+    "field": "\uf9be",
+    "file": "\uf723",
+    "folder": "\uf114",
+    "function": "",
+    "interface": "\uf417",
+    "keyword": "\uf1de",
+    "method": "",
+    "module": "",
+    "operator": "\u03a8",
+    "property": "\ue624",
+    "reference": "\ufa46",
+    "snippet": "\ue60b",
+    "struct": "\ufb44",
+    "text": "\ue612",
+    "typeParameter": "\uf728",
+    "unit": "\uf475",
+    "value": "\uf89f",
+    "variable": "𝖵",
+    "default": "\uf29c"
+  },
+  "suggest.defaultSortMethod": "alphabetical",
+
+  "suggest.maxPreviewWidth": 200,
+  "suggest.localityBonus": false,
+  "suggest.minTriggerInputLength": 2
 }
