@@ -2,31 +2,41 @@
 "   2. Run the following commands in terminal:
 "      mkdir -p ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
 "      curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"   3. Link this file in your nvim config directory as ~/.config/nvim/init.vim
+"   3. Link all required files by running:
+"       ln -s ~/dotfiles/init.vim ~/.config/nvim/init.vim
+"       ln -s ~/dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
+"       ln -s ~/dotfiles/NERDTreeBookmarks ~/.config/nvim/NERDTreeBookmarks
 "   4. Launch nvim and Run:
 "      :PlugInstall
 "   5. Restart nvim
+
+" Make sure nvim works properly when using fish
+if &shell =~# 'fish$'
+  set shell=sh
+endi
 
 call plug#begin('~/.config/nvim/plugged')
 
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'google/vim-searchindex'
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-sneak'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdtree'
 Plug 'svanharmelen/molokai'
-Plug 'svanharmelen/vim-go', {'branch': 'svh/f-custom'}
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
 Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'tweekmonster/fzf-filemru'
 Plug 'vim-airline/vim-airline'
@@ -35,12 +45,14 @@ Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 
 " Syntax related plugins
-Plug 'elzr/vim-json', {'for': 'json'}
+Plug 'dag/vim-fish'
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
+Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'hashivim/vim-terraform'
 Plug 'leafgarland/typescript-vim'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'pest-parser/pest.vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'rust-lang/rust.vim'
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
@@ -68,7 +80,7 @@ set list                             " Show invisible characters
 set listchars=tab:┊\                 " Set the characters for the invisibles
 set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
-set mouse-=a                         " Disable mouse clicks to go to a position
+set mouse=a                          " Enable mouse support, mainly to enable scrolling
 set relativenumber                   " Show relative line numbers
 set runtimepath+=/usr/local/opt/fzf  " Add the fzf binary to the runtime path
 set scrolloff=999                    " Keep the cursor centered
@@ -77,6 +89,7 @@ set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
 set shortmess+=c                     " Silent short messages from deoplete.nvim
 set showbreak=>>>                    " Show clearly were linebreaks are applied
 set signcolumn=yes                   " Always show the sign column
+" set signcolumn=number                " Always show the sign column
 set spelllang=en_us                  " Set default spell check language to English US
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
@@ -276,7 +289,7 @@ autocmd CursorMoved NERD_tree* :call <SID>ShowFilename()
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
   \ 'Modified'  : '~',
   \ 'Staged'    : '+',
   \ 'Untracked' : '≠',
@@ -308,6 +321,10 @@ let g:airline#extensions#default#layout = [
   \ [ 'x', 'y', 'z', 'error', 'warning' ]
   \ ]
 
+" =================== vim-easyalign ====================
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
 " =================== vim-gitgutter ====================
 let g:gitgutter_max_signs = 1000
 hi GitGutterAdd    ctermfg=2 ctermbg=236
@@ -316,19 +333,23 @@ hi GitGutterDelete ctermfg=1 ctermbg=236
 
 " ====================== vim-go ========================
 " Settings
+let g:go_auto_type_info = 0
+let g:go_code_completion_enabled = 0
 let g:go_decls_mode = 'fzf'
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled = 0
+let g:go_echo_go_info = 0
 let g:go_fmt_command = 'goimports'
 let g:go_fmt_fail_silently = 1
-let g:go_code_completion_enabled = 0
-let g:go_list_type = 'quickfix'
+let g:go_gopls_enabled = 0
 let g:go_highlight_build_constraints = 1
-let g:go_highlight_generate_tags = 1
-let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_generate_tags = 1
 let g:go_highlight_operators = 1
+let g:go_list_type = 'quickfix'
 let g:go_statusline_duration = 10000
+let g:go_textobj_enabled = 0
 " Bindings
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
@@ -364,9 +385,9 @@ let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_folding_disabled = 1
 
 " ==================== vim-rooter ======================
+let g:rooter_cd_cmd = 'lcd'
 let g:rooter_change_directory_for_non_project_files = 'current'
 let g:rooter_silent_chdir = 1
-let g:rooter_use_lcd = 1
 
 " ==================== vim-session =====================
 let g:session_directory = '~/.config/nvim/sessions'
@@ -420,7 +441,7 @@ command! -bang W w<bang>
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <Bar> edit!
 
 " ============== paste over selected test ==============
-xnoremap p "_dP
+vnoremap p "_dP
 
 " ================= quickfix settings ==================
 autocmd FileType qf wincmd J
