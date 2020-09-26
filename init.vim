@@ -20,19 +20,16 @@ call plug#begin('~/.config/nvim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'google/vim-searchindex'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-sneak'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/nerdtree'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
-Plug 'scrooloose/nerdtree'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
-Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -48,6 +45,7 @@ Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'dag/vim-fish'
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'elzr/vim-json', {'for': 'json'}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'hashivim/vim-terraform'
 Plug 'leafgarland/typescript-vim'
 Plug 'othree/html5.vim'
@@ -86,10 +84,10 @@ set runtimepath+=/usr/local/opt/fzf  " Add the fzf binary to the runtime path
 set scrolloff=999                    " Keep the cursor centered
 set sessionoptions-=help             " Do not save help windows
 set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
-set shortmess+=c                     " Silent short messages from deoplete.nvim
+set shortmess+=c                     " Silence completion messages
+set shortmess-=S                     " Enable showing the search index
 set showbreak=>>>                    " Show clearly were linebreaks are applied
 set signcolumn=yes                   " Always show the sign column
-" set signcolumn=number                " Always show the sign column
 set spelllang=en_us                  " Set default spell check language to English US
 set splitbelow                       " Splits show up below by default
 set splitright                       " Splits go to the right by default
@@ -311,11 +309,22 @@ autocmd FileType rust nmap <silent> <leader>t  :RustTest<CR>
 autocmd FileType rust nmap <silent> <leader>tf :RustTest!<CR>
 
 " ===================== vim-airline ====================
-let g:airline_focuslost_inactive=1
+let g:airline_extensions = [
+  \ 'branch',
+  \ 'coc',
+  \ 'fugitiveline',
+  \ 'fzf',
+  \ 'hunks',
+  \ 'keymap',
+  \ 'netrw',
+  \ 'quickfix',
+  \ 'term',
+  \ 'wordcount'
+  \ ]
+let g:airline_focuslost_inactive = 1
+let g:airline_highlighting_cache = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
-let g:airline#extensions#coc#enabled = 1
-let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#default#layout = [
   \ [ 'a', 'b', 'c' ],
   \ [ 'x', 'y', 'z', 'error', 'warning' ]
@@ -364,14 +373,6 @@ autocmd FileType go nmap © :GoDeclsDir<CR>
 autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
 autocmd FileType go nmap <leader>fs :GoFillStruct<CR>
 " autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
-
-" ==================== vim-hardtime ====================
-let g:hardtime_allow_different_key = 1
-let g:hardtime_default_on = 1
-let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_maxcount = 3
-let g:hardtime_showmsg = 1
 
 " ===================== vim-json =======================
 let g:vim_json_syntax_conceal = 0
