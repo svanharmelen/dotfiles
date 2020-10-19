@@ -78,7 +78,7 @@ set list                             " Show invisible characters
 set listchars=tab:┊\                 " Set the characters for the invisibles
 set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
-set mouse=a                          " Enable mouse support, mainly to enable scrolling
+set mouse-=a                         " Disable mouse clicks to go to a position
 set relativenumber                   " Show relative line numbers
 set runtimepath+=/usr/local/opt/fzf  " Add the fzf binary to the runtime path
 set scrolloff=999                    " Keep the cursor centered
@@ -263,15 +263,16 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit'
   \ }
 let g:fzf_layout = { 'down': '~30%' }
-let $FZF_DEFAULT_COMMAND='ag --ignore=.git -g ""'
+let $FZF_DEFAULT_COMMAND='rg --files'
 let $FZF_DEFAULT_OPTS='-e --bind ctrl-a:select-all'
 
-command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>, '--color-match="1;31"',
-  \ fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --colors="path:fg:49,231,34" --colors="line:fg:229,229,16" --smart-case -- '.<q-args>, 1,
+  \   fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
 nnoremap <silent><C-P> :FilesMru<CR>
-nnoremap <leader>ff :Ag<Space>
+nnoremap <leader>ff :Rg<Space>
 
 " ====================== nerdtree ======================
 let g:NERDTreeAutoDeleteBuffer = 1
@@ -536,6 +537,27 @@ nnoremap <silent> <leader>l :call <SID>LocationToggle('Location List', 'l')<CR>
 " ================ remove search highlight =============
 nnoremap <silent> <leader><space> :nohlsearch<Bar>pclose!<CR>
 
+" ===================== termdebug ======================
+packadd termdebug " Source the termdebug plugin
+let g:termdebugger = 'rust-gdb'
+let g:termdebug_wide = 1
+noremap <silent> <leader>td :Termdebug<CR>
+
+" ====================== terminal ======================
+function! TweakTerminal()
+  setlocal norelativenumber
+  setlocal nonumber
+  setlocal scrollback=100000
+  startinsert
+endfunc
+autocmd TermOpen * :call TweakTerminal()
+autocmd BufEnter * if &buftype == 'terminal' | startinsert | endif
+autocmd TermClose * bd!
+tnoremap <ESC> <C-\><C-n>
+
+" ================ toggle spell checking ===============
+nmap <silent> <leader>s :set spell!<CR>
+
 " ================= trailing whitespace ================
 function! s:StripTrailingWhitespaces()
   if &ft =~ 'go'
@@ -555,13 +577,14 @@ inoremap <C-h> <ESC><C-w>h
 inoremap <C-j> <ESC><C-w>j
 inoremap <C-k> <ESC><C-w>k
 inoremap <C-l> <ESC><C-w>l
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
 vnoremap <C-h> <ESC><C-w>h
 vnoremap <C-j> <ESC><C-w>j
 vnoremap <C-k> <ESC><C-w>k
 vnoremap <C-l> <ESC><C-w>l
-
-" ================ toggle spell checking ===============
-nmap <silent> <leader>s :set spell!<CR>
 
 " ============== window switching by number ============
 let i = 1

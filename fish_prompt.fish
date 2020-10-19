@@ -103,7 +103,7 @@ function __svanharmelen_cmd_duration -S
   and return
 
   set exclude_cmd "bash|less|man|more|nvim|ssh|vi|vim"
-  if echo $history[1] | grep --silent "^$exclude_cmd.*" > /dev/null
+  if echo $history[1] | grep --quiet "^$exclude_cmd.*" > /dev/null
     return
   end
 

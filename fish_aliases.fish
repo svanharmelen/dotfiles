@@ -7,7 +7,7 @@
 # Set usefull aliasses.
 alias bu "brew update && brew upgrade && brew cleanup -s"
 alias c "cargo"
-alias grep "ag --nogroup --color-match='1;31'"
+alias grep "rg --column --line-number --no-heading --color=always --colors='path:fg:49,231,34' --colors='line:fg:229,229,16' --smart-case"
 alias l "exa -la"
 alias ls "exa"
 alias lssm "aws ssm get-inventory --query 'Entities[].[Id, Data.*.Content[].ComputerName, Data.*.Content[].IpAddress]' --output text"
