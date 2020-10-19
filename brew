@@ -5,15 +5,13 @@ awscli
 bat
 bazaar
 cmake
-docker-completion
 envchain
-exa
-fish
 fswatch
 fzf
+gdb
 git
-gpg2
 go
+htop
 hub
 influxdb
 jq
@@ -22,17 +20,21 @@ neovim
 node
 python@3.8
 rbenv
+ripgrep
 rust-analyzer
 telnet
 terraform
 terraform-ls
-the_silver_searcher
 tmux
 watch
 wget
 sergiobenitez/osxct/x86_64-unknown-linux-gnu
+tree
 yajl
 yarn
+zsh
+zsh-autosuggestions
+zsh-completions
 
 # Cask
 alacritty

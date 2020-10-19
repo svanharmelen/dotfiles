@@ -10,11 +10,6 @@
 "      :PlugInstall
 "   5. Restart nvim
 
-" Make sure nvim works properly when using fish
-if &shell =~# 'fish$'
-  set shell=sh
-endi
-
 call plug#begin('~/.config/nvim/plugged')
 
 " Add plugins
@@ -30,6 +25,7 @@ Plug 'raimondi/delimitmate'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
+Plug 'takac/vim-hardtime'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -42,7 +38,6 @@ Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 
 " Syntax related plugins
-Plug 'dag/vim-fish'
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -54,8 +49,6 @@ Plug 'pest-parser/pest.vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'rust-lang/rust.vim'
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
-Plug 'tpope/vim-rails'
-Plug 'vim-ruby/vim-ruby'
 
 call plug#end()
 
@@ -375,6 +368,14 @@ autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
 autocmd FileType go nmap <leader>fs :GoFillStruct<CR>
 " autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
+" ==================== vim-hardtime ====================
+let g:hardtime_allow_different_key = 1
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_maxcount = 3
+let g:hardtime_showmsg = 1
+
 " ===================== vim-json =======================
 let g:vim_json_syntax_conceal = 0
 " Prettify JSON, install: brew install yajl
@@ -553,7 +554,16 @@ endfunc
 autocmd TermOpen * :call TweakTerminal()
 autocmd BufEnter * if &buftype == 'terminal' | startinsert | endif
 autocmd TermClose * bd!
-tnoremap <ESC> <C-\><C-n>
+function! NotFZF()
+  return (&buftype == 'terminal') && (&filetype != 'fzf')
+endfunction
+augroup TerminalBindings
+  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <ESC> <C-\><C-n>| endif
+  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <C-h> <C-\><C-n><C-w>h| endif
+  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <C-j> <C-\><C-n><C-w>j| endif
+  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <C-k> <C-\><C-n><C-w>k| endif
+  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <C-l> <C-\><C-n><C-w>l| endif
+augroup END
 
 " ================ toggle spell checking ===============
 nmap <silent> <leader>s :set spell!<CR>
@@ -577,10 +587,6 @@ inoremap <C-h> <ESC><C-w>h
 inoremap <C-j> <ESC><C-w>j
 inoremap <C-k> <ESC><C-w>k
 inoremap <C-l> <ESC><C-w>l
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
 vnoremap <C-h> <ESC><C-w>h
 vnoremap <C-j> <ESC><C-w>j
 vnoremap <C-k> <ESC><C-w>k
