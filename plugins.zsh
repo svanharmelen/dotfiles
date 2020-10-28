@@ -29,7 +29,7 @@ function kspw() {
 
 function kssh() {
   local instances="$(
-    aws ssm describe-instance-information --query 'InstanceInformationList[].[Name,InstanceId]' --output text | tr "\t" " " | grep --color=never 'gg101'
+    aws ssm describe-instance-information --query 'InstanceInformationList[].[Name,InstanceId]' --output text | grep --color=never 'gg101'
   )"
   if [[ -z $instances ]]; then
     echo "No Greengrass instances found"
@@ -42,13 +42,13 @@ function kssh() {
   fi
 
   if [[ -n $gg ]]; then
-    ssh $(echo $gg | cut -f2 -d " ")
+    ssh $(echo $gg | cut -f2)
   fi
 }
 
 function krdp() {
   local instances="$(
-    aws ssm describe-instance-information --query 'InstanceInformationList[].[Name,InstanceId]' --output text | tr "\t" " " | grep --color=never 'ks101'
+    aws ssm describe-instance-information --query 'InstanceInformationList[].[Name,InstanceId]' --output text | grep --color=never 'ks101'
   )"
   if [[ -z $instances ]]; then
     echo "No KepServer instances found"
@@ -61,19 +61,19 @@ function krdp() {
   fi
 
   if [[ -n $ks ]]; then
-    sitecode=$(echo $ks | tr -d "\n" | cut -c 5-8)
-    password=$(echo $(aws ssm describe-parameters --query "Parameters[].Name" --output text | tr "\t" "\n" | grep ${sitecode}_kepserver/password))
+    sitecode=$(echo $ks | cut -c 5-8)
+    password=$(aws ssm describe-parameters --query "Parameters[].Name" --output text | tr "\t" "\n" | grep ${sitecode}_kepserver/password)
     aws ssm get-parameter --name $password --with-decryption | jq -r '.Parameter.Value' | tr -d "\n" | pbcopy
     echo "KepServer password copied to clipboard"
 
     exec "$(while [[ $(netstat -anp tcp | grep -c 127.0.0.1.3389) -eq 0 ]]; do sleep 1; done; xfreerdp ~/.cb-kit.rdp >/dev/null 2>&1)" &
-    aws ssm start-session --target $(echo $ks | cut -f2 -d " ") --document-name AWS-StartPortForwardingSession --parameters '{"portNumber":["3389"],"localPortNumber":["3389"]}'
+    aws ssm start-session --target $(echo $ks | cut -f2) --document-name AWS-StartPortForwardingSession --parameters '{"portNumber":["3389"],"localPortNumber":["3389"]}'
   fi
 }
 
 function kdb() {
   local instances="$(
-    aws ssm describe-instance-information --query 'InstanceInformationList[].[Name,IPAddress]' --output text | tr "\t" " " | grep --color=never 'ks101'
+    aws ssm describe-instance-information --query 'InstanceInformationList[].[Name,IPAddress]' --output text | grep --color=never 'ks101'
   )"
   if [[ -z $instances ]]; then
     echo "No KepServer instances found"
@@ -86,16 +86,16 @@ function kdb() {
   fi
 
   if [[ -n $ks ]]; then
-    sitecode=$(echo $ks | tr -d "\n" | cut -c 5-8)
-    password=$(echo $(aws ssm describe-parameters --query "Parameters[].Name" --output text | tr "\t" "\n" | grep ${sitecode}_kepserver/password))
+    sitecode=$(echo $ks | cut -c 5-8)
+    password=$(aws ssm describe-parameters --query "Parameters[].Name" --output text | tr "\t" "\n" | grep ${sitecode}_kepserver/password)
     aws ssm get-parameter --name $password --with-decryption | jq -r '.Parameter.Value' | tr -d "\n" | pbcopy
     echo "KepServer password copied to clipboard"
 
     local gg="$(
-      aws ssm describe-instance-information --query 'InstanceInformationList[].[InstanceId,Name]' --output text | grep $sitecode-gg101 | tr "\t" " " | cut -f1 -d " "
+      aws ssm describe-instance-information --query 'InstanceInformationList[].[Name,InstanceId]' --output text | grep $sitecode-gg101 | cut -f2
     )"
     exec "$(while [[ $(netstat -anp tcp | grep -c 127.0.0.1.3389) -eq 0 ]]; do sleep 1; done; xfreerdp ~/.cb-kit.rdp >/dev/null 2>&1)" &
-    ssh -L 3389:$(echo $ks | cut -f2 -d " "):3389 $gg
+    ssh -L 3389:$(echo $ks | cut -f2):3389 $gg
   fi
 }
 

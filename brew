@@ -18,7 +18,7 @@ jq
 llvm
 neovim
 node
-python@3.8
+python@3.9
 rbenv
 ripgrep
 rust-analyzer

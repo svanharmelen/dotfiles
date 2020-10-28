@@ -42,7 +42,7 @@ alias bu="brew update && brew upgrade && brew cleanup -s"
 alias c="cargo"
 alias rg="rg --no-heading --colors='path:fg:49,231,34' --colors='line:fg:229,229,16' --smart-case"
 alias nu="nvim +PlugUpdate +PlugUpgrade +UpdateRemotePlugins"
-alias pip="pip3.8"
+alias pip="pip3"
 alias python=python3
 alias ssh="ssh -A"
 alias tf="terraform"
