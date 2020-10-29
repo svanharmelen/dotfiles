@@ -5,7 +5,10 @@ awscli
 bat
 bazaar
 cmake
+docker-completion
 envchain
+exa
+fish
 fswatch
 fzf
 gdb
@@ -29,12 +32,8 @@ tmux
 watch
 wget
 sergiobenitez/osxct/x86_64-unknown-linux-gnu
-tree
 yajl
 yarn
-zsh
-zsh-autosuggestions
-zsh-completions
 
 # Cask
 alacritty

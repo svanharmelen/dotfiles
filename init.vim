@@ -10,6 +10,11 @@
 "      :PlugInstall
 "   5. Restart nvim
 
+" Make sure nvim works properly when using fish
+if &shell =~# 'fish$'
+  set shell=sh
+endi
+
 call plug#begin('~/.config/nvim/plugged')
 
 " Add plugins
@@ -38,6 +43,7 @@ Plug 'xolox/vim-misc'
 Plug 'xuyuanp/nerdtree-git-plugin'
 
 " Syntax related plugins
+Plug 'dag/vim-fish'
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'elzr/vim-json', {'for': 'json'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }

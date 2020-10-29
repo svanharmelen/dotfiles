@@ -1,0 +1,7 @@
+# Link this file to ~/.config/fish/fishfile
+# ln -s ~/dotfiles/fishfile ~/.config/fish/fishfile
+#
+# Add fish packages
+jethrokuan/fzf
+jethrokuan/z
+evanlucas/fish-kubectl-completions
