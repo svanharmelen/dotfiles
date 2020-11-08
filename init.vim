@@ -1,14 +1,13 @@
-"   1. Install the accompanying powerline patched font (or create your own)
-"   2. Run the following commands in terminal:
+"   1. Run the following commands in terminal:
 "      mkdir -p ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
 "      curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"   3. Link all required files by running:
+"   2. Link all required files by running:
 "       ln -s ~/dotfiles/init.vim ~/.config/nvim/init.vim
 "       ln -s ~/dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
 "       ln -s ~/dotfiles/NERDTreeBookmarks ~/.config/nvim/NERDTreeBookmarks
-"   4. Launch nvim and Run:
+"   3. Launch nvim and Run:
 "      :PlugInstall
-"   5. Restart nvim
+"   4. Restart nvim
 
 " Make sure nvim works properly when using fish
 if &shell =~# 'fish$'
@@ -263,11 +262,11 @@ let g:fzf_action = {
   \ }
 let g:fzf_layout = { 'down': '~30%' }
 let $FZF_DEFAULT_COMMAND='rg --files'
-let $FZF_DEFAULT_OPTS='-e --bind ctrl-a:select-all'
+let $FZF_DEFAULT_OPTS='--bind ctrl-a:select-all'
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --colors="path:fg:49,231,34" --colors="line:fg:229,229,16" --smart-case -- '.<q-args>, 1,
+  \   'rg --column --line-number --no-heading --color=always --colors="path:fg:49,231,34" --colors="line:fg:229,229,16" --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
 nnoremap <silent><C-P> :FilesMru<CR>

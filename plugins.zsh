@@ -1,7 +1,7 @@
 # Easily switch between AWS roles.
 function ao() {
   local cmd="aws-okta list | awk 'FNR==1 {next} {print \$1}'"
-  local profile="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)"
+  local profile="$(eval "$cmd" | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)"
   if [[ -n $profile ]]; then
     source <(aws-okta env "$profile")
   fi
@@ -18,7 +18,7 @@ function kspw() {
 
   local password=$passwords
   if [[ $(echo "$passwords" | wc -l) -gt 1 ]]; then
-    password="$(echo "$passwords" | sort | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)"
+    password="$(echo "$passwords" | sort | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)"
   fi
 
   if [[ -n $password ]]; then
@@ -38,7 +38,7 @@ function kssh() {
 
   local gg=$instances
   if [[ $(echo "$instances" | wc -l) -gt 1 ]]; then
-    gg="$(echo "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)"
+    gg="$(echo "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)"
   fi
 
   if [[ -n $gg ]]; then
@@ -57,7 +57,7 @@ function krdp() {
 
   local ks=$instances
   if [[ $(echo "$instances" | wc -l) -gt 1 ]]; then
-    ks="$(echo "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)"
+    ks="$(echo "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)"
   fi
 
   if [[ -n $ks ]]; then
@@ -82,7 +82,7 @@ function kdb() {
 
   local ks=$instances
   if [[ $(echo "$instances" | wc -l) -gt 1 ]]; then
-    ks="$(echo "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)"
+    ks="$(echo "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)"
   fi
 
   if [[ -n $ks ]]; then

@@ -3,10 +3,14 @@
 
 function ao
   set -l cmd "aws-okta list | awk 'FNR==1 {next} {print \$1}'"
-  set -l profile (eval "$cmd" | FZF_DEFAULT_OPTS="--height 40% --reverse -e" fzf)
+  set -l profile (eval "$cmd" | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)
   if [ -n "$profile" ]
     source (aws-okta env "$profile" | sed -En 's/(.*)/export \1/p' | psub)
   end
+end
+
+function lssm
+  aws ssm get-inventory --query 'Entities[].[Id, Data.*.Content[].ComputerName, Data.*.Content[].IpAddress]' --output text
 end
 
 function kspw
@@ -18,7 +22,7 @@ function kspw
 
   set -l password "$passwords"
   if [ (string split " " "$passwords" | wc -l) -gt 1 ]
-    set password (string split " " "$passwords" | sort | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)
+    set password (string split " " "$passwords" | sort | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)
   end
 
   if [ -n "$password" ]
@@ -36,7 +40,7 @@ function kssh
 
   set -l gg "$instances"
   if [ (string split " " "$instances" | wc -l) -gt 1 ]
-    set gg (string split " " "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)
+    set gg (string split " " "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)
   end
 
   if [ -n "$gg" ]
@@ -53,7 +57,7 @@ function krdp
 
   set -l ks "$instances"
   if [ (string split " " "$instances" | wc -l) -gt 1 ]
-    set ks (string split " " "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)
+    set ks (string split " " "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)
   end
 
   if [ -n "$ks" ]
@@ -76,7 +80,7 @@ function kdb
 
   set -l ks "$instances"
   if [ (string split " " "$instances" | wc -l) -gt 1 ]
-    set ks (string split " " "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% --reverse" fzf)
+    set ks (string split " " "$instances" | sort | FZF_DEFAULT_OPTS="--height 40% +x --reverse" fzf)
   end
 
   if [ -n "$ks" ]

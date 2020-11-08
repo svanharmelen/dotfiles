@@ -16,7 +16,7 @@ function fish_greeting; end
 ######################################
 
 # Options for the fzf command.
-set -U FZF_DEFAULT_OPTS "--height=40% --reverse -e"
+set -U FZF_DEFAULT_OPTS "--height=40% +x --reverse"
 set -U FZF_LEGACY_KEYBINDINGS 0
 
 # Use j instead of z for jumping around.
@@ -40,6 +40,9 @@ source (/usr/local/bin/envchain -l github -v | sed -En 's/(.*)/export \1/p' | ps
 
 # Source my Jira username and token variables.
 source (/usr/local/bin/envchain -l jira -v | sed -En 's/(.*)/export \1/p' | psub)
+
+# Enable AWS completion.
+complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
 
 ########################################
 #### Configure personal preferences ####
