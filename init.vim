@@ -72,8 +72,6 @@ set diffopt+=vertical                " Make diffs split vertically
 set hidden                           " Allow buffers to be backgrounded without being saved
 set inccommand=nosplit               " Live update (preview) substitutions
 set linebreak                        " Break lines at `breakat` characters only
-set list                             " Show invisible characters
-set listchars=tab:┊\                 " Set the characters for the invisibles
 set noshowmode                       " We show the current mode with airline
 set number                           " Show the absolute line number the cursor is on
 set mouse-=a                         " Disable mouse clicks to go to a position
@@ -115,9 +113,9 @@ syntax sync minlines=256
 
 " Tab settings
 set expandtab     " Expand tabs to the proper type and size
-set tabstop=2     " Tabs width in spaces
-set softtabstop=2 " Soft tab width in spaces
-set shiftwidth=2  " Amount of spaces when shifting
+set tabstop=4     " Tabs width in spaces
+set softtabstop=4 " Soft tab width in spaces
+set shiftwidth=4  " Amount of spaces when shifting
 
 " Time out on key codes but not mappings.
 " Basically this makes terminal Vim work sanely.
