@@ -260,11 +260,11 @@ let g:fzf_action = {
   \ }
 let g:fzf_layout = { 'down': '~30%' }
 let $FZF_DEFAULT_COMMAND='rg --files'
-let $FZF_DEFAULT_OPTS='--bind ctrl-a:select-all'
+let $FZF_DEFAULT_OPTS='--bind ctrl-a:select-all --exact'
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --colors="path:fg:49,231,34" --colors="line:fg:229,229,16" --smart-case -- '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --no-heading --color=always --colors="path:fg:49,231,34" --colors="line:fg:229,229,16" --smart-case --sortr="path" -- '.(<q-args>), 1,
   \   fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
 nnoremap <silent><C-P> :FilesMru<CR>
