@@ -176,13 +176,21 @@ hi default link CocInfoFloat Pmenu
 hi default link CocErrorFloat Pmenu
 hi default link CocWarningFloat Pmenu
 hi default link CocRustChainingHint Comment
-" Bindings
+" Generic Bindings
 nmap <silent> <leader>df <Plug>(coc-definition)
 nmap <silent> <leader>dc <Plug>(coc-declaration)
 nmap <silent> <leader>im <Plug>(coc-implementation)
 nmap <silent> <leader>td <Plug>(coc-type-definition)
 nmap <silent> <leader>rf <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
+" Dialog Bindings
+nnoremap <silent><nowait><expr> <leader>x coc#float#close_all()
+nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 " Function objects
 xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)

@@ -15,10 +15,11 @@
       "rootPatterns": ["go.mod", ".git/"],
       "filetypes": ["go"],
       "initializationOptions": {
-        "usePlaceholders": true,
-        "completeUnimported": true,
         "analyses": {"ST1000": false, "ST1005": false},
-        "staticcheck": true
+        "completeUnimported": true,
+        "experimentalWorkspaceModule": true,
+        "staticcheck": true,
+        "usePlaceholders": true
       }
     },
     "terraform": {
@@ -31,6 +32,8 @@
   },
 
   "rust-analyzer.serverPath": "/usr/local/bin/rust-analyzer",
+  "rust-analyzer.procMacro.enable": true,
+  "rust-analyzer.cargo.loadOutDirsFromCheck": true,
 
   "signature.preferShownAbove":false,
   "snippets.extends": {
@@ -66,7 +69,6 @@
     "default": "Default"
   },
   "suggest.defaultSortMethod": "alphabetical",
-
   "suggest.maxPreviewWidth": 200,
   "suggest.localityBonus": false,
   "suggest.minTriggerInputLength": 2

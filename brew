@@ -9,12 +9,12 @@ docker-completion
 envchain
 exa
 fish
+freerdp
 fswatch
 fzf
 gdb
 git
 go
-htop
 hub
 influxdb
 jq
@@ -47,10 +47,8 @@ font-dejavu-sans-mono-nerd-font
 microsoft-teams
 ngrok
 postman
-scaleft
 sequel-pro
 tower
 viscosity
 vlc
-zoomus
-zulip
+zoom
