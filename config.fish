@@ -16,7 +16,7 @@ function fish_greeting; end
 ######################################
 
 # Options for the fzf command.
-set -U FZF_DEFAULT_OPTS "--height=40% --reverse"
+set -U FZF_DEFAULT_OPTS "+x --height=40% --reverse"
 set -U FZF_LEGACY_KEYBINDINGS 0
 
 # Use j instead of z for jumping around.

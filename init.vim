@@ -1,31 +1,30 @@
-"   1. Run the following commands in terminal:
-"      mkdir -p ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
-"      curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"   2. Link all required files by running:
-"       ln -s ~/dotfiles/init.vim ~/.config/nvim/init.vim
-"       ln -s ~/dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
-"       ln -s ~/dotfiles/NERDTreeBookmarks ~/.config/nvim/NERDTreeBookmarks
-"   3. Launch nvim and Run:
-"      :PlugInstall
-"   4. Restart nvim
+" 1. Run the following commands in terminal:
+"    mkdir -p ~/.config/nvim/backup ~/.config/nvim/cache ~/.config/nvim/undo
+"    curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" 2. Link all required files by running:
+"     ln -s ~/dotfiles/init.vim ~/.config/nvim/init.vim
+"     ln -s ~/dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
+"     ln -s ~/dotfiles/NERDTreeBookmarks ~/.config/nvim/NERDTreeBookmarks
+" 3. Launch nvim and Run:
+"     :PlugInstall
+" 4. Restart nvim
 
 " Make sure nvim works properly when using fish
 if &shell =~# 'fish$'
-  set shell=sh
-endi
+    set shell=sh
+endif
 
 call plug#begin('~/.config/nvim/plugged')
 
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
+Plug 'inkarkat/vim-replacewithregister'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-sneak'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/nerdtree'
 Plug 'qpkorr/vim-bufkill'
-Plug 'raimondi/delimitmate'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
@@ -39,7 +38,6 @@ Plug 'tweekmonster/fzf-filemru'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'xolox/vim-misc'
-Plug 'xuyuanp/nerdtree-git-plugin'
 
 " Syntax related plugins
 Plug 'dag/vim-fish'
@@ -78,8 +76,9 @@ set mouse-=a                         " Disable mouse clicks to go to a position
 set relativenumber                   " Show relative line numbers
 set runtimepath+=/usr/local/opt/fzf  " Add the fzf binary to the runtime path
 set scrolloff=999                    " Keep the cursor centered
-set sessionoptions-=help             " Do not save help windows
+set sessionoptions-=blank            " Do not save blank buffers
 set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
+set sessionoptions-=help             " Do not save help windows
 set shortmess+=c                     " Silence completion messages
 set shortmess-=S                     " Enable showing the search index
 set showbreak=>>>                    " Show clearly were linebreaks are applied
@@ -132,14 +131,10 @@ set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 set wildignore+=*.luac                           " Lua byte code
-set wildignore+=go/pkg                           " Go static files
-set wildignore+=go/bin                           " Go bin files
-set wildignore+=go/bin-vagrant                   " Go bin-vagrant files
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
 
 " Configure the look and feel
-let g:molokai_original = 1
 colorscheme molokai
 
 " Config Python used by Neovim
@@ -159,23 +154,24 @@ let g:loaded_node_provider = 1
 " ====================== coc.nvim ======================
 " Settings
 let g:coc_global_extensions = [
-  \ 'coc-json',
-  \ 'coc-python',
-  \ 'coc-rust-analyzer',
-  \ 'coc-snippets',
-  \ 'coc-tslint-plugin',
-  \ 'coc-tsserver'
-  \]
+    \ 'coc-explorer',
+    \ 'coc-json',
+    \ 'coc-pairs',
+    \ 'coc-python',
+    \ 'coc-rust-analyzer',
+    \ 'coc-snippets',
+    \ 'coc-tslint-plugin',
+    \ 'coc-tsserver'
+    \]
 let g:coc_selectmode_mapping = 0
-hi CocErrorSign   ctermfg=15 ctermbg=236
-hi CocHintSign    ctermfg=15 ctermbg=236
-hi CocInfoSign    ctermfg=15 ctermbg=236
-hi CocWarningSign ctermfg=15 ctermbg=236
-hi default link CocHintFloat Pmenu
-hi default link CocInfoFloat Pmenu
-hi default link CocErrorFloat Pmenu
-hi default link CocWarningFloat Pmenu
-hi default link CocRustChainingHint Comment
+" Autocommands
+augroup CocExplorerCustom
+    autocmd FileType coc-explorer setlocal number | setlocal relativenumber
+    autocmd SessionLoadPost * ++once CocCommand explorer --no-focus --no-toggle
+    autocmd User CocDiagnosticChange,CocGitStatusChange
+        \ call CocActionAsync('runCommand', 'explorer.doAction', 'closest', ['refresh'])
+    autocmd User CocExplorerOpenPost,CocExplorerQuitPost winc =
+augroup END
 " Generic Bindings
 nmap <silent> <leader>df <Plug>(coc-definition)
 nmap <silent> <leader>dc <Plug>(coc-declaration)
@@ -183,12 +179,16 @@ nmap <silent> <leader>im <Plug>(coc-implementation)
 nmap <silent> <leader>td <Plug>(coc-type-definition)
 nmap <silent> <leader>rf <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
+nnoremap <silent> <C-n> :call CocActionAsync('diagnosticPrevious')<CR>
+nnoremap <silent> <C-m> :call CocActionAsync('diagnosticNext')<CR>
+nnoremap <silent> <leader>n :CocCommand explorer<CR>
+nnoremap <silent> q :CocAction quickfix<CR>
 " Dialog Bindings
 nnoremap <silent><nowait><expr> <leader>x coc#float#close_all()
 nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(1)\<CR>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(0)\<CR>" : "\<Left>"
 vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 " Function objects
@@ -196,49 +196,70 @@ xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
+" Highlights
+hi def link CocErrorSign Normal
+hi def link CocHintSign Normal
+hi def link CocInfoSign Normal
+hi def link CocWarningSign Normal
+hi def link CocErrorFloat Pmenu
+hi def link CocHintFloat Pmenu
+hi def link CocInfoFloat Pmenu
+hi def link CocWarningFloat Pmenu
+hi def link CocExplorerGitAdded GitGutterAdd
+hi def link CocExplorerGitContentChange GitGutterChange
+hi def link CocExplorerGitPathChange GitGutterChange
+hi def link CocExplorerGitDeleted GitGutterDelete
+hi def link CocExplorerFileGitStaged GitGutterAdd
+hi def link CocExplorerGitUntracked Comment
+hi def link CocExplorerFileDiagnosticError Operator
+hi def link CocExplorerFileFilenameDiagnosticError Operator
+hi def link CocExplorerFileDiagnosticWarning Title
+hi def link CocExplorerFileFilenameDiagnosticWarning Title
+hi def link CocRustTypeHint InlayHints
+hi def link CocRustChainingHint InlayHints
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
 endfunction
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:CocExpand()
-  if pumvisible()
-    if coc#expandableOrJumpable()
-      return "\<Plug>(coc-snippets-expand-jump)"
+    if pumvisible()
+        if coc#expandableOrJumpable()
+            return "\<Plug>(coc-snippets-expand-jump)"
+        else
+            return "\<C-y>"
+        endif
     else
-      return "\<C-y>"
+        return "\<CR>"
     endif
-  else
-    return "\<Plug>delimitMateCR"
-  endif
 endfunction
 imap <expr><CR> <SID>CocExpand()
 
 function! s:CocJump()
-  if pumvisible()
-    return "\<C-n>"
-  elseif coc#jumpable()
-    return coc#rpc#request('snippetNext', [])
-  else
-    return "\<TAB>"
-  endif
+    if pumvisible()
+        return "\<C-n>"
+    elseif coc#jumpable()
+        return coc#rpc#request('snippetNext', [])
+    else
+        return "\<TAB>"
+    endif
 endfunction
 imap <expr><TAB> <SID>CocJump()
 smap <expr><TAB> <SID>CocJump()
 
 function! s:CocJumpBack()
-  if pumvisible()
-    return "\<C-p>"
-  elseif coc#jumpable()
-    return coc#rpc#request('snippetPrev', [])
-  else
-    return "\<S-TAB>"
-  endif
+    if pumvisible()
+        return "\<C-p>"
+    elseif coc#jumpable()
+        return coc#rpc#request('snippetPrev', [])
+    else
+        return "\<S-TAB>"
+    endif
 endfunction
 imap <expr><S-TAB> <SID>CocJumpBack()
 smap <expr><S-TAB> <SID>CocJumpBack()
@@ -254,57 +275,29 @@ nnoremap <leader>go :Gbrowse<CR>
 nnoremap <leader>gl :Gbrowse!<CR>
 nnoremap <leader>gd :Gdiff<CR>
 if &diff
-  nnoremap <silent> db :diffget BASE<Bar>diffupdate<CR>
-  nnoremap <silent> dl :diffget LOCAL<Bar>diffupdate<CR>
-  nnoremap <silent> dr :diffget REMOTE<Bar>diffupdate<CR>
-  nnoremap <silent> dg :diffget<Bar>diffupdate<CR>
-  nnoremap <silent> dp :diffput<Bar>diffupdate<CR>
+    nnoremap <silent> db :diffget BASE<Bar>diffupdate<CR>
+    nnoremap <silent> dl :diffget LOCAL<Bar>diffupdate<CR>
+    nnoremap <silent> dr :diffget REMOTE<Bar>diffupdate<CR>
+    nnoremap <silent> dg :diffget<Bar>diffupdate<CR>
+    nnoremap <silent> dp :diffput<Bar>diffupdate<CR>
 endif
 
 " ======================== fzf =========================
 let g:fzf_action = {
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit'
-  \ }
+    \ 'ctrl-s': 'split',
+    \ 'ctrl-v': 'vsplit'
+    \ }
 let g:fzf_layout = { 'down': '~30%' }
 let $FZF_DEFAULT_COMMAND='rg --files'
-let $FZF_DEFAULT_OPTS='--bind ctrl-a:select-all --exact'
+let $FZF_DEFAULT_OPTS='+x --bind ctrl-a:select-all'
 
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --colors="path:fg:49,231,34" --colors="line:fg:229,229,16" --smart-case --sortr="path" -- '.(<q-args>), 1,
-  \   fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+    \ call fzf#vim#grep(
+    \   'rg --column --line-number --no-heading --color=always --colors="path:fg:49,231,34" --colors="line:fg:229,229,16" --smart-case --sortr="path" -- '.(<q-args>), 1,
+    \   fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
 nnoremap <silent><C-P> :FilesMru<CR>
 nnoremap <leader>ff :Rg<Space>
-
-" ====================== nerdtree ======================
-let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeBookmarksFile = $HOME . '/.config/nvim/NERDTreeBookmarks'
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeShowLineNumbers = 1
-function! s:ShowFilename()
-  redraw | echohl Debug |
-    \ echom index(['" Press ? for help', '', '.. (up a dir)'], getline('.')) < 0 ?
-    \ 'NERDTree: ' . matchstr(getline('.'), '[0-9A-Za-z_/].*') : '' | echohl None
-endfunction
-autocmd CursorMoved NERD_tree* :call <SID>ShowFilename()
-nnoremap <leader>n :NERDTreeToggle<CR>
-
-" ================ nerdtree-git-plugin =================
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-  \ 'Modified'  : '~',
-  \ 'Staged'    : '+',
-  \ 'Untracked' : '≠',
-  \ 'Renamed'   : '→',
-  \ 'Unmerged'  : '=',
-  \ 'Deleted'   : '×',
-  \ 'Dirty'     : '~',
-  \ 'Clean'     : '√',
-  \ 'Unknown'   : '?'
-  \ }
-hi def link NERDTreeOpenable Title
-hi def link NERDTreeClosable Title
 
 " ====================== rust.vim ======================
 " Settings
@@ -315,25 +308,25 @@ autocmd FileType rust nmap <silent> <leader>tf :RustTest!<CR>
 
 " ===================== vim-airline ====================
 let g:airline_extensions = [
-  \ 'branch',
-  \ 'coc',
-  \ 'fugitiveline',
-  \ 'fzf',
-  \ 'hunks',
-  \ 'keymap',
-  \ 'netrw',
-  \ 'quickfix',
-  \ 'term',
-  \ 'wordcount'
-  \ ]
+    \ 'branch',
+    \ 'coc',
+    \ 'fugitiveline',
+    \ 'fzf',
+    \ 'hunks',
+    \ 'keymap',
+    \ 'netrw',
+    \ 'quickfix',
+    \ 'term',
+    \ 'wordcount'
+    \ ]
 let g:airline_focuslost_inactive = 1
 let g:airline_highlighting_cache = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'murmur'
 let g:airline#extensions#default#layout = [
-  \ [ 'a', 'b', 'c' ],
-  \ [ 'x', 'y', 'z', 'error', 'warning' ]
-  \ ]
+    \ [ 'a', 'b', 'c' ],
+    \ [ 'x', 'y', 'z', 'error', 'warning' ]
+    \ ]
 
 " =================== vim-easyalign ====================
 xmap ga <Plug>(EasyAlign)
@@ -341,9 +334,9 @@ nmap ga <Plug>(EasyAlign)
 
 " =================== vim-gitgutter ====================
 let g:gitgutter_max_signs = 1000
-hi GitGutterAdd    ctermfg=2 ctermbg=236
-hi GitGutterChange ctermfg=3 ctermbg=236
-hi GitGutterDelete ctermfg=1 ctermbg=236
+hi GitGutterAdd    ctermfg=2 ctermbg=235
+hi GitGutterChange ctermfg=3 ctermbg=235
+hi GitGutterDelete ctermfg=1 ctermbg=235
 
 " ====================== vim-go ========================
 " Settings
@@ -377,12 +370,11 @@ autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
 autocmd FileType go nmap © :GoDeclsDir<CR>
 autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
 autocmd FileType go nmap <leader>fs :GoFillStruct<CR>
-" autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " ==================== vim-hardtime ====================
 let g:hardtime_allow_different_key = 1
 let g:hardtime_default_on = 1
-let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+let g:hardtime_ignore_buffer_patterns = [ "[coc-explorer].*" ]
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_maxcount = 3
 let g:hardtime_showmsg = 1
@@ -397,6 +389,9 @@ command! JSONMinimize %!json_reformat -m
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_folding_disabled = 1
+
+" ============== vim-replacewithregister ===============
+xmap p <Plug>ReplaceWithRegisterVisual
 
 " ==================== vim-rooter ======================
 let g:rooter_cd_cmd = 'lcd'
@@ -423,19 +418,19 @@ let g:terraform_fmt_on_save = 1
 " ----------------------------------------- "
 
 " ================= auto reload buffers ================
-autocmd FocusGained,BufEnter,CursorHold * :checktime
+autocmd FocusGained,BufEnter,CursorHold * checktime
 
 " ================= auto resize windows ================
-autocmd VimResized * :wincmd =
+autocmd VimResized * wincmd =
 
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 
 " =============== find next merge conflict =============
 function! s:NextMergeConflict(reverse)
-  if !search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
-    echo 'No merge conflicts found.'
-  endif
+    if !search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+        echo 'No merge conflicts found.'
+    endif
 endfunction
 nmap <silent> ]n :call <SID>NextMergeConflict(0)<CR>
 nmap <silent> [n :call <SID>NextMergeConflict(1)<CR>
@@ -451,98 +446,57 @@ command! -bang Wq wq<bang>
 command! -bang Q q<bang>
 command! -bang W w<bang>
 
-" ============== overwrite read only files =============
-cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <Bar> edit!
-
-" ============== paste over selected test ==============
-vnoremap p "_dP
-
 " ================= quickfix settings ==================
 autocmd FileType qf wincmd J
 
 function! s:GetBufferList()
-  redir =>buflist
-  silent! ls!
-  redir END
-  return buflist
-endfunction
-
-function! s:LocationPrevious()
-  let buflist = s:GetBufferList()
-  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-    if bufwinnr(bufnum) != -1
-      try
-        cprev
-      catch /^Vim\%((\a\+)\)\=:E553/
-        clast
-      catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-      endtry
-      return
-    endif
-  endfor
-  call CocActionAsync('diagnosticPrevious')
-endfunction
-
-function! s:LocationNext()
-  let buflist = s:GetBufferList()
-  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-    if bufwinnr(bufnum) != -1
-      try
-        cnext
-      catch /^Vim\%((\a\+)\)\=:E553/
-        cfirst
-      catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-      endtry
-      return
-    endif
-  endfor
-  call CocActionAsync('diagnosticNext')
+    redir =>buflist
+    silent! ls!
+    redir END
+    return buflist
 endfunction
 
 function! s:Height(height)
-  if a:height == 1
-    return 2
-  elseif a:height > 10
-    return 10
-  else
-    return a:height
-  endif
+    if a:height == 1
+        return 2
+    elseif a:height > 10
+        return 10
+    else
+        return a:height
+    endif
 endfunction
 
 function! s:LocationToggle(bufname, pfx)
-  let s:return_to_window = winnr()
-  let buflist = s:GetBufferList()
-  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-    if bufwinnr(bufnum) != -1
-      exec a:pfx.'close'
-      if s:return_to_window <= winnr('$')
+    let s:return_to_window = winnr()
+    let buflist = s:GetBufferList()
+    for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+        if bufwinnr(bufnum) != -1
+            exec a:pfx.'close'
+            if s:return_to_window <= winnr('$')
+                exec s:return_to_window . 'wincmd w'
+            endif
+            return
+        endif
+    endfor
+    if a:pfx == 'c'
+        let height = len(getqflist())
+        if height == 0
+            echo 'Quickfix List is Empty.'
+            return
+        endif
+    endif
+    if a:pfx == 'l'
+        let height = len(getloclist(0))
+        if height == 0
+            echo 'Location List is Empty.'
+            return
+        endif
+    endif
+    exec a:pfx.'open ' . s:Height(height)
+    if s:return_to_window <= winnr('$')
         exec s:return_to_window . 'wincmd w'
-      endif
-      return
     endif
-  endfor
-  if a:pfx == 'c'
-    let height = len(getqflist())
-    if height == 0
-      echo 'Quickfix List is Empty.'
-      return
-    endif
-  endif
-  if a:pfx == 'l'
-    let height = len(getloclist(0))
-    if height == 0
-      echo 'Location List is Empty.'
-      return
-    endif
-  endif
-  exec a:pfx.'open ' . s:Height(height)
-  if s:return_to_window <= winnr('$')
-    exec s:return_to_window . 'wincmd w'
-  endif
 endfunction
-
-nnoremap <silent> <C-n> :call <SID>LocationPrevious()<CR>
-nnoremap <silent> <C-m> :call <SID>LocationNext()<CR>
 nnoremap <silent> <leader>a :call <SID>LocationToggle('Quickfix List', 'c')<CR>
 nnoremap <silent> <leader>l :call <SID>LocationToggle('Location List', 'l')<CR>
 
@@ -557,23 +511,23 @@ noremap <silent> <leader>td :Termdebug<CR>
 
 " ====================== terminal ======================
 function! TweakTerminal()
-  setlocal norelativenumber
-  setlocal nonumber
-  setlocal scrollback=100000
-  startinsert
+    setlocal norelativenumber
+    setlocal nonumber
+    setlocal scrollback=100000
+    startinsert
 endfunc
-autocmd TermOpen * :call TweakTerminal()
+autocmd TermOpen * call TweakTerminal()
 autocmd BufEnter * if &buftype == 'terminal' | startinsert | endif
 autocmd TermClose * bd!
 function! NotFZF()
-  return (&buftype == 'terminal') && (&filetype != 'fzf')
+    return (&buftype == 'terminal') && (&filetype != 'fzf')
 endfunction
 augroup TerminalBindings
-  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <ESC> <C-\><C-n>| endif
-  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <C-h> <C-\><C-n><C-w>h| endif
-  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <C-j> <C-\><C-n><C-w>j| endif
-  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <C-k> <C-\><C-n><C-w>k| endif
-  autocmd BufEnter * if NotFZF() |tnoremap <buffer> <C-l> <C-\><C-n><C-w>l| endif
+    autocmd BufEnter * if NotFZF() | tnoremap <buffer> <ESC> <C-\><C-n> | endif
+    autocmd BufEnter * if NotFZF() | tnoremap <buffer> <C-h> <C-\><C-n><C-w>h | endif
+    autocmd BufEnter * if NotFZF() | tnoremap <buffer> <C-j> <C-\><C-n><C-w>j | endif
+    autocmd BufEnter * if NotFZF() | tnoremap <buffer> <C-k> <C-\><C-n><C-w>k | endif
+    autocmd BufEnter * if NotFZF() | tnoremap <buffer> <C-l> <C-\><C-n><C-w>l | endif
 augroup END
 
 " ================ toggle spell checking ===============
@@ -581,17 +535,17 @@ nmap <silent> <leader>s :set spell!<CR>
 
 " ================= trailing whitespace ================
 function! s:StripTrailingWhitespaces()
-  if &ft =~ 'go'
-    return
-  endif
-  let _s=@/
-  let l = line('.')
-  let c = col('.')
-  %s/\s\+$//e
-  let @/=_s
-  call cursor(l, c)
+    if &ft =~ 'go'
+        return
+    endif
+    let _s=@/
+    let l = line('.')
+    let c = col('.')
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
 endfunction
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+autocmd BufWritePre * call <SID>StripTrailingWhitespaces()
 
 " ================== window switching ==================
 inoremap <C-h> <ESC><C-w>h
@@ -606,6 +560,6 @@ vnoremap <C-l> <ESC><C-w>l
 " ============== window switching by number ============
 let i = 1
 while i <= 9
-  execute 'nnoremap <leader>' . i . ' :' . i . 'wincmd w<CR>'
-  let i = i + 1
+    execute 'nnoremap <leader>' . i . ' :' . i . 'wincmd w<CR>'
+    let i = i + 1
 endwhile

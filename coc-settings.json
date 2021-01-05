@@ -9,6 +9,50 @@
   "diagnostic.maxWindowHeight": 30,
   "diagnostic.maxWindowWidth": 200,
 
+  "explorer.contentWidthType": "win-width",
+  "explorer.git.showIgnored": false,
+  "explorer.icon.collapsed": "▸",
+  "explorer.icon.expanded": "▾",
+  "explorer.icon.customIcons": {
+    "icons": {
+      "folderClosed": {
+        "code": "▸",
+        "color": "#a60000"
+      },
+      "folderOpened": {
+        "code": "▾",
+        "color": "#a60000"
+      }
+    },
+    "extensions": {},
+    "filenames": {},
+    "dirnames": {},
+    "patternMatches": {},
+    "dirPatternMatches": {}
+  },
+  "explorer.file.child.template": "[selection | clip | 1][indent][icon | 1] [filename growRight 1 omitRight 1] [diagnosticError | diagnosticWarning][git]",
+  "explorer.keyMappings.global": {
+    "<space>": ["wait", "toggleSelection", "normal:j"],
+    "I": "toggleHidden",
+    "K": "preview:labeling",
+    "X": "collapse:all",
+    "O": ["expanded?", "collapse:recursive", "expand:recursive"],
+    "o": [
+      "expandable?",
+      ["expanded?", "collapse", "expand"],
+      "open"
+    ],
+    "s": "open:vsplit:intelligent",
+    "x": "collapse:recursive"
+  },
+  "explorer.sources": [
+    {
+      "name": "file",
+      "expand": true
+    }
+  ],
+  "explorer.width": 30,
+
   "languageserver": {
     "golang": {
       "command": "gopls",
