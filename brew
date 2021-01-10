@@ -15,6 +15,7 @@ fzf
 gdb
 git
 go
+gopls
 hub
 influxdb
 jq
@@ -24,6 +25,7 @@ node
 python@3.9
 rbenv
 ripgrep
+ruby-build
 rust-analyzer
 telnet
 terraform
@@ -39,16 +41,18 @@ yarn
 alacritty
 appcleaner
 authy
+chef-workstation
 discord
 docker
 firefox
 flux
 font-dejavu-sans-mono-nerd-font
 microsoft-teams
-ngrok
 postman
 sequel-pro
+signal
 tower
 viscosity
 vlc
+xquartz
 zoom

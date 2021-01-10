@@ -1,5 +1,5 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["rust"],
+  "coc.preferences.formatOnSaveFiletypes": ["go", "rust", "terraform"],
 
   "diagnostic.enableHighlightLineNumber": false,
   "diagnostic.errorSign": "ⓧ",
@@ -9,63 +9,18 @@
   "diagnostic.maxWindowHeight": 30,
   "diagnostic.maxWindowWidth": 200,
 
-  "explorer.contentWidthType": "win-width",
-  "explorer.git.showIgnored": false,
-  "explorer.icon.collapsed": "▸",
-  "explorer.icon.expanded": "▾",
-  "explorer.icon.customIcons": {
-    "icons": {
-      "folderClosed": {
-        "code": "▸",
-        "color": "#a60000"
-      },
-      "folderOpened": {
-        "code": "▾",
-        "color": "#a60000"
-      }
+  "go.goplsOptions": {
+    "analyses": {
+        "ST1000": false,
+        "ST1005": false
     },
-    "extensions": {},
-    "filenames": {},
-    "dirnames": {},
-    "patternMatches": {},
-    "dirPatternMatches": {}
+    "completeUnimported": true,
+    "experimentalWorkspaceModule": true,
+    "staticcheck": true,
+    "usePlaceholders": true
   },
-  "explorer.file.child.template": "[selection | clip | 1][indent][icon | 1] [filename growRight 1 omitRight 1] [diagnosticError | diagnosticWarning][git]",
-  "explorer.keyMappings.global": {
-    "<space>": ["wait", "toggleSelection", "normal:j"],
-    "I": "toggleHidden",
-    "K": "preview:labeling",
-    "X": "collapse:all",
-    "O": ["expanded?", "collapse:recursive", "expand:recursive"],
-    "o": [
-      "expandable?",
-      ["expanded?", "collapse", "expand"],
-      "open"
-    ],
-    "s": "open:vsplit:intelligent",
-    "x": "collapse:recursive"
-  },
-  "explorer.sources": [
-    {
-      "name": "file",
-      "expand": true
-    }
-  ],
-  "explorer.width": 30,
 
   "languageserver": {
-    "golang": {
-      "command": "gopls",
-      "rootPatterns": ["go.mod", ".git/"],
-      "filetypes": ["go"],
-      "initializationOptions": {
-        "analyses": {"ST1000": false, "ST1005": false},
-        "completeUnimported": true,
-        "experimentalWorkspaceModule": true,
-        "staticcheck": true,
-        "usePlaceholders": true
-      }
-    },
     "terraform": {
       "command": "terraform-ls",
       "args": ["serve"],
@@ -75,9 +30,9 @@
     }
   },
 
-  "rust-analyzer.serverPath": "/usr/local/bin/rust-analyzer",
-  "rust-analyzer.procMacro.enable": true,
   "rust-analyzer.cargo.loadOutDirsFromCheck": true,
+  "rust-analyzer.procMacro.enable": true,
+  "rust-analyzer.server.path": "/usr/local/bin/rust-analyzer",
 
   "signature.preferShownAbove":false,
   "snippets.extends": {

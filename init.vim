@@ -20,15 +20,20 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'inkarkat/vim-replacewithregister'
+Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-sneak'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/nerdtree'
 Plug 'qpkorr/vim-bufkill'
+Plug 'raimondi/delimitmate'
+Plug 'sheerun/vim-polyglot'
 Plug 'svanharmelen/molokai'
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
 Plug 'takac/vim-hardtime'
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -38,20 +43,7 @@ Plug 'tweekmonster/fzf-filemru'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'xolox/vim-misc'
-
-" Syntax related plugins
-Plug 'dag/vim-fish'
-Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
-Plug 'elzr/vim-json', {'for': 'json'}
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'hashivim/vim-terraform'
-Plug 'leafgarland/typescript-vim'
-Plug 'othree/html5.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'pest-parser/pest.vim'
-Plug 'plasticboy/vim-markdown'
-Plug 'rust-lang/rust.vim'
-Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
+Plug 'xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
 
@@ -76,7 +68,6 @@ set mouse-=a                         " Disable mouse clicks to go to a position
 set relativenumber                   " Show relative line numbers
 set runtimepath+=/usr/local/opt/fzf  " Add the fzf binary to the runtime path
 set scrolloff=999                    " Keep the cursor centered
-set sessionoptions-=blank            " Do not save blank buffers
 set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
 set sessionoptions-=help             " Do not save help windows
 set shortmess+=c                     " Silence completion messages
@@ -154,9 +145,8 @@ let g:loaded_node_provider = 1
 " ====================== coc.nvim ======================
 " Settings
 let g:coc_global_extensions = [
-    \ 'coc-explorer',
+    \ 'coc-go',
     \ 'coc-json',
-    \ 'coc-pairs',
     \ 'coc-python',
     \ 'coc-rust-analyzer',
     \ 'coc-snippets',
@@ -164,14 +154,8 @@ let g:coc_global_extensions = [
     \ 'coc-tsserver'
     \]
 let g:coc_selectmode_mapping = 0
-" Autocommands
-augroup CocExplorerCustom
-    autocmd FileType coc-explorer setlocal number | setlocal relativenumber
-    autocmd SessionLoadPost * ++once CocCommand explorer --no-focus --no-toggle
-    autocmd User CocDiagnosticChange,CocGitStatusChange
-        \ call CocActionAsync('runCommand', 'explorer.doAction', 'closest', ['refresh'])
-    autocmd User CocExplorerOpenPost,CocExplorerQuitPost winc =
-augroup END
+let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_prev = '<S-TAB>'
 " Generic Bindings
 nmap <silent> <leader>df <Plug>(coc-definition)
 nmap <silent> <leader>dc <Plug>(coc-declaration)
@@ -181,7 +165,6 @@ nmap <silent> <leader>rf <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
 nnoremap <silent> <C-n> :call CocActionAsync('diagnosticPrevious')<CR>
 nnoremap <silent> <C-m> :call CocActionAsync('diagnosticNext')<CR>
-nnoremap <silent> <leader>n :CocCommand explorer<CR>
 nnoremap <silent> q :CocAction quickfix<CR>
 " Dialog Bindings
 nnoremap <silent><nowait><expr> <leader>x coc#float#close_all()
@@ -205,16 +188,6 @@ hi def link CocErrorFloat Pmenu
 hi def link CocHintFloat Pmenu
 hi def link CocInfoFloat Pmenu
 hi def link CocWarningFloat Pmenu
-hi def link CocExplorerGitAdded GitGutterAdd
-hi def link CocExplorerGitContentChange GitGutterChange
-hi def link CocExplorerGitPathChange GitGutterChange
-hi def link CocExplorerGitDeleted GitGutterDelete
-hi def link CocExplorerFileGitStaged GitGutterAdd
-hi def link CocExplorerGitUntracked Comment
-hi def link CocExplorerFileDiagnosticError Operator
-hi def link CocExplorerFileFilenameDiagnosticError Operator
-hi def link CocExplorerFileDiagnosticWarning Title
-hi def link CocExplorerFileFilenameDiagnosticWarning Title
 hi def link CocRustTypeHint InlayHints
 hi def link CocRustChainingHint InlayHints
 
@@ -235,34 +208,10 @@ function! s:CocExpand()
             return "\<C-y>"
         endif
     else
-        return "\<CR>"
+        return "\<Plug>delimitMateCR"
     endif
 endfunction
 imap <expr><CR> <SID>CocExpand()
-
-function! s:CocJump()
-    if pumvisible()
-        return "\<C-n>"
-    elseif coc#jumpable()
-        return coc#rpc#request('snippetNext', [])
-    else
-        return "\<TAB>"
-    endif
-endfunction
-imap <expr><TAB> <SID>CocJump()
-smap <expr><TAB> <SID>CocJump()
-
-function! s:CocJumpBack()
-    if pumvisible()
-        return "\<C-p>"
-    elseif coc#jumpable()
-        return coc#rpc#request('snippetPrev', [])
-    else
-        return "\<S-TAB>"
-    endif
-endfunction
-imap <expr><S-TAB> <SID>CocJumpBack()
-smap <expr><S-TAB> <SID>CocJumpBack()
 
 " ===================== delimitmate ====================
 let g:delimitMate_expand_cr = 1
@@ -299,12 +248,33 @@ command! -bang -nargs=* Rg
 nnoremap <silent><C-P> :FilesMru<CR>
 nnoremap <leader>ff :Rg<Space>
 
-" ====================== rust.vim ======================
-" Settings
-let g:rust_clip_command = 'pbcopy'
-" Bindings
-autocmd FileType rust nmap <silent> <leader>t  :RustTest<CR>
-autocmd FileType rust nmap <silent> <leader>tf :RustTest!<CR>
+" ====================== nerdtree ======================
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeBookmarksFile = $HOME . '/.config/nvim/NERDTreeBookmarks'
+let g:NERDTreeChDirMode = 2
+let g:NERDTreeShowLineNumbers = 1
+function! s:ShowFilename()
+  redraw | echohl Debug |
+    \ echom index(['" Press ? for help', '', '.. (up a dir)'], getline('.')) < 0 ?
+    \ 'NERDTree: ' . matchstr(getline('.'), '[0-9A-Za-z_/].*') : '' | echohl None
+endfunction
+autocmd CursorMoved NERD_tree* :call <SID>ShowFilename()
+nnoremap <leader>n :NERDTreeToggle<CR>
+
+" ================ nerdtree-git-plugin =================
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+  \ 'Modified'  : '~',
+  \ 'Staged'    : '+',
+  \ 'Untracked' : '≠',
+  \ 'Renamed'   : '→',
+  \ 'Unmerged'  : '=',
+  \ 'Deleted'   : '×',
+  \ 'Dirty'     : '~',
+  \ 'Clean'     : '√',
+  \ 'Unknown'   : '?'
+  \ }
+hi def link NERDTreeOpenable Title
+hi def link NERDTreeClosable Title
 
 " ===================== vim-airline ====================
 let g:airline_extensions = [
@@ -340,36 +310,13 @@ hi GitGutterDelete ctermfg=1 ctermbg=235
 
 " ====================== vim-go ========================
 " Settings
-let g:go_auto_type_info = 0
-let g:go_code_completion_enabled = 0
-let g:go_decls_mode = 'fzf'
-let g:go_def_mapping_enabled = 0
-let g:go_doc_keywordprg_enabled = 0
-let g:go_echo_go_info = 0
-let g:go_fmt_command = 'goimports'
-let g:go_fmt_fail_silently = 1
-let g:go_gopls_enabled = 0
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_generate_tags = 1
 let g:go_highlight_operators = 1
-let g:go_list_type = 'quickfix'
-let g:go_statusline_duration = 10000
-let g:go_textobj_enabled = 0
 " Bindings
-autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>t  <Plug>(go-test)
-autocmd FileType go nmap <leader>tc <Plug>(go-test-compile)
-autocmd FileType go nmap <leader>tf <Plug>(go-test-func)
-autocmd FileType go nmap <Leader>c  <Plug>(go-coverage-toggle)
-autocmd FileType go nmap <leader>ga :GoAlternate!<CR>
-autocmd FileType go nmap <leader>gg <Plug>(go-generate)
-autocmd FileType go nmap <C-g> :GoDecls<CR>
-autocmd FileType go imap <C-g> <ESC>:GoDecls<CR>
-autocmd FileType go nmap © :GoDeclsDir<CR>
-autocmd FileType go imap © <ESC>:GoDeclsDir<CR>
-autocmd FileType go nmap <leader>fs :GoFillStruct<CR>
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
 " ==================== vim-hardtime ====================
 let g:hardtime_allow_different_key = 1
@@ -409,9 +356,6 @@ let g:sneak#label = 1
 
 " =================== vim-surround =====================
 let g:surround_no_insert_mappings = 1
-
-" =================== vim-terraform ====================
-let g:terraform_fmt_on_save = 1
 
 " ----------------------------------------- "
 " Some helpful functions and key bindings   "
@@ -509,6 +453,27 @@ let g:termdebugger = 'rust-gdb'
 let g:termdebug_wide = 1
 noremap <silent> <leader>td :Termdebug<CR>
 
+" =================== tab selection ====================
+function! s:TabToSelectNext()
+    if pumvisible()
+        return "\<C-n>"
+    else
+        return "\<TAB>"
+    endif
+endfunction
+imap <expr><TAB> <SID>TabToSelectNext()
+smap <expr><TAB> <SID>TabToSelectNext()
+
+function! s:ShiftTabToSelectPrevious()
+    if pumvisible()
+        return "\<C-p>"
+    else
+        return "\<S-TAB>"
+    endif
+endfunction
+imap <expr><S-TAB> <SID>ShiftTabToSelectPrevious()
+smap <expr><S-TAB> <SID>ShiftTabToSelectPrevious()
+
 " ====================== terminal ======================
 function! TweakTerminal()
     setlocal norelativenumber
@@ -531,21 +496,20 @@ augroup TerminalBindings
 augroup END
 
 " ================ toggle spell checking ===============
-nmap <silent> <leader>s :set spell!<CR>
+nnoremap <silent> <leader>s :set spell!<CR>
 
 " ================= trailing whitespace ================
-function! s:StripTrailingWhitespaces()
-    if &ft =~ 'go'
-        return
+function! s:TrimTrailingWhitespace()
+    if &l:modifiable
+        let s:view = winsaveview()
+        try
+            silent! keeppatterns %s/\s\+$//e
+        finally
+            call winrestview(s:view)
+        endtry
     endif
-    let _s=@/
-    let l = line('.')
-    let c = col('.')
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
 endfunction
-autocmd BufWritePre * call <SID>StripTrailingWhitespaces()
+autocmd BufWritePre * call <SID>TrimTrailingWhitespace()
 
 " ================== window switching ==================
 inoremap <C-h> <ESC><C-w>h
