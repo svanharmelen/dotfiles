@@ -8,7 +8,7 @@
 # Set usefull aliasses.
 alias bu "brew update && brew upgrade && brew cleanup -s"
 alias c "cargo"
-alias rg "rg --no-heading --colors='path:fg:49,231,34' --colors='line:fg:229,229,16' --smart-case --sort='path'"
+alias rg "rg --no-heading --colors='path:fg:155,204,112' --colors='line:fg:226,196,98' --colors='match:fg:247,91,122' --smart-case --sort='path'"
 alias l "exa -la"
 alias ls "exa"
 alias nu "nvim +CocUpdateSync +PlugUpdate +PlugUpgrade +UpdateRemotePlugins"

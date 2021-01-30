@@ -29,7 +29,7 @@ Plug 'preservim/nerdtree'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'sheerun/vim-polyglot'
-Plug 'svanharmelen/molokai'
+Plug 'svanharmelen/sonokai'
 Plug 'svanharmelen/vim-session'
 Plug 'svanharmelen/vim-tmux-navigator'
 Plug 'takac/vim-hardtime'
@@ -126,17 +126,41 @@ set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
 
 " Configure the look and feel
-colorscheme molokai
+if has('termguicolors')
+    set termguicolors
+endif
+
+function! s:sonokai_custom() abort
+    let l:palette = sonokai#get_palette('default')
+    call sonokai#highlight('CursorLine', l:palette.none, l:palette.bg2)
+    call sonokai#highlight('CursorLineNr', l:palette.fg, l:palette.bg4)
+    call sonokai#highlight('LineNr', l:palette.grey, l:palette.bg1)
+    call sonokai#highlight('Search', l:palette.bg0, l:palette.yellow)
+    call sonokai#highlight('IncSearch', l:palette.bg0, l:palette.bg_green)
+    call sonokai#highlight('VertSplit', l:palette.grey, l:palette.none)
+
+    call sonokai#highlight('CocRustTypeHint', l:palette.dark_grey, l:palette.none, 'italic')
+    call sonokai#highlight('CocRustChainingHint', l:palette.dark_grey, l:palette.none, 'italic')
+endfunction
+augroup SonokaiCustom
+    autocmd!
+    autocmd ColorScheme sonokai call s:sonokai_custom()
+augroup END
+
+let g:sonokai_better_performance = 1
+let g:sonokai_diagnostic_line_highlight = 1
+let g:sonokai_disable_italic_comment = 1
+let g:sonokai_enable_italic = 1
+colorscheme sonokai
 
 " Config Python used by Neovim
-let g:loaded_python_provider = 1
+let g:loaded_python_provider = 0
 let g:python3_host_prog = '/usr/local/bin/python3'
 
-" Config Ruby used by Neovim
-let g:loaded_ruby_provider = 1
-
-" Config Node used by Neovim
-let g:loaded_node_provider = 1
+" Disable unused providers
+let g:loaded_node_provider = 0
+let g:loaded_perl_provider = 0
+let g:loaded_ruby_provider = 0
 
 " ----------------------------------------- "
 " Plugin configs                            "
@@ -158,13 +182,8 @@ let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 " Generic Bindings
 nmap <silent> <leader>df <Plug>(coc-definition)
-nmap <silent> <leader>dc <Plug>(coc-declaration)
-nmap <silent> <leader>im <Plug>(coc-implementation)
-nmap <silent> <leader>td <Plug>(coc-type-definition)
 nmap <silent> <leader>rf <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
-nnoremap <silent> <C-n> :call CocActionAsync('diagnosticPrevious')<CR>
-nnoremap <silent> <C-m> :call CocActionAsync('diagnosticNext')<CR>
 nnoremap <silent> q :CocAction quickfix<CR>
 " Dialog Bindings
 nnoremap <silent><nowait><expr> <leader>x coc#float#close_all()
@@ -179,26 +198,15 @@ xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
-" Highlights
-hi def link CocErrorSign Normal
-hi def link CocHintSign Normal
-hi def link CocInfoSign Normal
-hi def link CocWarningSign Normal
-hi def link CocErrorFloat Pmenu
-hi def link CocHintFloat Pmenu
-hi def link CocInfoFloat Pmenu
-hi def link CocWarningFloat Pmenu
-hi def link CocRustTypeHint InlayHints
-hi def link CocRustChainingHint InlayHints
 
-function! s:show_documentation()
+function! s:ShowDocumentation()
     if (index(['vim','help'], &filetype) >= 0)
         execute 'h '.expand('<cword>')
     else
         call CocAction('doHover')
     endif
 endfunction
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call <SID>ShowDocumentation()<CR>
 
 function! s:CocExpand()
     if pumvisible()
@@ -242,8 +250,9 @@ let $FZF_DEFAULT_OPTS='+x --bind ctrl-a:select-all'
 
 command! -bang -nargs=* Rg
     \ call fzf#vim#grep(
-    \   'rg --column --line-number --no-heading --color=always --colors="path:fg:49,231,34" --colors="line:fg:229,229,16" --smart-case --sortr="path" -- '.(<q-args>), 1,
-    \   fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+    \   'rg --column --line-number --no-heading --color=always --colors="path:fg:155,204,112"
+    \   --colors="line:fg:226,196,98" --colors="match:fg:247,91,122" --smart-case --sortr="path"
+    \   -- '.(<q-args>), 1, fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 
 nnoremap <silent><C-P> :FilesMru<CR>
 nnoremap <leader>ff :Rg<Space>
@@ -259,6 +268,7 @@ function! s:ShowFilename()
     \ 'NERDTree: ' . matchstr(getline('.'), '[0-9A-Za-z_/].*') : '' | echohl None
 endfunction
 autocmd CursorMoved NERD_tree* :call <SID>ShowFilename()
+autocmd SessionLoadPost * ++once NERDTreeFind | wincmd p
 nnoremap <leader>n :NERDTreeToggle<CR>
 
 " ================ nerdtree-git-plugin =================
@@ -292,7 +302,7 @@ let g:airline_extensions = [
 let g:airline_focuslost_inactive = 1
 let g:airline_highlighting_cache = 1
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'murmur'
+let g:airline_theme = 'ouo'
 let g:airline#extensions#default#layout = [
     \ [ 'a', 'b', 'c' ],
     \ [ 'x', 'y', 'z', 'error', 'warning' ]
@@ -304,9 +314,6 @@ nmap ga <Plug>(EasyAlign)
 
 " =================== vim-gitgutter ====================
 let g:gitgutter_max_signs = 1000
-hi GitGutterAdd    ctermfg=2 ctermbg=235
-hi GitGutterChange ctermfg=3 ctermbg=235
-hi GitGutterDelete ctermfg=1 ctermbg=235
 
 " ====================== vim-go ========================
 " Settings
@@ -400,6 +407,38 @@ function! s:GetBufferList()
     return buflist
 endfunction
 
+function! s:LocationNext()
+  let buflist = s:GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      try
+        cnext
+      catch /^Vim\%((\a\+)\)\=:E553/
+        cfirst
+      catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+      endtry
+      return
+    endif
+  endfor
+  call CocActionAsync('diagnosticNext')
+endfunction
+
+function! s:LocationPrevious()
+  let buflist = s:GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      try
+        cprev
+      catch /^Vim\%((\a\+)\)\=:E553/
+        clast
+      catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+      endtry
+      return
+    endif
+  endfor
+  call CocActionAsync('diagnosticPrevious')
+endfunction
+
 function! s:Height(height)
     if a:height == 1
         return 2
@@ -441,6 +480,9 @@ function! s:LocationToggle(bufname, pfx)
         exec s:return_to_window . 'wincmd w'
     endif
 endfunction
+
+nnoremap <silent> <C-m> :call <SID>LocationNext()<CR>
+nnoremap <silent> <C-n> :call <SID>LocationPrevious()<CR>
 nnoremap <silent> <leader>a :call <SID>LocationToggle('Quickfix List', 'c')<CR>
 nnoremap <silent> <leader>l :call <SID>LocationToggle('Location List', 'l')<CR>
 

@@ -2,6 +2,7 @@
 automake
 aws-okta
 awscli
+awslogs
 bat
 bazaar
 cmake
