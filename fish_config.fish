@@ -46,3 +46,15 @@ set -U fish_pager_color_completion normal
 set -U fish_pager_color_description 'B3A06D' 'yellow'
 set -U fish_pager_color_prefix 87AF87
 set -U fish_pager_color_progress 'brwhite' '--background=cyan'
+
+###################################
+#### Disable builtin functions ####
+###################################
+
+# Do not display the default greeting.
+function fish_greeting; end
+funcsave fish_greeting
+
+# Do not display the default mode prompt.
+function fish_mode_prompt; end
+funcsave fish_mode_prompt

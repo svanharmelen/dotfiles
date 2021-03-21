@@ -2,7 +2,6 @@
 # ln -s ~/dotfiles/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
 
 # Set some practical defaults.
-function fish_mode_prompt; end
 set -g fish_prompt_pwd_dir_length 0
 
 ################################

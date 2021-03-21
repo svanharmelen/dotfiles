@@ -8,9 +8,6 @@ if not functions -q fisher
   fish -c fisher
 end
 
-# Do not display the default greeting.
-function fish_greeting; end
-
 ######################################
 #### Define environment variables ####
 ######################################
