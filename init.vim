@@ -25,7 +25,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'justinmk/vim-sneak'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/nerdtree'
 Plug 'qpkorr/vim-bufkill'
 Plug 'raimondi/delimitmate'
 Plug 'sheerun/vim-polyglot'
@@ -43,7 +42,6 @@ Plug 'tweekmonster/fzf-filemru'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'xolox/vim-misc'
-Plug 'xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
 
@@ -68,6 +66,7 @@ set mouse-=a                         " Disable mouse clicks to go to a position
 set relativenumber                   " Show relative line numbers
 set runtimepath+=/usr/local/opt/fzf  " Add the fzf binary to the runtime path
 set scrolloff=999                    " Keep the cursor centered
+set sessionoptions-=blank            " Do not save blank buffers
 set sessionoptions-=buffers          " Do not save hidden and uploaded buffers
 set sessionoptions-=help             " Do not save help windows
 set shortmess+=c                     " Silence completion messages
@@ -169,6 +168,7 @@ let g:loaded_ruby_provider = 0
 " ====================== coc.nvim ======================
 " Settings
 let g:coc_global_extensions = [
+    \ 'coc-explorer',
     \ 'coc-go',
     \ 'coc-json',
     \ 'coc-python',
@@ -180,11 +180,18 @@ let g:coc_global_extensions = [
 let g:coc_selectmode_mapping = 0
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
+" Autocommands
+augroup CocExplorerCustom
+    autocmd FileType coc-explorer setlocal number | setlocal relativenumber
+    autocmd SessionLoadPost * ++once CocCommand explorer --no-focus --no-toggle
+    autocmd User CocExplorerOpenPost,CocExplorerQuitPost winc =
+augroup END
 " Generic Bindings
 nmap <silent> <leader>df <Plug>(coc-definition)
 nmap <silent> <leader>rf <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
-nnoremap <silent> q :CocAction quickfix<CR>
+nnoremap <silent> <leader>n :CocCommand explorer<CR>
+nnoremap <silent> qf :CocAction quickfix<CR>
 " Dialog Bindings
 nnoremap <silent><nowait><expr> <leader>x coc#float#close_all()
 nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -207,6 +214,13 @@ function! s:ShowDocumentation()
     endif
 endfunction
 nnoremap <silent> K :call <SID>ShowDocumentation()<CR>
+
+function! s:ShowFilename()
+    let s:node_info = CocAction('runCommand', 'explorer.getNodeInfo', 0)
+    redraw | echohl Debug | echom exists('s:node_info.fullpath') ?
+    \ 'Explorer: ' . s:node_info.fullpath : '' | echohl None
+endfunction
+autocmd CursorMoved \[coc-explorer\]* :call <SID>ShowFilename()
 
 function! s:CocExpand()
     if pumvisible()
@@ -256,35 +270,6 @@ command! -bang -nargs=* Rg
 
 nnoremap <silent><C-P> :FilesMru<CR>
 nnoremap <leader>ff :Rg<Space>
-
-" ====================== nerdtree ======================
-let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeBookmarksFile = $HOME . '/.config/nvim/NERDTreeBookmarks'
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeShowLineNumbers = 1
-function! s:ShowFilename()
-  redraw | echohl Debug |
-    \ echom index(['" Press ? for help', '', '.. (up a dir)'], getline('.')) < 0 ?
-    \ 'NERDTree: ' . matchstr(getline('.'), '[0-9A-Za-z_/].*') : '' | echohl None
-endfunction
-autocmd CursorMoved NERD_tree* :call <SID>ShowFilename()
-autocmd SessionLoadPost * ++once NERDTreeFind | wincmd p
-nnoremap <leader>n :NERDTreeToggle<CR>
-
-" ================ nerdtree-git-plugin =================
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-  \ 'Modified'  : '~',
-  \ 'Staged'    : '+',
-  \ 'Untracked' : '≠',
-  \ 'Renamed'   : '→',
-  \ 'Unmerged'  : '=',
-  \ 'Deleted'   : '×',
-  \ 'Dirty'     : '~',
-  \ 'Clean'     : '√',
-  \ 'Unknown'   : '?'
-  \ }
-hi def link NERDTreeOpenable Title
-hi def link NERDTreeClosable Title
 
 " ===================== vim-airline ====================
 let g:airline_extensions = [
@@ -408,35 +393,35 @@ function! s:GetBufferList()
 endfunction
 
 function! s:LocationNext()
-  let buflist = s:GetBufferList()
-  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-    if bufwinnr(bufnum) != -1
-      try
-        cnext
-      catch /^Vim\%((\a\+)\)\=:E553/
-        cfirst
-      catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-      endtry
-      return
-    endif
-  endfor
-  call CocActionAsync('diagnosticNext')
+    let buflist = s:GetBufferList()
+    for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+        if bufwinnr(bufnum) != -1
+            try
+                cnext
+            catch /^Vim\%((\a\+)\)\=:E553/
+                cfirst
+            catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+            endtry
+            return
+        endif
+    endfor
+    call CocActionAsync('diagnosticNext')
 endfunction
 
 function! s:LocationPrevious()
-  let buflist = s:GetBufferList()
-  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-    if bufwinnr(bufnum) != -1
-      try
-        cprev
-      catch /^Vim\%((\a\+)\)\=:E553/
-        clast
-      catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-      endtry
-      return
-    endif
-  endfor
-  call CocActionAsync('diagnosticPrevious')
+    let buflist = s:GetBufferList()
+    for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "Quickfix List"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+        if bufwinnr(bufnum) != -1
+            try
+                cprev
+            catch /^Vim\%((\a\+)\)\=:E553/
+                clast
+            catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+            endtry
+            return
+        endif
+    endfor
+    call CocActionAsync('diagnosticPrevious')
 endfunction
 
 function! s:Height(height)
@@ -481,6 +466,7 @@ function! s:LocationToggle(bufname, pfx)
     endif
 endfunction
 
+nmap <cr> :call CocActionAsync('diagnosticNext')<CR>
 nnoremap <silent> <C-m> :call <SID>LocationNext()<CR>
 nnoremap <silent> <C-n> :call <SID>LocationPrevious()<CR>
 nnoremap <silent> <leader>a :call <SID>LocationToggle('Quickfix List', 'c')<CR>

@@ -9,6 +9,38 @@
   "diagnostic.maxWindowHeight": 30,
   "diagnostic.maxWindowWidth": 200,
 
+  "explorer.contentWidthType": "win-width",
+  "explorer.git.showIgnored": false,
+  "explorer.icon.collapsed": "▸",
+  "explorer.icon.expanded": "▾",
+  "explorer.file.child.template": "[git | 2][selection | clip | 1][indent][icon | 1] [filename omitRight 1] [diagnosticError | diagnosticWarning]",
+  "explorer.file.child.labelingTemplate": "[fullpath][link][diagnosticError][diagnosticWarning][git][size][readonly][modified]",
+  "explorer.keyMappings.global": {
+    "<CR>": false,
+    "<C-m>": ["wait", "markNext:diagnosticError:diagnosticWarning"],
+    "<C-n>": ["wait", "markPrev:diagnosticError:diagnosticWarning"],
+    "<space>": ["wait", "toggleSelection", "normal:j"],
+    "I": "toggleHidden",
+    "K": "preview:labeling",
+    "X": "collapse:all",
+    "o": [
+      "expandable?",
+      ["expanded?", "collapse", "expand"],
+      "open"
+    ],
+    "p": "open:select:keep",
+    "s": "open:vsplit.intelligent",
+    "x": "collapse:recursive"
+  },
+  "explorer.file.autoReveal": true,
+  "explorer.sources": [
+    {
+      "name": "file",
+      "expand": true
+    }
+  ],
+  "explorer.width": 30,
+
   "go.goplsOptions": {
     "analyses": {
         "ST1000": false,
